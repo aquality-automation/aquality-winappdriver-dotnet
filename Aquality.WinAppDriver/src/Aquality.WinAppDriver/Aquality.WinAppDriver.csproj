@@ -19,6 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -27,7 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="Appium.WebDriver" Version="4.0.0" />
-    <PackageReference Include="Aquality.Selenium.Core" Version="0.1.0" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="0.1.1" />
   </ItemGroup>
   
 </Project>
