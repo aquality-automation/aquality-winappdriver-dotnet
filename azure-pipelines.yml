@@ -1,0 +1,76 @@
+variables:
+  buildConfiguration: 'Release'
+  isRemote: true
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: GitVersion@5
+  displayName: 'Run GitVersion'
+  inputs:
+    runtime: 'core'
+
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare SonarCloud analysis'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'aqualityautomation'
+    projectKey: 'aquality-automation_aquality-winappdriver-dotnet'
+    projectName: 'aquality-winappdriver-dotnet'
+    projectVersion: '$(Build.BuildNumber)'
+    extraProperties: |
+      sonar.coverage.exclusions=**/**
+
+- script: dotnet build Aquality.WinAppDriver/Aquality.WinAppDriver.sln -c $(buildConfiguration)
+  displayName: 'Build solution - $(buildConfiguration)'
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud code analysis'
+  continueOnError: true
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud quality gate results'
+  continueOnError: true
+
+- task: Windows Application Driver@0
+  displayName: 'Start WinAppDriver'
+  inputs:
+    OperationType: 'Start'
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests'
+  inputs:
+    command: 'test'
+    projects: '**/*Tests*/*.csproj'
+    arguments: -c $(buildConfiguration) --no-build
+    publishTestResults: true
+- task: Windows Application Driver@0
+  displayName: stop WinAppDriver
+  inputs:
+    OperationType: 'Stop'
+
+- script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\WinAppDriver.csproj -c $(buildConfiguration) --no-build -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
+  displayName: 'Create NuGet package'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  
+- task: NuGetCommand@2
+  displayName: 'Push NuGet package'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.nupkg;!$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+- task: GitHubRelease@0
+  displayName: 'Create tag on GitHub'
+  inputs:
+    gitHubConnection: 'GitHub'
+    repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
+    action: 'create'
+    tag: 'v$(GitVersion.NuGetVersion)'
+    tagSource: 'manual'
+    isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
