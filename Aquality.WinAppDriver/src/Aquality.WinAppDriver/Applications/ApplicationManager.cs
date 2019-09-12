@@ -10,7 +10,7 @@ using Aquality.Selenium.Core.Applications;
 
 namespace Aquality.WinAppDriver.Applications
 {
-    public class ApplicationManager : AbstractApplicationManager<ApplicationManager, Application>
+    public class ApplicationManager : ApplicationManager<ApplicationManager, Application>
     {
         public static Application Application => GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
 
