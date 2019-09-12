@@ -1,4 +1,3 @@
-# aquality-winappdriver-dotnet
 
 # Aquality WinAppDriver for .NET
 
