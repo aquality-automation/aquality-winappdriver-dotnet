@@ -24,7 +24,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
             var result = GetButton(Factory, CalculatorWindow.ResultsLabel, "Results bar").Text;
             StringAssert.Contains("3", result);
         }
-
+        
         [Test]
         public void Should_FindChildElements_ViaElementFactory()
         {
@@ -37,9 +37,6 @@ namespace Aquality.WinAppDriver.Tests.Elements
             Assert.IsTrue(Factory.FindElements<Button>(By.XPath("//*")).Count > 1);
         }
 
-        public static IButton GetButton(IElementFactory coreFactory, By loc, string nam)
-        {
-            return coreFactory.GetButton(loc, nam);
-        }
+        public static IButton GetButton(IElementFactory coreFactory, By loc, string nam) => coreFactory.GetButton(loc, nam);
     }
 }

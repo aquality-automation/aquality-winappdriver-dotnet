@@ -17,6 +17,8 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 
         public static By EqualsButton => By.Name("=");
 
+        public static By RightArgumentTextBox => By.XPath("//*[@AutomationId='49']");
+
         public static By ResultsLabel => MobileBy.AccessibilityId("48");
     }
 }
