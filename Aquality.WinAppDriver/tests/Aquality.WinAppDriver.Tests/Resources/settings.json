@@ -1,0 +1,26 @@
+﻿{
+  "isRemote": true,
+  "remoteConnectionUrl": "http://127.0.0.1:4723/",
+  "driverSettings": {
+    "applicationPath": "./Resources/Applications/Day Maxi Calc.exe",
+    "capabilities": {
+      "platformVersion": "10",
+      "platformName": "Windows",
+      "deviceName": "WindowsPC",
+      "newCommandTimeout": "2000"
+    }
+  },
+  "timeouts": {
+    "timeoutImplicit": 0,
+    "timeoutCondition": 30,
+    "timeoutPollingInterval": 300,
+    "timeoutCommand": 60
+  },
+  "retry": {
+    "number": 2,
+    "pollingInterval": 300
+  },
+  "logger": {
+    "language": "be"
+  }
+}

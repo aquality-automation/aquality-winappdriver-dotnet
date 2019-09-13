@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>aquality automation committers</Authors>
+    <Company>aquality automation</Company>
+    <Description>Wrapper over WinAppDriver for .NET</Description>
+    <PackageDescription>Wrapper over WinAppDriver for .NET</PackageDescription>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/aquality-automation/aquality-winappdriver-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>windows application winappdriver automation</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Copyright>Copyright 2019 Aquality Automation</Copyright>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Localization\be.json" />
+    <None Remove="Resources\Localization\en.json" />
+    <None Remove="Resources\Localization\ru.json" />
+    <None Remove="Resources\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Localization\ru.json" />
+    <EmbeddedResource Include="Resources\Localization\en.json" />
+    <EmbeddedResource Include="Resources\Localization\be.json" />
+    <EmbeddedResource Include="Resources\settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Appium.WebDriver" Version="4.0.0" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="0.1.3" />
+  </ItemGroup>
+  
+</Project>
