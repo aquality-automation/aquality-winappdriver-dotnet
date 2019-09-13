@@ -2,37 +2,105 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Aquality.Selenium.Core.Localization;
-using System.IO;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Elements;
 using Aquality.Selenium.Core.Applications;
+using System.Threading;
+using Aquality.WinAppDriver.Configurations;
+using OpenQA.Selenium.Appium.Service;
 
 namespace Aquality.WinAppDriver.Applications
 {
+    /// <summary>
+    /// Controls application and Aquality services
+    /// </summary>
     public class ApplicationManager : ApplicationManager<ApplicationManager, Application>
     {
+        private static readonly ThreadLocal<IApplicationFactory> ApplicationFactoryContainer = new ThreadLocal<IApplicationFactory>();
+        private static readonly ThreadLocal<AppiumLocalService> AppiumLocalServiceContainer = new ThreadLocal<AppiumLocalService>(AppiumLocalService.BuildDefaultService);
+
+        /// <summary>
+        /// Stops appium local service.
+        /// </summary>
+        /// <returns>True if service was running, false otherwise</returns>
+        public static bool TryToStopAppiumLocalService()
+        {
+            if(AppiumLocalServiceContainer.IsValueCreated && AppiumLocalServiceContainer.Value.IsRunning)
+            {
+                GetRequiredService<LocalizationLogger>().Info("loc.application.driver.service.local.stop");
+                AppiumLocalServiceContainer.Value.Dispose();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Provides current instance of application
+        /// </summary>
         public static Application Application => GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
 
+        /// <summary>
+        /// Provides access to Aquality services, registered in DI container.
+        /// </summary>
         public static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, () => RegisterServices(services => Application));
 
+        /// <summary>
+        /// Resolves required service from <see cref="ServiceProvider"/>
+        /// </summary>
+        /// <typeparam name="T">type of required service</typeparam>
+        /// <exception cref="InvalidOperationException" Thrown if there is no service of type <see cref="T"/>.
+        /// <returns></returns>
         public static T GetRequiredService<T>()
         {
             return ServiceProvider.GetRequiredService<T>();
+        }
+
+        /// <summary>
+        /// Sets default factory responsible for application creation.
+        /// RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
+        /// </summary>
+        public static void SetDefaultFactory()
+        {
+            var appProfile = GetRequiredService<IApplicationProfile>();
+            var driverSettings = GetRequiredService<IDriverSettings>();
+            var localizationLogger = GetRequiredService<LocalizationLogger>();
+            var timeoutConfiguration = GetRequiredService<ITimeoutConfiguration>();
+            
+            IApplicationFactory applicationFactory;
+            if (appProfile.IsRemote)
+            {
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger);
+            }
+            else
+            {
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger);
+            }
+
+            SetFactory(applicationFactory);
+        }
+
+        /// <summary>
+        /// Sets custom application factory.
+        /// </summary>
+        /// <param name="browserFactory">Custom implementation of <see cref="IApplicationFactory"/></param>
+        public static void SetFactory(IApplicationFactory applicationFactory)
+        {
+            ApplicationFactoryContainer.Value = applicationFactory;
         }
 
         private static IServiceCollection RegisterServices(Func<IServiceProvider, Application> applicationSupplier)
         {
             var services = new ServiceCollection();
             var startup = new Startup();
-            var settings = startup.GetSettings();
-            /*string settingsFile = null;  todo: add embedded resource Resources/settings.json and then startup.GetSettings(); */
-            //startup.ConfigureServices(services, applicationSupplier); //, settingsFile);
-            /*services.AddTransient<IElementFactory, ElementFactory>();
-            services.AddTransient<CoreFactory, ElementFactory>();*/
-            startup.ConfigureServices(services, applicationSupplier);
+            var settingsFile = startup.GetSettings();
+            startup.ConfigureServices(services, applicationSupplier, settingsFile);
             services.AddTransient<IElementFactory, ElementFactory>();
             services.AddTransient<CoreElementFactory, ElementFactory>();
+            var driverSettings = new DriverSettings(settingsFile);
+            services.AddSingleton<IDriverSettings>(driverSettings);
+            services.AddSingleton<IApplicationProfile>(new ApplicationProfile(settingsFile, driverSettings));
             return services;
         }
 
@@ -40,15 +108,11 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                return (services) =>
+                if (!ApplicationFactoryContainer.IsValueCreated)
                 {
-                    // Call the local/remote ApplicationFactory here
-                    var timeoutConfig = services.GetRequiredService<ITimeoutConfiguration>();
-                    var locLogger = services.GetRequiredService<LocalizationLogger>();
-                    // return new Application("get me from config", new Uri("metoo"), timeoutConfig, null, locLogger);
-                    var pathToApp = Path.GetFullPath("./Resources/Applications/Day Maxi Calc.exe");
-                    return new Application(pathToApp, new Uri("http://127.0.0.1:4723/"),  timeoutConfig, null, locLogger);
-                };
+                    SetDefaultFactory();
+                }
+                return (services) => ApplicationFactoryContainer.Value.Application;
             }
         }
     }

@@ -23,20 +23,40 @@ namespace Aquality.WinAppDriver.Applications
         /// <param name="timeoutConfiguration"></param>
         /// <param name="appiumOptions"></param>
         /// <param name="logger"></param>
+        ///Deprecated
         public Application(string application, Uri driverServer, ITimeoutConfiguration timeoutConfiguration, AppiumOptions appiumOptions, LocalizationLogger logger)
         {
             Logger = logger;
             logger.Info("loc.application.start");
             var options = appiumOptions ?? new AppiumOptions();
             options.AddAdditionalCapability("app", application);
-            Driver = new WindowsDriver<WindowsElement>(driverServer, options, timeoutConfiguration.Command);
-            Driver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
+            WindowsDriver = new WindowsDriver<WindowsElement>(driverServer, options, timeoutConfiguration.Command);
+            WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
+        }
+
+        /// <summary>
+        /// Instantiate application.
+        /// </summary>
+        /// <param name="windowsDriver">Instance of WinAppDriver</param>
+        /// <param name="timeoutConfiguration">Instance of <see cref="ITimeoutConfiguration"/></param>
+        /// <param name="logger">Instance of <see cref="LocalizationLogger"/></param>
+        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger)
+        {
+            Logger = logger;
+            WindowsDriver = windowsDriver;
+            WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
+            logger.Info("loc.application.ready");
         }
 
         private LocalizationLogger Logger { get; }
 
-        public RemoteWebDriver Driver { get; }
-        
+        public RemoteWebDriver Driver => WindowsDriver;
+
+        /// <summary>
+        /// Provides instance of Windows Driver
+        /// </summary>
+        public WindowsDriver<WindowsElement> WindowsDriver { get; }
+
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
         /// Default value: <see cref="ITimeoutConfiguration.Implicit"/>.
@@ -46,7 +66,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             if (timeout != implicitWait)
             {
-                Driver.Manage().Timeouts().ImplicitWait = timeout;
+                WindowsDriver.Manage().Timeouts().ImplicitWait = timeout;
                 implicitWait = timeout;
             }
         }
@@ -57,7 +77,7 @@ namespace Aquality.WinAppDriver.Applications
         public void Quit()
         {
             Logger.Info("loc.application.driver.quit");
-            Driver?.Quit();
+            WindowsDriver?.Quit();
         }
     }
 }
