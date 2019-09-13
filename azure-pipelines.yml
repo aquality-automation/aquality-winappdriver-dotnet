@@ -27,6 +27,7 @@ steps:
 
 - script: dotnet build Aquality.WinAppDriver/Aquality.WinAppDriver.sln -c $(buildConfiguration)
   displayName: 'Build solution - $(buildConfiguration)'
+
 - task: SonarCloudAnalyze@1
   displayName: 'Run SonarCloud code analysis'
   continueOnError: true
@@ -39,6 +40,7 @@ steps:
   displayName: 'Start WinAppDriver'
   inputs:
     OperationType: 'Start'
+
 - task: DotNetCoreCLI@2
   displayName: 'Run tests'
   inputs:
@@ -46,12 +48,13 @@ steps:
     projects: '**/*Tests*/*.csproj'
     arguments: -c $(buildConfiguration) --no-build
     publishTestResults: true
+
 - task: Windows Application Driver@0
   displayName: stop WinAppDriver
   inputs:
     OperationType: 'Stop'
 
-- script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\WinAppDriver.csproj -c $(buildConfiguration) --no-build -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
+- script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) --no-build -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
   displayName: 'Create NuGet package'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   
