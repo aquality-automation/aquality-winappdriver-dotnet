@@ -20,6 +20,16 @@ namespace Aquality.WinAppDriver.Tests.Elements
         }
 
         [Test]
+        public void Should_EnterValues_WithoutCleaningTextbox()
+        {
+            var textBox = GetTextBox(Factory, CalculatorWindow.RightArgumentTextBox, "Right Argument");
+            textBox.Type(ExpectedValue);
+            const string additionalExpectedValue = "23";
+            textBox.Type(additionalExpectedValue);
+            Assert.AreEqual(ExpectedValue + additionalExpectedValue, textBox.Value);
+        }
+
+        [Test]
         public void Should_ClearTextBeforeEnteringValues_PrefilledTextbox()
         {
             var textBox = GetTextBox(Factory, CalculatorWindow.RightArgumentTextBox, "Right Argument");
