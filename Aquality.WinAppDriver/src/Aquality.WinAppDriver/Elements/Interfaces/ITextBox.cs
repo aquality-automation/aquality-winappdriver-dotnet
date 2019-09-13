@@ -24,10 +24,5 @@
         /// <param name="value">Text to type.</param>
         /// <param name="secret">Should the typing text be hidden in logs or not. False by default.</param>
         void ClearAndType(string value, bool secret = false);
-
-        /// <summary>
-        /// Submit typed value.
-        /// </summary>
-        void Submit();
     }
 }

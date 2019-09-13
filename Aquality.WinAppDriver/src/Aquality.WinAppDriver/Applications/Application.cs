@@ -14,26 +14,7 @@ namespace Aquality.WinAppDriver.Applications
     public class Application : IApplication
     {
         private TimeSpan implicitWait;
-
-        /// <summary>
-        /// Instantiate application.
-        /// </summary>
-        /// <param name="application"></param>
-        /// <param name="driverServer"></param>
-        /// <param name="timeoutConfiguration"></param>
-        /// <param name="appiumOptions"></param>
-        /// <param name="logger"></param>
-        ///Deprecated
-        public Application(string application, Uri driverServer, ITimeoutConfiguration timeoutConfiguration, AppiumOptions appiumOptions, LocalizationLogger logger)
-        {
-            Logger = logger;
-            logger.Info("loc.application.start");
-            var options = appiumOptions ?? new AppiumOptions();
-            options.AddAdditionalCapability("app", application);
-            WindowsDriver = new WindowsDriver<WindowsElement>(driverServer, options, timeoutConfiguration.Command);
-            WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
-        }
-
+        
         /// <summary>
         /// Instantiate application.
         /// </summary>
@@ -76,7 +57,7 @@ namespace Aquality.WinAppDriver.Applications
         /// </summary>
         public void Quit()
         {
-            Logger.Info("loc.application.driver.quit");
+            Logger.Info("loc.application.quit");
             WindowsDriver?.Quit();
         }
     }
