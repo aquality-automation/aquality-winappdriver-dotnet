@@ -29,11 +29,6 @@ namespace Aquality.WinAppDriver.Elements
             });
         }
 
-        public void Submit()
-        {
-            DoWithRetry(() => GetElement().Submit());
-        }
-
         public void Type(string value, bool secret = false)
         {
             LogElementAction("loc.text.typing", secret ? SecretMask : value);
