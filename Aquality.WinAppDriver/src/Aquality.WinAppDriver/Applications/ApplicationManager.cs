@@ -9,6 +9,8 @@ using Aquality.Selenium.Core.Applications;
 using System.Threading;
 using Aquality.WinAppDriver.Configurations;
 using OpenQA.Selenium.Appium.Service;
+using Aquality.Selenium.Core.Logging;
+using System.Reflection;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -101,6 +103,7 @@ namespace Aquality.WinAppDriver.Applications
             var driverSettings = new DriverSettings(settingsFile);
             services.AddSingleton<IDriverSettings>(driverSettings);
             services.AddSingleton<IApplicationProfile>(new ApplicationProfile(settingsFile, driverSettings));
+            services.AddSingleton(new LocalizationManager(new LoggerConfiguration(settingsFile), Logger.Instance, Assembly.GetExecutingAssembly()));
             return services;
         }
 

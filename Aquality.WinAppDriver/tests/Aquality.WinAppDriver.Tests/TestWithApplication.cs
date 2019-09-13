@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Tests
         {
             if (ApplicationManager.IsStarted)
             {
-                ApplicationManager.Application.Driver.Quit();
+                ApplicationManager.Application.Quit();
             }
             ApplicationManager.TryToStopAppiumLocalService();
         }

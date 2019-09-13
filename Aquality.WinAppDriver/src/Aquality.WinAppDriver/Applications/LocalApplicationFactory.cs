@@ -26,7 +26,7 @@ namespace Aquality.WinAppDriver.Applications
             {
                 driverService.Start();
                 var serviceUrl = driverService.ServiceUrl;
-                localizationLogger.Info("loc.application.driver.service.local", serviceUrl);
+                localizationLogger.Info("loc.application.driver.service.local.start", serviceUrl);
                 var driver = GetDriver(serviceUrl, driverSettings.AppiumOptions, timeoutConfiguration.Command);
                 return new Application(driver, timeoutConfiguration, localizationLogger);
             }
