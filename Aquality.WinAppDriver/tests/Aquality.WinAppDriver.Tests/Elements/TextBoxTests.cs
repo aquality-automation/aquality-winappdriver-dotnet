@@ -38,13 +38,6 @@ namespace Aquality.WinAppDriver.Tests.Elements
             Assert.AreEqual(expectedValue, textBox.Value);
         }
 
-        [Test]
-        public void Should_Submit()
-        {
-            var textBox = GetTextBox(Factory, CalculatorWindow.RightArgumentTextBox, "Right Argument");
-            textBox.Submit();
-        }
-
         public static ITextBox GetTextBox(IElementFactory coreFactory, By loc, string nam) => coreFactory.GetTextBox(loc, nam);
     }
 }
