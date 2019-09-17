@@ -15,7 +15,6 @@ namespace Aquality.WinAppDriver.Extensions
         {
             return typeof(Keys)
                 .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .ToList()
                 .FirstOrDefault(field => key.Equals(field.GetValue(null)))?.Name ?? key;
         }
     }
