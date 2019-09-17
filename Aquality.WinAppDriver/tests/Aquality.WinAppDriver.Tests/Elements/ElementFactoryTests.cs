@@ -10,23 +10,23 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementFactoryTests : TestWithApplication
     {
-        private static readonly CalculatorWindow сalculatorWindow = new CalculatorWindow();
+        private static readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
         private IElementFactory Factory => ApplicationManager.GetRequiredService<IElementFactory>();
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFactory()
         {
-            сalculatorWindow.OneButton.Click();
-            сalculatorWindow.PlusButton.Click();
-            сalculatorWindow.TwoButton.Click();
-            сalculatorWindow.EqualsButton.Click();
-            StringAssert.Contains("3", сalculatorWindow.ResultsLabel.Text);
+            calculatorWindow.OneButton.Click();
+            calculatorWindow.PlusButton.Click();
+            calculatorWindow.TwoButton.Click();
+            calculatorWindow.EqualsButton.Click();
+            StringAssert.Contains("3", calculatorWindow.ResultsLabel.Text);
         }
         
         [Test]
         public void Should_FindChildElements_ViaElementFactory()
         {
-            Assert.IsNotNull(Factory.FindChildElement<Button>(сalculatorWindow.NumberPad, сalculatorWindow.OneButton.Locator).GetElement(TimeSpan.Zero));
+            Assert.IsNotNull(Factory.FindChildElement<Button>(calculatorWindow.NumberPad, calculatorWindow.OneButton.Locator).GetElement(TimeSpan.Zero));
         }
 
         [Test]
