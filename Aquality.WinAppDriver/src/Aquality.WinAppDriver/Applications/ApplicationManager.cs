@@ -11,6 +11,7 @@ using Aquality.WinAppDriver.Configurations;
 using OpenQA.Selenium.Appium.Service;
 using Aquality.Selenium.Core.Logging;
 using System.Reflection;
+using Aquality.WinAppDriver.Actions;
 
 namespace Aquality.WinAppDriver.Applications
 {

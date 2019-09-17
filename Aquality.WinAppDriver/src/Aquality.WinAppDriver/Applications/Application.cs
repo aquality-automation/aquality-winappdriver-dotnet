@@ -2,6 +2,7 @@
 using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
+using Aquality.WinAppDriver.Actions;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
@@ -20,11 +21,12 @@ namespace Aquality.WinAppDriver.Applications
         /// <param name="windowsDriver">Instance of WinAppDriver</param>
         /// <param name="timeoutConfiguration">Instance of <see cref="ITimeoutConfiguration"/></param>
         /// <param name="logger">Instance of <see cref="LocalizationLogger"/></param>
-        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger)
+        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger, IKeyboardActions keyboardActions = null)
         {
             Logger = logger;
             WindowsDriver = windowsDriver;
             WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
+            KeyboardActions = keyboardActions ?? new KeyboardActions(logger, windowsDriver);
             logger.Info("loc.application.ready");
         }
 
@@ -36,6 +38,8 @@ namespace Aquality.WinAppDriver.Applications
         /// Provides instance of Windows Driver
         /// </summary>
         public WindowsDriver<WindowsElement> WindowsDriver { get; }
+
+        public IKeyboardActions KeyboardActions { get; }
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
