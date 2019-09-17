@@ -19,11 +19,9 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 
         public static By EqualsButtonLocator => By.Name("=");
 
-        public static By RightArgumentTextBoxLocator => By.XPath("//*[@AutomationId='49']");
-
         public static By ResultsLabelLocator => MobileBy.AccessibilityId("48");
 
-        public ITextBox TextBoxRightArgument => ElementFactory.GetTextBox(RightArgumentTextBoxLocator, "Right Argument");
+        public ITextBox TextBoxRightArgument => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
 
         public IButton ButtonOne => ElementFactory.GetButton(OneButtonLocator, "1");
 
