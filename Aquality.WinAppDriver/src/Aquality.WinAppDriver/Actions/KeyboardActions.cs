@@ -1,5 +1,6 @@
 ﻿using Aquality.Selenium.Core.Localization;
 using OpenQA.Selenium.Appium.Windows;
+using System;
 using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
 
 namespace Aquality.WinAppDriver.Actions
@@ -17,26 +18,45 @@ namespace Aquality.WinAppDriver.Actions
 
         public void PressKey(string keyToPress)
         {
-            localizationLogger.Info("loc.keyboard.presskey", keyToPress);
-            new SeleniumActions(windowsDriver).KeyDown(keyToPress).Build().Perform();
+            LogAction("loc.keyboard.presskey", keyToPress);
+            PerformAction(actions => actions.KeyDown(keyToPress));
         }
 
         public void ReleaseKey(string keyToRelease)
         {
-            localizationLogger.Info("loc.keyboard.releasekey", keyToRelease);
-            new SeleniumActions(windowsDriver).KeyUp(keyToRelease).Build().Perform();
+            LogAction("loc.keyboard.releasekey", keyToRelease);
+            PerformAction(actions => actions.KeyUp(keyToRelease));
         }
 
         public void SendKeys(string keySequence)
         {
-            localizationLogger.Info("loc.keyboard.sendkeys", keySequence);
-            new SeleniumActions(windowsDriver).SendKeys(keySequence).Build().Perform();
+            LogAction("loc.keyboard.sendkeys", keySequence);
+            PerformAction(actions => actions.SendKeys(keySequence));
         }
 
         public void SendKeysWithKeyHold(string keySequence, string keyToHold)
         {
-            localizationLogger.Info("loc.keyboard.sendkeys.withkeyhold", keySequence);
-            new SeleniumActions(windowsDriver).KeyDown(keyToHold).SendKeys(keySequence).KeyUp(keyToHold).Build().Perform();
+            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence);
+            PerformAction(actions => actions.KeyDown(keyToHold).SendKeys(keySequence).KeyUp(keyToHold));
+        }
+
+        /// <summary>
+        /// Performs submited action against new <see cref="SeleniumActions"/> object.
+        /// </summary>
+        /// <param name="action">Action to be performed.</param>
+        protected virtual void PerformAction(Func<SeleniumActions, SeleniumActions> action)
+        {
+            action(new SeleniumActions(windowsDriver)).Build().Perform();
+        }
+
+        /// <summary>
+        /// Logs keyboard action in specific format.
+        /// </summary>
+        /// <param name="messageKey">Key of the localized message.</param>
+        /// <param name="args">arguments for the localized message</param>
+        protected virtual void LogAction(string messageKey, params object[] args)
+        {
+            localizationLogger.Info(messageKey, args);
         }
     }
 }

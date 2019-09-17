@@ -1,19 +1,20 @@
 ﻿using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Tests.Applications.Locators;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
 using System;
 
-namespace Aquality.WinAppDriver.Tests.Elements
+namespace Aquality.WinAppDriver.Tests.Actions
 {
     public class KeyboardActionsTests : TestWithApplication
     {
         private const string ValueToSend = "abc";
-        private IKeyboardActions KeyboardActions => ApplicationManager.Application.KeyboardActions;
 
-        private ITextBox RightArgumentTextBox => ApplicationManager.GetRequiredService<IElementFactory>().GetTextBox(MobileBy.AccessibilityId("49"), "Right Argument");
+        protected virtual IKeyboardActions KeyboardActions => ApplicationManager.Application.KeyboardActions;
+
+        protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
 
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
