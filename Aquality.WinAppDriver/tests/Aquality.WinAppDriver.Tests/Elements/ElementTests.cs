@@ -66,6 +66,6 @@ namespace Aquality.WinAppDriver.Tests.Elements
             Assert.Throws<NoSuchElementException>(() => GetLabel().GetElement(TimeSpan.Zero));
         }
 
-        private ILabel GetLabel() => Factory.GetLabel(ElementLocator, ElementDescription);
+        private IElement GetLabel() => Factory.GetLabel(ElementLocator, ElementDescription);
     }
 }
