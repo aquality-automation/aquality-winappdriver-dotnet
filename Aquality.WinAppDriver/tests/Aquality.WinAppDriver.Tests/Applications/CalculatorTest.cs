@@ -7,25 +7,27 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class CalculatorTest : TestWithApplication
     {
+        private readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
+
         [Test]
         public void Should_WorkWithCalculator()
         {
-            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.OneButtonLocator).Click();
-            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.PlusButtonLocator).Click();
-            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.TwoButtonLocator).Click();
-            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.EqualsButtonLocator).Click();
-            var result = ApplicationManager.Application.Driver.FindElement(CalculatorWindow.ResultsLabelLocator).Text;
+            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.OneButton.Locator).Click();
+            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.PlusButton.Locator).Click();
+            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.TwoButton.Locator).Click();
+            ApplicationManager.Application.Driver.FindElement(CalculatorWindow.EqualsButton.Locator).Click();
+            var result = ApplicationManager.Application.Driver.FindElement(CalculatorWindow.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFinder()
         {
-            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.OneButtonLocator).Click();
-            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.PlusButtonLocator).Click();
-            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.TwoButtonLocator).Click();
-            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.EqualsButtonLocator).Click();
-            var result = ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.ResultsLabelLocator).Text;
+            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.OneButton.Locator).Click();
+            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.PlusButton.Locator).Click();
+            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.PlusButton.Locator).Click();
+            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.EqualsButton.Locator).Click();
+            var result = ApplicationManager.GetRequiredService<IElementFinder>().FindElement(CalculatorWindow.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
     }

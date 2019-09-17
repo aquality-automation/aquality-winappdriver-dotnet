@@ -1,4 +1,5 @@
-﻿using Aquality.WinAppDriver.Tests.Applications.Locators;
+﻿using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Tests.Applications.Locators;
 using NUnit.Framework;
 
 namespace Aquality.WinAppDriver.Tests.Elements
@@ -6,37 +7,37 @@ namespace Aquality.WinAppDriver.Tests.Elements
     public class TextBoxTests : TestWithApplication
     {
         private const string ExpectedValue = "1";
-        private readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
+        private readonly ITextBox rightArgumentTextBox = new CalculatorWindow().RightArgumentTextBox;
 
         [Test]
         public void Should_EnterValues()
         {
-            CalculatorWindow.TextBoxRightArgument.Type(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, CalculatorWindow.TextBoxRightArgument.Value);
+            rightArgumentTextBox.Type(ExpectedValue);
+            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_EnterValues_WithoutCleaningTextbox()
         {
-            CalculatorWindow.TextBoxRightArgument.Type(ExpectedValue);
+            rightArgumentTextBox.Type(ExpectedValue);
             const string additionalExpectedValue = "23";
-            CalculatorWindow.TextBoxRightArgument.Type(additionalExpectedValue);
-            Assert.AreEqual(ExpectedValue + additionalExpectedValue, CalculatorWindow.TextBoxRightArgument.Value);
+            rightArgumentTextBox.Type(additionalExpectedValue);
+            Assert.AreEqual(ExpectedValue + additionalExpectedValue, rightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_ClearTextBeforeEnteringValues_PrefilledTextbox()
         {
-            CalculatorWindow.TextBoxRightArgument.Type("123");
-            CalculatorWindow.TextBoxRightArgument.ClearAndType(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, CalculatorWindow.TextBoxRightArgument.Value);
+            rightArgumentTextBox.Type("123");
+            rightArgumentTextBox.ClearAndType(ExpectedValue);
+            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_ClearTextBeforeEnteringValues_EmptyTextbox()
         {
-            CalculatorWindow.TextBoxRightArgument.ClearAndType(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, CalculatorWindow.TextBoxRightArgument.Value);
+            rightArgumentTextBox.ClearAndType(ExpectedValue);
+            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
         }
     }
 }

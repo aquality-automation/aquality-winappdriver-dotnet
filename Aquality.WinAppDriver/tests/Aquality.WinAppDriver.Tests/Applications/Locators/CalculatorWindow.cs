@@ -7,31 +7,19 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 {
     public class CalculatorWindow : Window
     {
-        public static By WindowLocator => By.TagName("Window");
+        private static By WindowLocator => By.TagName("Window");
 
-        public static By OneButtonLocator => By.Name("1");
+        public ITextBox RightArgumentTextBox => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
 
-        public static By TwoButtonLocator => By.Name("2");
+        public IButton OneButton => ElementFactory.GetButton(By.Name("1"), "1");
 
-        public static By ThreeButtonLocator => By.Name("3");
+        public IButton TwoButton => ElementFactory.GetButton(By.Name("2"), "2");
 
-        public static By PlusButtonLocator => By.Name("+");
+        public IButton PlusButton => ElementFactory.GetButton(By.Name("+"), "+");
 
-        public static By EqualsButtonLocator => By.Name("=");
+        public IButton EqualsButton => ElementFactory.GetButton(By.Name("="), "=");
 
-        public static By ResultsLabelLocator => MobileBy.AccessibilityId("48");
-
-        public ITextBox TextBoxRightArgument => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
-
-        public IButton ButtonOne => ElementFactory.GetButton(OneButtonLocator, "1");
-
-        public IButton ButtonTwo => ElementFactory.GetButton(TwoButtonLocator, "2");
-
-        public IButton ButtonPlus => ElementFactory.GetButton(PlusButtonLocator, "+");
-
-        public IButton ButtonEquals => ElementFactory.GetButton(EqualsButtonLocator, "=");
-
-        public ILabel LabelResults => ElementFactory.GetLabel(ResultsLabelLocator, "Results bar");
+        public ILabel ResultsLabel => ElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
 
         public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
 
