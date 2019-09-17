@@ -3,6 +3,7 @@ using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
 using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Extensions;
 using OpenQA.Selenium;
 using System;
 using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
@@ -39,13 +40,13 @@ namespace Aquality.WinAppDriver.Elements.Actions
 
         public void PressKey(string keyToPress)
         {
-            LogElementAction("loc.keyboard.presskey", keyToPress);
+            LogElementAction("loc.keyboard.presskey", keyToPress.GetLoggableValueForKeyboardKey());
             PerformAction((actions, element) => actions.KeyDown(element, keyToPress));
         }
 
         public void ReleaseKey(string keyToRelease)
         {
-            LogElementAction("loc.keyboard.releasekey", keyToRelease);
+            LogElementAction("loc.keyboard.releasekey", keyToRelease.GetLoggableValueForKeyboardKey());
             PerformAction((actions, element) => actions.KeyUp(element, keyToRelease));
         }
 
@@ -57,7 +58,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
 
         public void SendKeysWithKeyHold(string keySequence, string keyToHold)
         {
-            LogElementAction("loc.keyboard.sendkeys.withkeyhold", keySequence);
+            LogElementAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold.GetLoggableValueForKeyboardKey());
             PerformAction((actions, element) => actions.KeyDown(element, keyToHold).SendKeys(element, keySequence).KeyUp(element, keyToHold));
         }
 

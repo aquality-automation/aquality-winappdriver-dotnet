@@ -17,5 +17,9 @@
   "loc.label": "Label",
   "loc.text.field": "Text Field",
   "loc.text.clearing": "Clearing",
-  "loc.text.typing": "Typing '{0}'"
+  "loc.text.typing": "Typing '{0}'",
+  "loc.keyboard.presskey": "Pressing key '{0}'",
+  "loc.keyboard.releasekey": "Releasing key '{0}'",
+  "loc.keyboard.sendkeys": "Sending keys '{0}'",
+  "loc.keyboard.sendkeys.withkeyhold": "Sending keys '{0}' with holded key '{1}'"
 }

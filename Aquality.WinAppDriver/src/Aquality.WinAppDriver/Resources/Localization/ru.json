@@ -17,5 +17,9 @@
   "loc.label": "Надпись",
   "loc.text.field": "Текстовое поле",
   "loc.text.clearing": "Очищаем",
-  "loc.text.typing": "Вводим значение '{0}'"
+  "loc.text.typing": "Вводим значение '{0}'",
+  "loc.keyboard.presskey": "Зажимаем клавишу '{0}'",
+  "loc.keyboard.releasekey": "Отпускаем клавишу '{0}'",
+  "loc.keyboard.sendkeys": "Нажимаем клавиши '{0}'",
+  "loc.keyboard.sendkeys.withkeyhold": "Нажимаем клавиши '{0}' с зажатой клавишей '{1}'"
 }
