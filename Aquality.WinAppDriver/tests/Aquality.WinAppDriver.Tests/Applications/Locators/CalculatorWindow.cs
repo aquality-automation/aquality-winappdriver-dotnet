@@ -25,6 +25,18 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 
         public ITextBox TextBoxRightArgument => ElementFactory.GetTextBox(RightArgumentTextBoxLocator, "Right Argument");
 
+        public IButton ButtonOne => ElementFactory.GetButton(OneButtonLocator, "1");
+
+        public IButton ButtonTwo => ElementFactory.GetButton(TwoButtonLocator, "2");
+
+        public IButton ButtonPlus => ElementFactory.GetButton(PlusButtonLocator, "+");
+
+        public IButton ButtonEquals => ElementFactory.GetButton(EqualsButtonLocator, "=");
+
+        public ILabel LabelResults => ElementFactory.GetLabel(ResultsLabelLocator, "Results bar");
+
+        public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
+
         public CalculatorWindow() : base(WindowLocator, "Main Calculator Window")
         {
         }

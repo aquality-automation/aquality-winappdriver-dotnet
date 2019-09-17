@@ -10,25 +10,23 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementFactoryTests : TestWithApplication
     {
+        private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
         private IElementFactory Factory => ApplicationManager.GetRequiredService<IElementFactory>();
-
-        private IElement NumberPad => GetButton(Factory, CalculatorWindow.WindowLocator, "Number pad");
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFactory()
         {
-            GetButton(Factory, CalculatorWindow.OneButtonLocator, "1").Click();
-            GetButton(Factory, CalculatorWindow.PlusButtonLocator, "+").Click();
-            GetButton(Factory, CalculatorWindow.TwoButtonLocator, "2").Click();
-            GetButton(Factory, CalculatorWindow.EqualsButtonLocator, "=").Click();
-            var result = GetButton(Factory, CalculatorWindow.ResultsLabelLocator, "Results bar").Text;
-            StringAssert.Contains("3", result);
+            CalculatorWindow.ButtonOne.Click();
+            CalculatorWindow.ButtonPlus.Click();
+            CalculatorWindow.ButtonTwo.Click();
+            CalculatorWindow.ButtonEquals.Click();
+            StringAssert.Contains("3", CalculatorWindow.LabelResults.Text);
         }
         
         [Test]
         public void Should_FindChildElements_ViaElementFactory()
         {
-            Assert.IsNotNull(Factory.FindChildElement<Button>(NumberPad, CalculatorWindow.OneButtonLocator).GetElement(TimeSpan.Zero));
+            Assert.IsNotNull(Factory.FindChildElement<Button>(CalculatorWindow.NumberPad, CalculatorWindow.OneButtonLocator).GetElement(TimeSpan.Zero));
         }
 
         [Test]
@@ -36,7 +34,5 @@ namespace Aquality.WinAppDriver.Tests.Elements
         {
             Assert.IsTrue(Factory.FindElements<Button>(By.XPath("//*")).Count > 1);
         }
-
-        public static IButton GetButton(IElementFactory coreFactory, By loc, string nam) => coreFactory.GetButton(loc, nam);
     }
 }
