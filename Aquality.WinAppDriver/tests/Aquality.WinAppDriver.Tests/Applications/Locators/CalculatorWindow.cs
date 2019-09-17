@@ -1,22 +1,30 @@
-﻿using OpenQA.Selenium;
+﻿using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Windows;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 
 namespace Aquality.WinAppDriver.Tests.Applications.Locators
 {
-    public static class CalculatorWindow
+    public class CalculatorWindow : Window
     {
-        public static By WindowLocator => By.TagName("Window");
+        private static By WindowLocator => By.TagName("Window");
 
-        public static By OneButton => By.Name("1");
+        public ITextBox RightArgumentTextBox => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
 
-        public static By TwoButton => By.Name("2");
+        public IButton OneButton => ElementFactory.GetButton(By.Name("1"), "1");
 
-        public static By ThreeButton => By.Name("3");
+        public IButton TwoButton => ElementFactory.GetButton(By.Name("2"), "2");
 
-        public static By PlusButton => By.Name("+");
+        public IButton PlusButton => ElementFactory.GetButton(By.Name("+"), "+");
 
-        public static By EqualsButton => By.Name("=");
+        public IButton EqualsButton => ElementFactory.GetButton(By.Name("="), "=");
 
-        public static By ResultsLabel => MobileBy.AccessibilityId("48");
+        public ILabel ResultsLabel => ElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
+
+        public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
+
+        public CalculatorWindow() : base(WindowLocator, "Main Calculator Window")
+        {
+        }
     }
 }
