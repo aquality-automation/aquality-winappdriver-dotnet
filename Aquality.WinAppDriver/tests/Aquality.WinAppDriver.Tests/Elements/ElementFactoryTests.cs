@@ -17,18 +17,18 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_WorkWithCalculator_ViaElementFactory()
         {
-            GetButton(Factory, CalculatorWindow.OneButton, "1").Click();
-            GetButton(Factory, CalculatorWindow.PlusButton, "+").Click();
-            GetButton(Factory, CalculatorWindow.TwoButton, "2").Click();
-            GetButton(Factory, CalculatorWindow.EqualsButton, "=").Click();
-            var result = GetButton(Factory, CalculatorWindow.ResultsLabel, "Results bar").Text;
+            GetButton(Factory, CalculatorWindow.OneButtonLocator, "1").Click();
+            GetButton(Factory, CalculatorWindow.PlusButtonLocator, "+").Click();
+            GetButton(Factory, CalculatorWindow.TwoButtonLocator, "2").Click();
+            GetButton(Factory, CalculatorWindow.EqualsButtonLocator, "=").Click();
+            var result = GetButton(Factory, CalculatorWindow.ResultsLabelLocator, "Results bar").Text;
             StringAssert.Contains("3", result);
         }
         
         [Test]
         public void Should_FindChildElements_ViaElementFactory()
         {
-            Assert.IsNotNull(Factory.FindChildElement<Button>(NumberPad, CalculatorWindow.OneButton).GetElement(TimeSpan.Zero));
+            Assert.IsNotNull(Factory.FindChildElement<Button>(NumberPad, CalculatorWindow.OneButtonLocator).GetElement(TimeSpan.Zero));
         }
 
         [Test]
