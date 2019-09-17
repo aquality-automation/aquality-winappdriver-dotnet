@@ -25,7 +25,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         {
             ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.OneButton.Locator).Click();
             ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.PlusButton.Locator).Click();
-            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.PlusButton.Locator).Click();
+            ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.TwoButton.Locator).Click();
             ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.EqualsButton.Locator).Click();
             var result = ApplicationManager.GetRequiredService<IElementFinder>().FindElement(calculatorWindow.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
