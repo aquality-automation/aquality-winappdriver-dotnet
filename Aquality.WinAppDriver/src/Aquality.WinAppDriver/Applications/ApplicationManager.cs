@@ -42,12 +42,32 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Provides current instance of application
         /// </summary>
-        public static Application Application => GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
+        public static Application Application
+        {
+            get
+            {
+                return GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
+            }
+            set
+            {
+                SetApplication(value);
+            }
+        }
 
         /// <summary>
         /// Provides access to Aquality services, registered in DI container.
         /// </summary>
-        public static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, () => RegisterServices(services => Application));
+        public static IServiceProvider ServiceProvider
+        {
+            get
+            {
+                return GetServiceProvider(services => Application, () => RegisterServices(services => Application));
+            }
+            set
+            {
+                SetServiceProvider(value);
+            }
+        }
 
         /// <summary>
         /// Resolves required service from <see cref="ServiceProvider"/>
