@@ -63,7 +63,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         }
 
         /// <summary>
-        /// Performs submtted action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformAction(Func<SeleniumActions, IWebElement, SeleniumActions> action)
