@@ -6,15 +6,18 @@ using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
 
 namespace Aquality.WinAppDriver.Actions
 {
+    /// <summary>
+    /// Implements Keyboard actions for the whole application.
+    /// </summary>
     public class KeyboardActions : IKeyboardActions
     {
         private readonly LocalizationLogger localizationLogger;
-        private readonly WindowsDriver<WindowsElement> windowsDriver;
+        private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
 
-        public KeyboardActions(LocalizationLogger localizationLogger, WindowsDriver<WindowsElement> windowsDriver)
+        public KeyboardActions(LocalizationLogger localizationLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
         {
             this.localizationLogger = localizationLogger;
-            this.windowsDriver = windowsDriver;
+            this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
         public void PressKey(string keyToPress)
@@ -42,19 +45,19 @@ namespace Aquality.WinAppDriver.Actions
         }
 
         /// <summary>
-        /// Performs submited action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformAction(Func<SeleniumActions, SeleniumActions> action)
         {
-            action(new SeleniumActions(windowsDriver)).Build().Perform();
+            action(new SeleniumActions(windowsDriverSupplier())).Build().Perform();
         }
 
         /// <summary>
         /// Logs keyboard action in specific format.
         /// </summary>
         /// <param name="messageKey">Key of the localized message.</param>
-        /// <param name="args">arguments for the localized message</param>
+        /// <param name="args">Arguments for the localized message.</param>
         protected virtual void LogAction(string messageKey, params object[] args)
         {
             localizationLogger.Info(messageKey, args);

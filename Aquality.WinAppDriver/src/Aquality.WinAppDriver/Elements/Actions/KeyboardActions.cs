@@ -17,7 +17,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
     {
         private readonly IElement element;
         private readonly string elementType;
-        private readonly IApplication application;
+        private readonly Func<IApplication> applicationSupplier;
         private readonly LocalizationLogger localizationLogger;
         private readonly ElementActionRetrier elementActionsRetrier;
 
@@ -26,14 +26,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// </summary>
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
-        /// <param name="application">Current application session.</param>
+        /// <param name="applicationSupplier">Method to get current application session.</param>
         /// <param name="localizationLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public KeyboardActions(IElement element, string elementType, IApplication application, LocalizationLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
+        public KeyboardActions(IElement element, string elementType, Func<IApplication> applicationSupplier, LocalizationLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
         {
             this.element = element;
             this.elementType = elementType;
-            this.application = application;
+            this.applicationSupplier = applicationSupplier;
             this.localizationLogger = localizationLogger;
             this.elementActionsRetrier = elementActionsRetrier;
         }
@@ -63,14 +63,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
         }
 
         /// <summary>
-        /// Performs submited action against new <see cref="SeleniumActions"/> object.
+        /// Performs submtted action against new <see cref="SeleniumActions"/> object.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformAction(Func<SeleniumActions, IWebElement, SeleniumActions> action)
         {
             elementActionsRetrier.DoWithRetry(() =>
             {
-                action(new SeleniumActions(application.Driver), element.GetElement()).Build().Perform();
+                action(new SeleniumActions(applicationSupplier().Driver), element.GetElement()).Build().Perform();
             });            
         }
 
@@ -78,7 +78,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// Logs element action in specific format.
         /// </summary>
         /// <param name="messageKey">Key of the localized message.</param>
-        /// <param name="args">arguments for the localized message</param>
+        /// <param name="args">Arguments for the localized message.</param>
         protected virtual void LogElementAction(string messageKey, params object[] args)
         {
             localizationLogger.InfoElementAction(elementType, element.Name, messageKey, args);

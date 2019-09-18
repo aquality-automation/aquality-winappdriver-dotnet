@@ -1,5 +1,6 @@
 ﻿using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
+using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Configurations;
 using OpenQA.Selenium.Appium.Service;
 
@@ -11,13 +12,16 @@ namespace Aquality.WinAppDriver.Applications
         private readonly IDriverSettings driverSettings;
         private readonly ITimeoutConfiguration timeoutConfiguration;
         private readonly LocalizationLogger localizationLogger;
+        private readonly IKeyboardActions keyboardActions;
 
-        public LocalApplicationFactory(AppiumLocalService driverService, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger) : base(localizationLogger)
+        public LocalApplicationFactory(AppiumLocalService driverService, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger, IKeyboardActions keyboardActions) 
+            : base(localizationLogger)
         {
             this.driverService = driverService;
             this.driverSettings = driverSettings;
             this.timeoutConfiguration = timeoutConfiguration;
             this.localizationLogger = localizationLogger;
+            this.keyboardActions = keyboardActions;
         }
 
         public override Application Application
@@ -28,7 +32,7 @@ namespace Aquality.WinAppDriver.Applications
                 var serviceUrl = driverService.ServiceUrl;
                 localizationLogger.Info("loc.application.driver.service.local.start", serviceUrl);
                 var driver = GetDriver(serviceUrl, driverSettings.AppiumOptions, timeoutConfiguration.Command);
-                return new Application(driver, timeoutConfiguration, localizationLogger);
+                return new Application(driver, timeoutConfiguration, localizationLogger, keyboardActions);
             }
         }
     }

@@ -30,7 +30,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected virtual IElementFactory CustomFactory => ApplicationManager.GetRequiredService<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, Application, LocalizationLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
 
         public T FindChildElement<T>(By childLocator, ElementSupplier<T> supplier = null) where T : IElement
         {

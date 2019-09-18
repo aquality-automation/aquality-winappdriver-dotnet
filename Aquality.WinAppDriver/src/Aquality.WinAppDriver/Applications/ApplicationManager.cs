@@ -70,15 +70,16 @@ namespace Aquality.WinAppDriver.Applications
             var driverSettings = GetRequiredService<IDriverSettings>();
             var localizationLogger = GetRequiredService<LocalizationLogger>();
             var timeoutConfiguration = GetRequiredService<ITimeoutConfiguration>();
+            var keyboardActions = GetRequiredService<IKeyboardActions>();
             
             IApplicationFactory applicationFactory;
             if (appProfile.IsRemote)
             {
-                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger);
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions);
             }
             else
             {
-                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger);
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions);
             }
 
             SetFactory(applicationFactory);
@@ -101,10 +102,10 @@ namespace Aquality.WinAppDriver.Applications
             startup.ConfigureServices(services, applicationSupplier, settingsFile);
             services.AddTransient<IElementFactory, ElementFactory>();
             services.AddTransient<CoreElementFactory, ElementFactory>();
-            var driverSettings = new DriverSettings(settingsFile);
-            services.AddSingleton<IDriverSettings>(driverSettings);
-            services.AddSingleton<IApplicationProfile>(new ApplicationProfile(settingsFile, driverSettings));
-            services.AddSingleton(new LocalizationManager(new LoggerConfiguration(settingsFile), Logger.Instance, Assembly.GetExecutingAssembly()));
+            services.AddSingleton<IDriverSettings>(serviceProvider => new DriverSettings(settingsFile));
+            services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settingsFile, serviceProvider.GetRequiredService<IDriverSettings>()));
+            services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
+            services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
             return services;
         }
 
