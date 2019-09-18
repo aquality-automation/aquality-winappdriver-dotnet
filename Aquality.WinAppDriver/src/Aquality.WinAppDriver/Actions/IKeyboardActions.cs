@@ -46,7 +46,7 @@
         void SendKeys(string keySequence);
 
         /// <summary>
-        /// Sends a sequence of keystrokes to the target, holding a specified key.
+        /// Sends a sequence of keystrokes to the application, holding a specified key.
         /// After the action, holded key is released.
         /// </summary>
         /// <param name="keySequence">A string representing the keystrokes to send.</param>

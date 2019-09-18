@@ -21,12 +21,13 @@ namespace Aquality.WinAppDriver.Applications
         /// <param name="windowsDriver">Instance of WinAppDriver</param>
         /// <param name="timeoutConfiguration">Instance of <see cref="ITimeoutConfiguration"/></param>
         /// <param name="logger">Instance of <see cref="LocalizationLogger"/></param>
-        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger, IKeyboardActions keyboardActions)
+        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger, IKeyboardActions keyboardActions, IMouseActions mouseActions)
         {
             Logger = logger;
             WindowsDriver = windowsDriver;
             WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
             KeyboardActions = keyboardActions;
+            MouseActions = mouseActions;
             logger.Info("loc.application.ready");
         }
 
@@ -40,6 +41,8 @@ namespace Aquality.WinAppDriver.Applications
         public WindowsDriver<WindowsElement> WindowsDriver { get; }
 
         public IKeyboardActions KeyboardActions { get; }
+
+        public IMouseActions MouseActions { get; }
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 

@@ -91,15 +91,16 @@ namespace Aquality.WinAppDriver.Applications
             var localizationLogger = GetRequiredService<LocalizationLogger>();
             var timeoutConfiguration = GetRequiredService<ITimeoutConfiguration>();
             var keyboardActions = GetRequiredService<IKeyboardActions>();
-            
+            var mouseActions = GetRequiredService<IMouseActions>();
+
             IApplicationFactory applicationFactory;
             if (appProfile.IsRemote)
             {
-                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions);
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
             }
             else
             {
-                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions);
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
             }
 
             SetFactory(applicationFactory);
@@ -126,6 +127,7 @@ namespace Aquality.WinAppDriver.Applications
             services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settingsFile, serviceProvider.GetRequiredService<IDriverSettings>()));
             services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
             services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
             return services;
         }
 

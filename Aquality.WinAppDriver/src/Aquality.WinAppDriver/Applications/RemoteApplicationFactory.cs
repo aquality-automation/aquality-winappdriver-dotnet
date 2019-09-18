@@ -14,8 +14,9 @@ namespace Aquality.WinAppDriver.Applications
         private readonly ITimeoutConfiguration timeoutConfiguration;
         private readonly LocalizationLogger localizationLogger;
         private readonly IKeyboardActions keyboardActions;
+        private readonly IMouseActions mouseActions;
 
-        public RemoteApplicationFactory(Uri driverServerUri, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger, IKeyboardActions keyboardActions) 
+        public RemoteApplicationFactory(Uri driverServerUri, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger, IKeyboardActions keyboardActions, IMouseActions mouseActions) 
             : base(localizationLogger)
         {
             this.driverServerUri = driverServerUri;
@@ -23,6 +24,7 @@ namespace Aquality.WinAppDriver.Applications
             this.timeoutConfiguration = timeoutConfiguration;
             this.localizationLogger = localizationLogger;
             this.keyboardActions = keyboardActions;
+            this.mouseActions = mouseActions;
         }
 
         public override Application Application
@@ -32,7 +34,7 @@ namespace Aquality.WinAppDriver.Applications
                 localizationLogger.Info("loc.application.driver.service.remote", driverServerUri);
                 var driver = GetDriver(driverServerUri, driverSettings.AppiumOptions, timeoutConfiguration.Command);
                 driver.FileDetector = new LocalFileDetector();
-                return new Application(driver, timeoutConfiguration, localizationLogger, keyboardActions);
+                return new Application(driver, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
             }
         }
     }

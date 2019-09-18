@@ -13,8 +13,9 @@ namespace Aquality.WinAppDriver.Applications
         private readonly ITimeoutConfiguration timeoutConfiguration;
         private readonly LocalizationLogger localizationLogger;
         private readonly IKeyboardActions keyboardActions;
+        private readonly IMouseActions mouseActions;
 
-        public LocalApplicationFactory(AppiumLocalService driverService, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger, IKeyboardActions keyboardActions) 
+        public LocalApplicationFactory(AppiumLocalService driverService, IDriverSettings driverSettings, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger localizationLogger, IKeyboardActions keyboardActions, IMouseActions mouseActions) 
             : base(localizationLogger)
         {
             this.driverService = driverService;
@@ -22,6 +23,7 @@ namespace Aquality.WinAppDriver.Applications
             this.timeoutConfiguration = timeoutConfiguration;
             this.localizationLogger = localizationLogger;
             this.keyboardActions = keyboardActions;
+            this.mouseActions = mouseActions;
         }
 
         public override Application Application
@@ -32,7 +34,7 @@ namespace Aquality.WinAppDriver.Applications
                 var serviceUrl = driverService.ServiceUrl;
                 localizationLogger.Info("loc.application.driver.service.local.start", serviceUrl);
                 var driver = GetDriver(serviceUrl, driverSettings.AppiumOptions, timeoutConfiguration.Command);
-                return new Application(driver, timeoutConfiguration, localizationLogger, keyboardActions);
+                return new Application(driver, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
             }
         }
     }
