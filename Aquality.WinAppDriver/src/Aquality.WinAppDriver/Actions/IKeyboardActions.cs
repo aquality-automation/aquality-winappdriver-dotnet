@@ -8,36 +8,14 @@
         /// <summary>
         /// Presses a key.
         /// </summary>
-        /// <param name="keyToPress">The key value representing the key to press.</param>
-        /// <remarks>The key value must be one of the values from the <see cref="OpenQA.Selenium.Keys"/> class.</remarks>
-        /// <exception cref="System.ArgumentException">If the key sent is not is not one of:
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Control"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Alt"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Meta"/>,
-        /// <see cref="OpenQA.Selenium.Keys.Command"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftAlt"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftShift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>
-        /// </exception>
-        void PressKey(string keyToPress);
+        /// <param name="keyToPress">The <see cref="ModifierKey"/> value representing the key to press.</param>
+        void PressKey(ModifierKey keyToPress);
 
         /// <summary>
         /// Releases a key.
         /// </summary>
-        /// <param name="keyToRelease">The key value representing the key to release.</param>
-        /// <remarks>The key value must be one of the values from the <see cref="OpenQA.Selenium.Keys"/> class.</remarks>
-        /// <exception cref="System.ArgumentException">If the key sent is not is not one of:
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Control"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Alt"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Meta"/>,
-        /// <see cref="OpenQA.Selenium.Keys.Command"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftAlt"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftShift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>
-        /// </exception>
-        void ReleaseKey(string keyToRelease);
+        /// <param name="keyToRelease">The <see cref="ModifierKey"/> value representing the key to release.</param>
+        void ReleaseKey(ModifierKey keyToRelease);
 
         /// <summary>
         /// Sends a sequence of keystrokes to the target.
@@ -50,18 +28,7 @@
         /// After the action, holded key is released.
         /// </summary>
         /// <param name="keySequence">A string representing the keystrokes to send.</param>
-        /// <param name="keyToHold">The key value representing the key to hold.
-        /// <remarks>The key value must be one of the values from the <see cref="OpenQA.Selenium.Keys"/> class.</remarks></param>
-        /// <exception cref="System.ArgumentException">If the key sent is not is not one of:
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Control"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Alt"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Meta"/>,
-        /// <see cref="OpenQA.Selenium.Keys.Command"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftAlt"/>,
-        /// <see cref="OpenQA.Selenium.Keys.LeftShift"/>, 
-        /// <see cref="OpenQA.Selenium.Keys.Shift"/>
-        /// </exception>
-        void SendKeysWithKeyHold(string keySequence, string keyToHold);
+        /// <param name="keyToHold">The <see cref="ModifierKey"/> value representing the key to hold.</param>
+        void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold);
     }
 }

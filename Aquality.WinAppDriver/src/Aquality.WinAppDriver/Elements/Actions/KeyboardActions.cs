@@ -3,7 +3,6 @@ using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
 using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Extensions;
 using System;
 
 namespace Aquality.WinAppDriver.Elements.Actions
@@ -26,16 +25,16 @@ namespace Aquality.WinAppDriver.Elements.Actions
         {
         }
 
-        public void PressKey(string keyToPress)
+        public void PressKey(ModifierKey keyToPress)
         {
-            LogAction("loc.keyboard.presskey", keyToPress.GetLoggableValueForKeyboardKey());
-            PerformAction((actions, element) => actions.KeyDown(element, keyToPress));
+            LogAction("loc.keyboard.presskey", keyToPress);
+            PerformAction((actions, element) => actions.KeyDown(element, keyToPress.GetKeysString()));
         }
 
-        public void ReleaseKey(string keyToRelease)
+        public void ReleaseKey(ModifierKey keyToRelease)
         {
-            LogAction("loc.keyboard.releasekey", keyToRelease.GetLoggableValueForKeyboardKey());
-            PerformAction((actions, element) => actions.KeyUp(element, keyToRelease));
+            LogAction("loc.keyboard.releasekey", keyToRelease);
+            PerformAction((actions, element) => actions.KeyUp(element, keyToRelease.GetKeysString()));
         }
 
         public void SendKeys(string keySequence)
@@ -44,10 +43,11 @@ namespace Aquality.WinAppDriver.Elements.Actions
             PerformAction((actions, element) => actions.SendKeys(element, keySequence));
         }
 
-        public void SendKeysWithKeyHold(string keySequence, string keyToHold)
+        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold)
         {
-            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold.GetLoggableValueForKeyboardKey());
-            PerformAction((actions, element) => actions.KeyDown(element, keyToHold).SendKeys(element, keySequence).KeyUp(element, keyToHold));
+            var keyToHoldString = keyToHold.GetKeysString();
+            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
+            PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence).KeyUp(element, keyToHoldString));
         }
     }
 }

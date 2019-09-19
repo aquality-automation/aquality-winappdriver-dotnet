@@ -34,39 +34,17 @@
             Provides methods representing basic keyboard actions.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.PressKey(System.String)">
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.PressKey(Aquality.WinAppDriver.Actions.ModifierKey)">
             <summary>
             Presses a key.
             </summary>
-            <param name="keyToPress">The key value representing the key to press.</param>
-            <remarks>The key value must be one of the values from the <see cref="T:OpenQA.Selenium.Keys"/> class.</remarks>
-            <exception cref="T:System.ArgumentException">If the key sent is not is not one of:
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Control"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Alt"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Meta"/>,
-            <see cref="F:OpenQA.Selenium.Keys.Command"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftAlt"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftShift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>
-            </exception>
+            <param name="keyToPress">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to press.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.ReleaseKey(System.String)">
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.ReleaseKey(Aquality.WinAppDriver.Actions.ModifierKey)">
             <summary>
             Releases a key.
             </summary>
-            <param name="keyToRelease">The key value representing the key to release.</param>
-            <remarks>The key value must be one of the values from the <see cref="T:OpenQA.Selenium.Keys"/> class.</remarks>
-            <exception cref="T:System.ArgumentException">If the key sent is not is not one of:
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Control"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Alt"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Meta"/>,
-            <see cref="F:OpenQA.Selenium.Keys.Command"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftAlt"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftShift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>
-            </exception>
+            <param name="keyToRelease">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to release.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeys(System.String)">
             <summary>
@@ -74,24 +52,13 @@
             </summary>
             <param name="keySequence">A string representing the keystrokes to send.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,System.String)">
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,Aquality.WinAppDriver.Actions.ModifierKey)">
             <summary>
             Sends a sequence of keystrokes to the application, holding a specified key.
             After the action, holded key is released.
             </summary>
             <param name="keySequence">A string representing the keystrokes to send.</param>
-            <param name="keyToHold">The key value representing the key to hold.
-            <remarks>The key value must be one of the values from the <see cref="T:OpenQA.Selenium.Keys"/> class.</remarks></param>
-            <exception cref="T:System.ArgumentException">If the key sent is not is not one of:
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Control"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Alt"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Meta"/>,
-            <see cref="F:OpenQA.Selenium.Keys.Command"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftAlt"/>,
-            <see cref="F:OpenQA.Selenium.Keys.LeftShift"/>, 
-            <see cref="F:OpenQA.Selenium.Keys.Shift"/>
-            </exception>
+            <param name="keyToHold">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to hold.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Actions.IMouseActions">
             <summary>
@@ -140,6 +107,52 @@
         <member name="T:Aquality.WinAppDriver.Actions.KeyboardActions">
             <summary>
             Implements Keyboard actions for the whole application.
+            </summary>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Actions.ModifierKey">
+            <summary>
+            Represents modifier keys which could be used in <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/>.
+            Directly related to <see cref="T:OpenQA.Selenium.Keys"/>
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt">
+            <summary>
+            Represents the Alt key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Command">
+            <summary>
+            Represents the function key COMMAND.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Control">
+            <summary>
+            Represents the Control key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.LeftAlt">
+            <summary>
+            Represents the Left Alt key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.LeftControl">
+            <summary>
+            Represents the Left Control key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.LeftShift">
+            <summary>
+            Represents the Left Shift key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Meta">
+            <summary>
+            Represents the function key META.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Shift">
+            <summary>
+            Represents the Shift key.
             </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Actions.MouseActions">
@@ -507,13 +520,6 @@
             </summary>
             <param name="element"></param>
             <returns></returns>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Extensions.StringExtensions.GetLoggableValueForKeyboardKey(System.String)">
-            <summary>
-            Returns name of the value from <see cref="T:OpenQA.Selenium.Keys"/>, readable in the log.
-            </summary>
-            <param name="key">Keyboard key to define.</param>
-            <returns>Readable value.</returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Windows.Window">
             <summary>

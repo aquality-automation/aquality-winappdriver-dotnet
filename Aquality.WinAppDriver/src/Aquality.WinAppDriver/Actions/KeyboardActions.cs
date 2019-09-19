@@ -1,5 +1,4 @@
 ﻿using Aquality.Selenium.Core.Localization;
-using Aquality.WinAppDriver.Extensions;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 
@@ -15,16 +14,16 @@ namespace Aquality.WinAppDriver.Actions
         {
         }
 
-        public void PressKey(string keyToPress)
+        public void PressKey(ModifierKey keyToPress)
         {
-            LogAction("loc.keyboard.presskey", keyToPress.GetLoggableValueForKeyboardKey());
-            PerformAction(actions => actions.KeyDown(keyToPress));
+            LogAction("loc.keyboard.presskey", keyToPress);
+            PerformAction(actions => actions.KeyDown(keyToPress.GetKeysString()));
         }
 
-        public void ReleaseKey(string keyToRelease)
+        public void ReleaseKey(ModifierKey keyToRelease)
         {
-            LogAction("loc.keyboard.releasekey", keyToRelease.GetLoggableValueForKeyboardKey());
-            PerformAction(actions => actions.KeyUp(keyToRelease));
+            LogAction("loc.keyboard.releasekey", keyToRelease);
+            PerformAction(actions => actions.KeyUp(keyToRelease.GetKeysString()));
         }
 
         public void SendKeys(string keySequence)
@@ -33,10 +32,11 @@ namespace Aquality.WinAppDriver.Actions
             PerformAction(actions => actions.SendKeys(keySequence));
         }
 
-        public void SendKeysWithKeyHold(string keySequence, string keyToHold)
+        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold)
         {
-            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold.GetLoggableValueForKeyboardKey());
-            PerformAction(actions => actions.KeyDown(keyToHold).SendKeys(keySequence).KeyUp(keyToHold));
+            var keyToHoldString = keyToHold.GetKeysString();
+            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
+            PerformAction(actions => actions.KeyDown(keyToHoldString).SendKeys(keySequence).KeyUp(keyToHoldString));
         }
     }
 }

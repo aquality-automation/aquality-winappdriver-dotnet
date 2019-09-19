@@ -3,7 +3,6 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Tests.Applications.Locators;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using System;
 
 namespace Aquality.WinAppDriver.Tests.Actions
@@ -15,6 +14,8 @@ namespace Aquality.WinAppDriver.Tests.Actions
         protected virtual IKeyboardActions KeyboardActions => ApplicationManager.GetRequiredService<IKeyboardActions>();
 
         protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
+
+        private static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
@@ -28,9 +29,9 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_PressKey_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.PressKey(Keys.Shift);
+            KeyboardActions.PressKey(ModifierKey.Shift);
             KeyboardActions.SendKeys(ValueToSend);
-            KeyboardActions.ReleaseKey(Keys.Shift);
+            KeyboardActions.ReleaseKey(ModifierKey.Shift);
             Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
         }
 
@@ -38,7 +39,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_SendKeysWithKeyHold_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeysWithKeyHold(ValueToSend, Keys.Shift);
+            KeyboardActions.SendKeysWithKeyHold(ValueToSend, ModifierKey.Shift);
             Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
         }
 
@@ -46,29 +47,18 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_ReleaseKey_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.PressKey(Keys.Shift);
+            KeyboardActions.PressKey(ModifierKey.Shift);
             KeyboardActions.SendKeys(ValueToSend);
-            KeyboardActions.ReleaseKey(Keys.Shift);
+            KeyboardActions.ReleaseKey(ModifierKey.Shift);
             KeyboardActions.SendKeys(ValueToSend);
             Assert.AreEqual($"{ValueToSend.ToUpper()}{ValueToSend}", RightArgumentTextBox.Value);
         }
 
         [Test]
-        public void Should_ThrowArgumentException_ForInvalidPressedKey_ViaKeyboardActions()
+        public void Should_NotThrow_WhenHoldModifierKeys_ViaKeyboardActions([ValueSource(nameof(modifierKeys))]ModifierKey modifierKey)
         {
-            Assert.Throws<ArgumentException>(() => KeyboardActions.PressKey("invalid"));
-        }
-
-        [Test]
-        public void Should_ThrowArgumentException_ForInvalidReleasedKey_ViaKeyboardActions()
-        {
-            Assert.Throws<ArgumentException>(() => KeyboardActions.ReleaseKey("invalid"));
-        }
-
-        [Test]
-        public void Should_ThrowArgumentException_ForInvalidHoldedKey_ViaKeyboardActions()
-        {
-            Assert.Throws<ArgumentException>(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, "invalid"));
+            RightArgumentTextBox.Click();
+            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey));
         }
     }
 }
