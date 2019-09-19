@@ -70,6 +70,25 @@ namespace Aquality.WinAppDriver.Applications
         }
 
         /// <summary>
+        /// Factory for application creation.
+        /// </summary>
+        public static IApplicationFactory ApplicationFactory
+        {
+            get
+            {
+                if (!ApplicationFactoryContainer.IsValueCreated)
+                {
+                    SetDefaultFactory();
+                }
+                return ApplicationFactoryContainer.Value;
+            }
+            set
+            {
+                ApplicationFactoryContainer.Value = value;
+            }
+        }
+
+        /// <summary>
         /// Resolves required service from <see cref="ServiceProvider"/>
         /// </summary>
         /// <typeparam name="T">type of required service</typeparam>
@@ -87,32 +106,17 @@ namespace Aquality.WinAppDriver.Applications
         public static void SetDefaultFactory()
         {
             var appProfile = GetRequiredService<IApplicationProfile>();
-            var driverSettings = GetRequiredService<IDriverSettings>();
-            var localizationLogger = GetRequiredService<LocalizationLogger>();
-            var timeoutConfiguration = GetRequiredService<ITimeoutConfiguration>();
-            var keyboardActions = GetRequiredService<IKeyboardActions>();
-            var mouseActions = GetRequiredService<IMouseActions>();
-
             IApplicationFactory applicationFactory;
             if (appProfile.IsRemote)
             {
-                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, ServiceProvider);
             }
             else
             {
-                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger, keyboardActions, mouseActions);
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, ServiceProvider);
             }
 
-            SetFactory(applicationFactory);
-        }
-
-        /// <summary>
-        /// Sets custom application factory.
-        /// </summary>
-        /// <param name="applicationFactory">Custom implementation of <see cref="IApplicationFactory"/></param>
-        public static void SetFactory(IApplicationFactory applicationFactory)
-        {
-            ApplicationFactoryContainer.Value = applicationFactory;
+            ApplicationFactory = applicationFactory;
         }
 
         private static IServiceCollection RegisterServices(Func<IServiceProvider, Application> applicationSupplier)
@@ -128,6 +132,7 @@ namespace Aquality.WinAppDriver.Applications
             services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
             services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
             services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton(serviceProvider => ApplicationFactory);
             return services;
         }
 
@@ -135,11 +140,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                if (!ApplicationFactoryContainer.IsValueCreated)
-                {
-                    SetDefaultFactory();
-                }
-                return (services) => ApplicationFactoryContainer.Value.Application;
+                return (services) => ApplicationFactory.Application;
             }
         }
     }

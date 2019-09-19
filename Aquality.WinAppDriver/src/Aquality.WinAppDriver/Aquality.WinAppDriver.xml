@@ -152,15 +152,12 @@
             Provides functionality to work with Windows application via WinAppDriver.  
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},Aquality.Selenium.Core.Configurations.ITimeoutConfiguration,Aquality.Selenium.Core.Localization.LocalizationLogger,Aquality.WinAppDriver.Actions.IKeyboardActions,Aquality.WinAppDriver.Actions.IMouseActions)">
+        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.IServiceProvider)">
             <summary>
             Instantiate application.
             </summary>
             <param name="windowsDriver">Instance of WinAppDriver</param>
-            <param name="timeoutConfiguration">Instance of <see cref="T:Aquality.Selenium.Core.Configurations.ITimeoutConfiguration"/></param>
-            <param name="logger">Instance of <see cref="T:Aquality.Selenium.Core.Localization.LocalizationLogger"/></param>
-            <param name="keyboardActions">Instance of <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/></param>
-            <param name="mouseActions">Instance of <see cref="T:Aquality.WinAppDriver.Actions.IMouseActions"/></param>
+            <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
         </member>
         <member name="P:Aquality.WinAppDriver.Applications.Application.WindowsDriver">
             <summary>
@@ -200,6 +197,11 @@
             Provides access to Aquality services, registered in DI container.
             </summary>
         </member>
+        <member name="P:Aquality.WinAppDriver.Applications.ApplicationManager.ApplicationFactory">
+            <summary>
+            Factory for application creation.
+            </summary>
+        </member>
         <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.GetRequiredService``1">
             <summary>
             Resolves required service from <see cref="P:Aquality.WinAppDriver.Applications.ApplicationManager.ServiceProvider"/>
@@ -213,12 +215,6 @@
             Sets default factory responsible for application creation.
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
             </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetFactory(Aquality.WinAppDriver.Applications.IApplicationFactory)">
-            <summary>
-            Sets custom application factory.
-            </summary>
-            <param name="applicationFactory">Custom implementation of <see cref="T:Aquality.WinAppDriver.Applications.IApplicationFactory"/></param>
         </member>
         <member name="T:Aquality.WinAppDriver.Configurations.ApplicationProfile">
             <summary>

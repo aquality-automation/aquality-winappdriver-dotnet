@@ -58,7 +58,7 @@ namespace Aquality.WinAppDriver.Tests.Localization
         [Test]
         public void Should_ReturnNonKeyValues_AndNotEmptyValues_ForKeysWithTwoAndMoreParameters([ValueSource(nameof(SupportedLanguages))] string language, [ValueSource(nameof(KeysWithTwoAndMoreParameters))] string key)
         {
-            var paramsArray = new[] { "a", "b" };
+            var paramsArray = new[] { "a", "b" , "c", "d" };
             var localizedValue = GetLocalizationManager(language).GetLocalizedMessage(key, paramsArray);
             Assert.AreNotEqual(key, localizedValue, "Value should be defined in resource files");
             Assert.IsNotEmpty(localizedValue, "Value should not be empty");
