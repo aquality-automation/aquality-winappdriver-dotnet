@@ -30,13 +30,13 @@ namespace Aquality.WinAppDriver.Tests.Elements
         }
 
         [Test]
-        public void Should_ReturnFalse_IfElementIsNotPresent()
+        public void Should_ReturnFalse_IfElementDoesNotExist()
         {
             Assert.IsFalse(notPresentLabel.State.IsExist);
         }
 
         [Test]
-        public void Should_ReturnTrue_IfElementExists()
+        public void Should_ReturnTrue_IfElementExist()
         {
             Assert.IsTrue(RightArgumentTextBox.State.IsExist);
         }
