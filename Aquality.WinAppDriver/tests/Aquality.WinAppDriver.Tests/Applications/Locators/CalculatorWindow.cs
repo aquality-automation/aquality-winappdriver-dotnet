@@ -21,6 +21,8 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 
         public IButton EmptyButton => ElementFactory.GetButton(By.XPath("//*[@AutomationId='7']"), "Empty Button");
 
+        public IButton MaximizeButton => ElementFactory.GetButton(By.Name("Maximize"), "Maximize");
+
         public ILabel ResultsLabel => ElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
 
         public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
