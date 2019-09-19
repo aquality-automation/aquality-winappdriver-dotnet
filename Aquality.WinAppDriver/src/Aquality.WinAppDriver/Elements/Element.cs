@@ -3,11 +3,11 @@ using Aquality.Selenium.Core.Elements;
 using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
 using Aquality.Selenium.Core.Waitings;
-using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Applications;
+using Aquality.WinAppDriver.Elements.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
-using KeyboardActions = Aquality.WinAppDriver.Elements.Actions.KeyboardActions;
+using IKeyboardActions = Aquality.WinAppDriver.Actions.IKeyboardActions;
 using CoreElement = Aquality.Selenium.Core.Elements.Element;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 using CoreElementFinder = Aquality.Selenium.Core.Elements.Interfaces.IElementFinder;
@@ -31,6 +31,8 @@ namespace Aquality.WinAppDriver.Elements
         protected virtual IElementFactory CustomFactory => ApplicationManager.GetRequiredService<IElementFactory>();
 
         public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
+
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
 
         public T FindChildElement<T>(By childLocator, ElementSupplier<T> supplier = null) where T : IElement
         {

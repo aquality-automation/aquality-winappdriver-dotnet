@@ -36,5 +36,12 @@
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
         void MoveByOffset(int offsetX, int offsetY);
+
+        /// <summary>
+        /// Scrolls the current screen by specified offset.
+        /// </summary>
+        /// <param name="offsetX">The horizontal offset relative to the view port.</param>
+        /// <param name="offsetY">The vertical offset relative to the view port.</param>
+        void Scroll(int offsetX, int offsetY);
     }
 }

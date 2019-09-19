@@ -30,14 +30,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
         new void MoveByOffset(int offsetX, int offsetY);
 
         /// <summary>
-        /// Moves the mouse to the current element.
-        /// </summary>
-        void MoveToElement();
-
-        /// <summary>
         /// Moves the mouse from the current element.
         /// </summary>
         void MoveFromElement();
+
+        /// <summary>
+        /// Moves the mouse to the current element.
+        /// </summary>
+        void MoveToElement();
 
         /// <summary>
         /// Moves the mouse to the specified offset of the top-left corner of the current element.
@@ -53,5 +53,12 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
         /// <param name="offsetOrigin">The <see cref="MoveToElementOffsetOrigin"/> value from which to calculate the offset.</param>
         void MoveToElement(int offsetX, int offsetY, MoveToElementOffsetOrigin offsetOrigin);
+
+        /// <summary>
+        /// Scrolls the current screen by specified offset, starting from the current element.
+        /// </summary>
+        /// <param name="offsetX"></param>
+        /// <param name="offsetY"></param>
+        new void Scroll(int offsetX, int offsetY);
     }
 }

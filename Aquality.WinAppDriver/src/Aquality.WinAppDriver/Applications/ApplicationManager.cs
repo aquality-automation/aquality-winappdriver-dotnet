@@ -73,7 +73,7 @@ namespace Aquality.WinAppDriver.Applications
         /// Resolves required service from <see cref="ServiceProvider"/>
         /// </summary>
         /// <typeparam name="T">type of required service</typeparam>
-        /// <exception cref="InvalidOperationException" Thrown if there is no service of type <see cref="T"/>.
+        /// <exception cref="InvalidOperationException">Thrown if there is no service of the required type.</exception> 
         /// <returns></returns>
         public static T GetRequiredService<T>()
         {
@@ -109,7 +109,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Sets custom application factory.
         /// </summary>
-        /// <param name="browserFactory">Custom implementation of <see cref="IApplicationFactory"/></param>
+        /// <param name="applicationFactory">Custom implementation of <see cref="IApplicationFactory"/></param>
         public static void SetFactory(IApplicationFactory applicationFactory)
         {
             ApplicationFactoryContainer.Value = applicationFactory;

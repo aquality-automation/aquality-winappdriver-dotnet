@@ -14,13 +14,15 @@ namespace Aquality.WinAppDriver.Applications
     public class Application : IApplication
     {
         private TimeSpan implicitWait;
-        
+
         /// <summary>
         /// Instantiate application.
         /// </summary>
         /// <param name="windowsDriver">Instance of WinAppDriver</param>
         /// <param name="timeoutConfiguration">Instance of <see cref="ITimeoutConfiguration"/></param>
         /// <param name="logger">Instance of <see cref="LocalizationLogger"/></param>
+        /// <param name="keyboardActions">Instance of <see cref="IKeyboardActions"/></param>
+        /// <param name="mouseActions">Instance of <see cref="IMouseActions"/></param>
         public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger, IKeyboardActions keyboardActions, IMouseActions mouseActions)
         {
             Logger = logger;
