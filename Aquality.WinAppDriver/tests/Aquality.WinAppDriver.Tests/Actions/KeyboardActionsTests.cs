@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
 
         protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
 
-        private static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
+        protected static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
