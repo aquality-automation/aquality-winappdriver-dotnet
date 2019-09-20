@@ -3,7 +3,7 @@ using Aquality.WinAppDriver.Windows;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 
-namespace Aquality.WinAppDriver.Tests.Applications.Locators
+namespace Aquality.WinAppDriver.Tests.Windows
 {
     public class CalculatorWindow : Window
     {
@@ -25,7 +25,7 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
 
         public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
 
-        public CalculatorWindow() : base(WindowLocator, "Main Calculator Window")
+        public CalculatorWindow() : base(WindowLocator, "Calculator")
         {
         }
     }

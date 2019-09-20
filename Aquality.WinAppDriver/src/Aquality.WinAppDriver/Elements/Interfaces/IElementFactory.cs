@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Aquality.Selenium.Core.Elements;
+using Aquality.WinAppDriver.Windows;
+using OpenQA.Selenium;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 
 namespace Aquality.WinAppDriver.Elements.Interfaces
@@ -32,5 +34,15 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// <returns>Instance of element that implements ITextBox interface</returns>
         ITextBox GetTextBox(By locator, string name);
 
+        /// <summary>
+        /// Finds element relative to parent window.
+        /// </summary>
+        /// <typeparam name="T">Type of the target element.</typeparam>
+        /// <param name="parentWindow">Parent window for the element.</param>
+        /// <param name="childLocator">Locator of the element relative to parent window.</param>
+        /// <param name="childName">Name of the element.</param>
+        /// <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+        /// <returns>Instance of element.</returns>
+        T FindChildElement<T>(Window parentWindow, By childLocator, string childName, ElementSupplier<T> supplier = null) where T : IElement;
     }
 }

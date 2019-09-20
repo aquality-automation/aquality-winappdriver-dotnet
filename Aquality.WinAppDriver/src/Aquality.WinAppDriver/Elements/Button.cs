@@ -8,7 +8,7 @@ namespace Aquality.WinAppDriver.Elements
     /// </summary>
     public class Button : Element, IButton
     {
-        public Button(By locator, string name) : base(locator, name)
+        protected internal Button(By locator, string name) : base(locator, name)
         {
         }
 

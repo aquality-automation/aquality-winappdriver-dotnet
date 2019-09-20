@@ -1,11 +1,11 @@
 ﻿using Aquality.Selenium.Core.Elements.Interfaces;
 using Aquality.WinAppDriver.Applications;
-using Aquality.WinAppDriver.Tests.Applications.Locators;
+using Aquality.WinAppDriver.Tests.Windows;
 using NUnit.Framework;
 
 namespace Aquality.WinAppDriver.Tests.Applications
 {
-    public class CalculatorTest : TestWithApplication
+    public class ApplicationManagerTests : TestWithApplication
     {
         private readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
 
