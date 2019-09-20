@@ -17,5 +17,22 @@
   "loc.label": "Label",
   "loc.text.field": "Text Field",
   "loc.text.clearing": "Clearing",
-  "loc.text.typing": "Typing '{0}'"
+  "loc.text.typing": "Typing '{0}'",
+  "loc.keyboard.presskey": "Pressing key '{0}'",
+  "loc.keyboard.releasekey": "Releasing key '{0}'",
+  "loc.keyboard.sendkeys": "Sending keys '{0}'",
+  "loc.keyboard.sendkeys.withkeyhold": "Sending keys '{0}' with holded key '{1}'",
+  "loc.mouse.click": "Clicking mouse button",
+  "loc.mouse.clickandhold": "Holding mouse button",
+  "loc.mouse.release": "Releasing mouse button",
+  "loc.mouse.contextclick": "Clicking right mouse button",
+  "loc.mouse.doubleclick": "Double-clicking mouse button",
+  "loc.mouse.movebyoffset": "Moving mouse by '{0}' vertical and '{1}' horizontal offset",
+  "loc.mouse.draganddrop": "Drag-and-drop to element '{0} '{1}''",
+  "loc.mouse.draganddrop.tooffset": "Drag-and-drop to '{0}' vertical and '{1}' horizontal offset",
+  "loc.mouse.movefromelement": "Moving mouse from element",
+  "loc.mouse.movetoelement": "Moving mouse to element",
+  "loc.mouse.movetoelement.byoffset": "Moving mouse to element by '{0}' vertical and '{1}' horizontal offset",
+  "loc.mouse.movetoelement.byoffset.withorigin": "Moving mouse to element by '{0}' vertical and '{1}' horizontal offset with origin at '{2}'",
+  "loc.mouse.scrollbyoffset": "Scroll mouse wheel by '{0}' vertical and '{1}' horizontal offset"
 }
