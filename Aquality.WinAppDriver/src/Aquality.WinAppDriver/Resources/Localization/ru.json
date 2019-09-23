@@ -15,6 +15,7 @@
   "loc.application.driver.service.remote": "Работаем с сервисом драйвера по адресу '{0}'",
   "loc.button": "Кнопка",
   "loc.label": "Надпись",
+  "loc.window": "Окно",
   "loc.text.field": "Текстовое поле",
   "loc.text.clearing": "Очищаем",
   "loc.text.typing": "Вводим значение '{0}'",

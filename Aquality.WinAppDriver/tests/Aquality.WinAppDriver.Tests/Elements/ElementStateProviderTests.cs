@@ -1,7 +1,7 @@
 ﻿using System;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Applications.Locators;
+using Aquality.WinAppDriver.Tests.Windows;
 using NUnit.Framework;
 using OpenQA.Selenium;
 

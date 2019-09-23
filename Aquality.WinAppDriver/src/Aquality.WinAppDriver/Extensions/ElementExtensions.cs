@@ -19,7 +19,7 @@ namespace Aquality.WinAppDriver.Extensions
         internal static string GetElementType(this IElement element)
         {
             string elementType = null;
-            if (typeof(Element).IsAssignableFrom(element.GetType()))
+            if (element is Element)
             {
                 elementType = element.GetType().GetProperty("ElementType", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(element).ToString();
             }

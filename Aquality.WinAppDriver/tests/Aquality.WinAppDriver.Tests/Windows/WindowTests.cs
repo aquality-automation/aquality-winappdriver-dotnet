@@ -1,5 +1,4 @@
-﻿using Aquality.WinAppDriver.Tests.Applications.Locators;
-using Aquality.WinAppDriver.Tests.Windows.Models;
+﻿using Aquality.WinAppDriver.Tests.Windows.Models;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -11,6 +10,17 @@ namespace Aquality.WinAppDriver.Tests.Windows
         private const int ExpectedWidth = 709;
         private static readonly By Locator = By.XPath("//*[@id='111111']");
         private const string PageName = "Not present page";
+        private static readonly CalculatorWindowWithRelativeElements calculatorWindow = new CalculatorWindowWithRelativeElements();
+
+        [Test]
+        public void Should_WorkWithCalculator_ViaRelativeElements()
+        {
+            calculatorWindow.OneButton.Click();
+            calculatorWindow.PlusButton.Click();
+            calculatorWindow.TwoButton.Click();
+            calculatorWindow.EqualsButton.Click();
+            StringAssert.Contains("3", calculatorWindow.ResultsLabel.Text);
+        }
 
         [Test]
         public void Should_GetSizeCorrectly_WhenindowIsPresent()
