@@ -467,6 +467,17 @@
             <param name="name">Element name</param>
             <returns>Instance of element that implements ITextBox interface</returns>
         </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Windows.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0})">
+            <summary>
+            Finds element relative to parent window.
+            </summary>
+            <typeparam name="T">Type of the target element.</typeparam>
+            <param name="parentWindow">Parent window for the element.</param>
+            <param name="childLocator">Locator of the element relative to parent window.</param>
+            <param name="childName">Name of the element.</param>
+            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <returns>Instance of element.</returns>
+        </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.ILabel">
             <summary>
             Describes behavior of Label UI element.
@@ -533,27 +544,21 @@
             <param name="locator">Unique locator of the window.</param>
             <param name="name">Name of the window.</param>
         </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.Locator">
-            <summary>
-            Locator of specified window.
-            </summary>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.Name">
-            <summary>
-            Name of specified window.
-            </summary>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.Logger">
-            <summary>
-            Instance of logger <see cref="T:Aquality.Selenium.Core.Logging.Logger"/>
-            </summary>
-            <value>Logger instance.</value>
-        </member>
         <member name="P:Aquality.WinAppDriver.Windows.Window.ElementFactory">
             <summary>
             Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
             </summary>
             <value>Element factory.</value>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Windows.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0})">
+            <summary>
+            Finds element relative to current window.
+            </summary>
+            <typeparam name="T">Type of the target element.</typeparam>
+            <param name="childLocator">Locator of the element relative to current window.</param>
+            <param name="childName">Name of the element.</param>
+            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <returns>Instance of element.</returns>
         </member>
         <member name="P:Aquality.WinAppDriver.Windows.Window.IsDisplayed">
             <summary>
