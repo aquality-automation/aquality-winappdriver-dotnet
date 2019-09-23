@@ -13,7 +13,7 @@ namespace Aquality.WinAppDriver.Tests.Windows
         private const string PageName = "Not present page";
 
         [Test]
-        public void Should_GetSizeCorrectly()
+        public void Should_GetSizeCorrectly_WhenindowIsPresent()
         {
             var windowSize = new CalculatorWindow().Size;
             Assert.Multiple(() =>
@@ -25,24 +25,41 @@ namespace Aquality.WinAppDriver.Tests.Windows
         }
 
         [Test]
+        public void Should_GetSizeCorrectly_WhenWindowIsNotPresent()
+        {
+            var windowSize = TestWindow.Size;
+            Assert.Multiple(() =>
+            {
+                Assert.IsTrue(windowSize.IsEmpty, "Window is not empty");
+                Assert.AreEqual(0, windowSize.Height, "Height");
+                Assert.AreEqual(0, windowSize.Width, "Width");
+            });
+        }
+
+        [Test]
         public void Should_ReturnTrue_IfWindowIsDisplayed()
         {
-            var window = new CalculatorWindow();
-            Assert.IsTrue(window.IsDisplayed);
+            Assert.IsTrue(new CalculatorWindow().IsDisplayed);
+        }
+
+        [Test]
+        public void Should_ReturnFalse_IfWindowIsNotDisplayed()
+        {
+            Assert.IsFalse(TestWindow.IsDisplayed);
         }
 
         [Test]
         public void Should_SetCorrectLocatorInConstructor()
         {
-            var window = new TestWindow(Locator, PageName);
-            Assert.AreEqual(Locator, window.Locator, "Locator");
+            Assert.AreEqual(Locator, TestWindow.Locator, "Locator");
         }
 
         [Test]
         public void Should_SetCorrectPageNameInConstructor()
         {
-            var window = new TestWindow(Locator, PageName);
-            Assert.AreEqual(PageName, window.Name, "Name");
+            Assert.AreEqual(PageName, TestWindow.Name, "Name");
         }
+
+        private static TestWindow TestWindow => new TestWindow(Locator, PageName);
     }
 }
