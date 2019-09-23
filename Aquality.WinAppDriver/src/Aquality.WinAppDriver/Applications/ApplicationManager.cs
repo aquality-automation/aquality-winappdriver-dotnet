@@ -11,6 +11,7 @@ using Aquality.WinAppDriver.Configurations;
 using OpenQA.Selenium.Appium.Service;
 using Aquality.Selenium.Core.Logging;
 using System.Reflection;
+using Aquality.WinAppDriver.Actions;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -41,18 +42,57 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Provides current instance of application
         /// </summary>
-        public static Application Application => GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
+        public static Application Application
+        {
+            get
+            {
+                return GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
+            }
+            set
+            {
+                SetApplication(value);
+            }
+        }
 
         /// <summary>
         /// Provides access to Aquality services, registered in DI container.
         /// </summary>
-        public static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, () => RegisterServices(services => Application));
+        public static IServiceProvider ServiceProvider
+        {
+            get
+            {
+                return GetServiceProvider(services => Application, () => RegisterServices(services => Application));
+            }
+            set
+            {
+                SetServiceProvider(value);
+            }
+        }
+
+        /// <summary>
+        /// Factory for application creation.
+        /// </summary>
+        public static IApplicationFactory ApplicationFactory
+        {
+            get
+            {
+                if (!ApplicationFactoryContainer.IsValueCreated)
+                {
+                    SetDefaultFactory();
+                }
+                return ApplicationFactoryContainer.Value;
+            }
+            set
+            {
+                ApplicationFactoryContainer.Value = value;
+            }
+        }
 
         /// <summary>
         /// Resolves required service from <see cref="ServiceProvider"/>
         /// </summary>
         /// <typeparam name="T">type of required service</typeparam>
-        /// <exception cref="InvalidOperationException" Thrown if there is no service of type <see cref="T"/>.
+        /// <exception cref="InvalidOperationException">Thrown if there is no service of the required type.</exception> 
         /// <returns></returns>
         public static T GetRequiredService<T>()
         {
@@ -66,30 +106,17 @@ namespace Aquality.WinAppDriver.Applications
         public static void SetDefaultFactory()
         {
             var appProfile = GetRequiredService<IApplicationProfile>();
-            var driverSettings = GetRequiredService<IDriverSettings>();
-            var localizationLogger = GetRequiredService<LocalizationLogger>();
-            var timeoutConfiguration = GetRequiredService<ITimeoutConfiguration>();
-            
             IApplicationFactory applicationFactory;
             if (appProfile.IsRemote)
             {
-                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, driverSettings, timeoutConfiguration, localizationLogger);
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, ServiceProvider);
             }
             else
             {
-                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, driverSettings, timeoutConfiguration, localizationLogger);
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, ServiceProvider);
             }
 
-            SetFactory(applicationFactory);
-        }
-
-        /// <summary>
-        /// Sets custom application factory.
-        /// </summary>
-        /// <param name="browserFactory">Custom implementation of <see cref="IApplicationFactory"/></param>
-        public static void SetFactory(IApplicationFactory applicationFactory)
-        {
-            ApplicationFactoryContainer.Value = applicationFactory;
+            ApplicationFactory = applicationFactory;
         }
 
         private static IServiceCollection RegisterServices(Func<IServiceProvider, Application> applicationSupplier)
@@ -100,10 +127,12 @@ namespace Aquality.WinAppDriver.Applications
             startup.ConfigureServices(services, applicationSupplier, settingsFile);
             services.AddTransient<IElementFactory, ElementFactory>();
             services.AddTransient<CoreElementFactory, ElementFactory>();
-            var driverSettings = new DriverSettings(settingsFile);
-            services.AddSingleton<IDriverSettings>(driverSettings);
-            services.AddSingleton<IApplicationProfile>(new ApplicationProfile(settingsFile, driverSettings));
-            services.AddSingleton(new LocalizationManager(new LoggerConfiguration(settingsFile), Logger.Instance, Assembly.GetExecutingAssembly()));
+            services.AddSingleton<IDriverSettings>(serviceProvider => new DriverSettings(settingsFile));
+            services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settingsFile, serviceProvider.GetRequiredService<IDriverSettings>()));
+            services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
+            services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton(serviceProvider => ApplicationFactory);
             return services;
         }
 
@@ -111,11 +140,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                if (!ApplicationFactoryContainer.IsValueCreated)
-                {
-                    SetDefaultFactory();
-                }
-                return (services) => ApplicationFactoryContainer.Value.Application;
+                return (services) => ApplicationFactory.Application;
             }
         }
     }

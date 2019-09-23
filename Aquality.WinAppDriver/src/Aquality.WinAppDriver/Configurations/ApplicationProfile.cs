@@ -12,6 +12,7 @@ namespace Aquality.WinAppDriver.Configurations
         /// Instantiates class using JSON file with general settings.
         /// </summary>
         /// <param name="settingsFile">JSON settings file.</param>
+        /// <param name="driverSettings">Instance of <see cref="IDriverSettings"/></param>
         public ApplicationProfile(JsonFile settingsFile, IDriverSettings driverSettings)
         {
             SettingsFile = settingsFile;

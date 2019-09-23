@@ -2,6 +2,8 @@
 using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
+using Aquality.WinAppDriver.Actions;
+using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
@@ -13,19 +15,21 @@ namespace Aquality.WinAppDriver.Applications
     public class Application : IApplication
     {
         private TimeSpan implicitWait;
-        
+
         /// <summary>
         /// Instantiate application.
         /// </summary>
         /// <param name="windowsDriver">Instance of WinAppDriver</param>
-        /// <param name="timeoutConfiguration">Instance of <see cref="ITimeoutConfiguration"/></param>
-        /// <param name="logger">Instance of <see cref="LocalizationLogger"/></param>
-        public Application(WindowsDriver<WindowsElement> windowsDriver, ITimeoutConfiguration timeoutConfiguration, LocalizationLogger logger)
+        /// <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
+        public Application(WindowsDriver<WindowsElement> windowsDriver, IServiceProvider serviceProvider)
         {
-            Logger = logger;
             WindowsDriver = windowsDriver;
+            Logger = serviceProvider.GetRequiredService<LocalizationLogger>();
+            KeyboardActions = serviceProvider.GetRequiredService<IKeyboardActions>();
+            MouseActions = serviceProvider.GetRequiredService<IMouseActions>();
+            var timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
             WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
-            logger.Info("loc.application.ready");
+            Logger.Info("loc.application.ready");
         }
 
         private LocalizationLogger Logger { get; }
@@ -36,6 +40,10 @@ namespace Aquality.WinAppDriver.Applications
         /// Provides instance of Windows Driver
         /// </summary>
         public WindowsDriver<WindowsElement> WindowsDriver { get; }
+
+        public IKeyboardActions KeyboardActions { get; }
+
+        public IMouseActions MouseActions { get; }
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
