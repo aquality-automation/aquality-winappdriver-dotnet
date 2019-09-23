@@ -24,7 +24,7 @@ namespace Aquality.WinAppDriver.Tests.Windows
         }
 
         [Test]
-        public void Should_GetSizeCorrectly_WhenindowIsPresent()
+        public void Should_GetSizeCorrectly_WhenWindowIsPresent()
         {
             var windowSize = CalculatorWindow.Size;
             Assert.Multiple(() =>
