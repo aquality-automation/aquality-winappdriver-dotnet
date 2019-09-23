@@ -15,6 +15,7 @@
   "loc.application.driver.service.remote": "Using driver service running on '{0}'",
   "loc.button": "Button",
   "loc.label": "Label",
+  "loc.window": "Window",
   "loc.text.field": "Text Field",
   "loc.text.clearing": "Clearing",
   "loc.text.typing": "Typing '{0}'",

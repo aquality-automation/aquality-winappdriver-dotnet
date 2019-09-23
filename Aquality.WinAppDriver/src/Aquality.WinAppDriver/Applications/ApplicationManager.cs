@@ -132,7 +132,7 @@ namespace Aquality.WinAppDriver.Applications
             services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
             services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
             services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
-            services.AddSingleton(serviceProvider => ApplicationFactory);
+            services.AddTransient(serviceProvider => ApplicationFactory);
             return services;
         }
 

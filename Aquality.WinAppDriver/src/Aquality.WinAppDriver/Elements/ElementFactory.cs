@@ -6,8 +6,12 @@ using Aquality.Selenium.Core.Elements.Interfaces;
 using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Waitings;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Extensions;
+using Aquality.WinAppDriver.Windows;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 using CoreFactory = Aquality.Selenium.Core.Elements.ElementFactory;
+using IElement = Aquality.WinAppDriver.Elements.Interfaces.IElement;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 
 namespace Aquality.WinAppDriver.Elements
@@ -34,6 +38,12 @@ namespace Aquality.WinAppDriver.Elements
         public ITextBox GetTextBox(By locator, string name)
         {
             return GetCustomElement(ResolveSupplier<ITextBox>(null), locator, name);
+        }
+
+        public T FindChildElement<T>(Window parentWindow, By childLocator, string childName, ElementSupplier<T> supplier = null) where T : IElement
+        {
+            var elementSupplier = ResolveSupplier(supplier);
+            return elementSupplier(new ByChained(parentWindow.Locator, childLocator), $"{childName}' - {parentWindow.GetElementType()} '{parentWindow.Name}", ElementState.Displayed);
         }
 
         protected override ElementSupplier<T> ResolveSupplier<T>(ElementSupplier<T> supplier)
