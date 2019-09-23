@@ -13,7 +13,6 @@ namespace Aquality.WinAppDriver.Tests.Elements
     {
         private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
         private static readonly ITextBox RightArgumentTextBox = CalculatorWindow.RightArgumentTextBox;
-        private static readonly IButton MaximizeButton = CalculatorWindow.MaximizeButton;
         private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
@@ -39,7 +38,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnFalse_IfElementIsNotDisplayed()
         {
-            Assert.IsFalse(MaximizeButton.State.IsDisplayed);
+            Assert.IsFalse(notPresentLabel.State.IsDisplayed);
         }
 
         [Test]
@@ -93,7 +92,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnFalse_InWaitForDisplayed_WhenElementIsNotDisplayed()
         {
-            Assert.IsFalse(MaximizeButton.State.WaitForDisplayed(TimeSpan.Zero));
+            Assert.IsFalse(notPresentLabel.State.WaitForDisplayed(TimeSpan.Zero));
         }
 
         [Test]
@@ -111,7 +110,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnTrue_InWaitForNotDisplayed_WhenElementIsNotDisplayed()
         {
-            Assert.IsTrue(MaximizeButton.State.WaitForNotDisplayed(TimeSpan.Zero));
+            Assert.IsTrue(notPresentLabel.State.WaitForNotDisplayed(TimeSpan.Zero));
         }
 
         [Test]
@@ -180,7 +179,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_WaitForDisplayed_CorrectAmountOfTime()
         {
-            AssertIfWaitTimeIsCorrect(MaximizeButton.State, (state, time) => state.WaitForDisplayed(time));
+            AssertIfWaitTimeIsCorrect(notPresentLabel.State, (state, time) => state.WaitForDisplayed(time));
         }
 
         [Test]
