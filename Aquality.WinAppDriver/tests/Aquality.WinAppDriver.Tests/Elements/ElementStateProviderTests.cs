@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Tests.Applications.Locators;
@@ -13,9 +14,20 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private static readonly ITextBox RightArgumentTextBox = CalculatorWindow.RightArgumentTextBox;
         private static readonly IButton MaximizeButton = CalculatorWindow.MaximizeButton;
         private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
+        private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
         private IElement notPresentLabel = ApplicationManager.GetRequiredService<IElementFactory>()
             .GetLabel(By.XPath("//*[@id='111111']"), "Not present element");
+
+        private static Stopwatch StartedStopwatch
+        {
+            get
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+                return stopwatch;
+            }
+        }
 
         [Test]
         public void Should_ReturnTrue_IfElementIsDisplayed()
@@ -147,6 +159,74 @@ namespace Aquality.WinAppDriver.Tests.Elements
         public void Should_ReturnTrue_InWaitForNotExist_WhenElementDoesNotExist()
         {
             Assert.IsTrue(notPresentLabel.State.WaitForNotExist(TimeSpan.Zero));
+        }
+
+        [Test]
+        public void Should_WaitForClickable_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            try
+            {
+                EmptyButton.State.WaitForClickable(FromSeconds);
+            }
+            catch (WebDriverTimeoutException)
+            {
+                AssertIfWaitTimeIsCorrect(stopwatch);
+            }
+        }
+
+        [Test]
+        public void Should_WaitForDisplayed_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            MaximizeButton.State.WaitForDisplayed(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        [Test]
+        public void Should_WaitForEnabled_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            EmptyButton.State.WaitForEnabled(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        [Test]
+        public void Should_WaitForExist_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            notPresentLabel.State.WaitForExist(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        [Test]
+        public void Should_WaitForNotExist_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            RightArgumentTextBox.State.WaitForNotExist(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        [Test]
+        public void Should_WaitForNotDisplayed_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            RightArgumentTextBox.State.WaitForNotDisplayed(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        [Test]
+        public void Should_WaitForNotEnabled_CorrectAmountOfTime()
+        {
+            var stopwatch = StartedStopwatch;
+            RightArgumentTextBox.State.WaitForNotEnabled(FromSeconds);
+            AssertIfWaitTimeIsCorrect(stopwatch);
+        }
+
+        private static void AssertIfWaitTimeIsCorrect(Stopwatch stopwatch)
+        {
+            stopwatch.Stop();
+            Assert.LessOrEqual(Math.Abs(stopwatch.Elapsed.Seconds - FromSeconds.Seconds), 1, "Wait Time is correct");
         }
     }
 }
