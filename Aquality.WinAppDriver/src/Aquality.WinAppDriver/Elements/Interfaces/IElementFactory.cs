@@ -21,7 +21,6 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// </summary>
         /// <param name="locator">Element locator</param>
         /// <param name="name">Element name</param>
-        /// <param name="state">Element state</param>
         /// <returns>Instance of element that implements ILabel interface</returns>
         ILabel GetLabel(By locator, string name);
 

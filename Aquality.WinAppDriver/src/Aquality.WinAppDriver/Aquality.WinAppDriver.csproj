@@ -18,6 +18,11 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Aquality.WinAppDriver.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Resources\Localization\be.json" />
     <None Remove="Resources\Localization\en.json" />
@@ -41,7 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="Appium.WebDriver" Version="4.0.0" />
-    <PackageReference Include="Aquality.Selenium.Core" Version="0.1.3" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="0.1.5" />
   </ItemGroup>
   
 </Project>

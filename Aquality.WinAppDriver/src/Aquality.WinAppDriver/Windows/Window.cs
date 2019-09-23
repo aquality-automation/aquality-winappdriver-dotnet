@@ -34,13 +34,13 @@ namespace Aquality.WinAppDriver.Windows
         public string Name { get; }
 
         /// <summary>
-        /// Instance of logger <see cref="Logging.Logger">
+        /// Instance of logger <see cref="Selenium.Core.Logging.Logger"/>
         /// </summary>
         /// <value>Logger instance.</value>
         protected Logger Logger => ApplicationManager.GetRequiredService<Logger>();
 
         /// <summary>
-        /// Element factory <see cref="IElementFactory">
+        /// Element factory <see cref="IElementFactory"/>
         /// </summary>
         /// <value>Element factory.</value>
         protected IElementFactory ElementFactory => ApplicationManager.GetRequiredService<IElementFactory>();

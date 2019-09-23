@@ -9,6 +9,8 @@ namespace Aquality.WinAppDriver.Tests.Applications.Locators
     {
         private static By WindowLocator => By.TagName("Window");
 
+        public ITextBox LeftArgumentTextBox => ElementFactory.GetTextBox(MobileBy.AccessibilityId("50"), "Left Argument");
+
         public ITextBox RightArgumentTextBox => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
 
         public IButton OneButton => ElementFactory.GetButton(By.Name("1"), "1");
