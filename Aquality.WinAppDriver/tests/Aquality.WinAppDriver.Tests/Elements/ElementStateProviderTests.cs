@@ -5,6 +5,7 @@ using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Tests.Applications.Locators;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using IElementStateProvider = Aquality.Selenium.Core.Elements.Interfaces.IElementStateProvider;
 
 namespace Aquality.WinAppDriver.Tests.Elements
 {
@@ -16,7 +17,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
-        private IElement notPresentLabel = ApplicationManager.GetRequiredService<IElementFactory>()
+        private readonly IElement notPresentLabel = ApplicationManager.GetRequiredService<IElementFactory>()
             .GetLabel(By.XPath("//*[@id='111111']"), "Not present element");
 
         private static Stopwatch StartedStopwatch
@@ -164,69 +165,60 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_WaitForClickable_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            try
+            AssertIfWaitTimeIsCorrect(EmptyButton.State, (state, time) =>
             {
-                EmptyButton.State.WaitForClickable(FromSeconds);
-            }
-            catch (WebDriverTimeoutException)
-            {
-                AssertIfWaitTimeIsCorrect(stopwatch);
-            }
+                try
+                {
+                    EmptyButton.State.WaitForClickable(FromSeconds);
+                }
+                catch (WebDriverTimeoutException)
+                {
+                }
+            });
         }
 
         [Test]
         public void Should_WaitForDisplayed_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            MaximizeButton.State.WaitForDisplayed(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(MaximizeButton.State, (state, time) => state.WaitForDisplayed(time));
         }
 
         [Test]
         public void Should_WaitForEnabled_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            EmptyButton.State.WaitForEnabled(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(EmptyButton.State, (state, time) => state.WaitForEnabled(time));
         }
 
         [Test]
         public void Should_WaitForExist_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            notPresentLabel.State.WaitForExist(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(notPresentLabel.State, (state, time) => state.WaitForExist(time));
         }
 
         [Test]
         public void Should_WaitForNotExist_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            RightArgumentTextBox.State.WaitForNotExist(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(RightArgumentTextBox.State, (state, time) => state.WaitForNotExist(time));
         }
 
         [Test]
         public void Should_WaitForNotDisplayed_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            RightArgumentTextBox.State.WaitForNotDisplayed(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(RightArgumentTextBox.State, (state, time) => state.WaitForNotDisplayed(time));
         }
 
         [Test]
         public void Should_WaitForNotEnabled_CorrectAmountOfTime()
         {
-            var stopwatch = StartedStopwatch;
-            RightArgumentTextBox.State.WaitForNotEnabled(FromSeconds);
-            AssertIfWaitTimeIsCorrect(stopwatch);
+            AssertIfWaitTimeIsCorrect(RightArgumentTextBox.State, (state, time) => state.WaitForNotEnabled(time));
         }
 
-        private static void AssertIfWaitTimeIsCorrect(Stopwatch stopwatch)
+        private static void AssertIfWaitTimeIsCorrect(IElementStateProvider stateProvider, Action<IElementStateProvider, TimeSpan> action)
         {
+            var stopwatch = StartedStopwatch;
+            action(stateProvider, FromSeconds);
             stopwatch.Stop();
-            Assert.LessOrEqual(Math.Abs(stopwatch.Elapsed.Seconds - FromSeconds.Seconds), 1, "Wait Time is correct");
+            Assert.LessOrEqual(Math.Abs(stopwatch.Elapsed.Seconds - FromSeconds.Seconds), 1, "Wait Time is not correct");
         }
     }
 }
