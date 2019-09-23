@@ -10,22 +10,23 @@ namespace Aquality.WinAppDriver.Tests.Windows
         private const int ExpectedWidth = 709;
         private static readonly By Locator = By.XPath("//*[@id='111111']");
         private const string PageName = "Not present page";
-        private static readonly CalculatorWindowWithRelativeElements calculatorWindow = new CalculatorWindowWithRelativeElements();
+        private static readonly CalculatorWindowWithRelativeElements CalculatorWindowWithRelativeElements = new CalculatorWindowWithRelativeElements();
+        private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
 
         [Test]
         public void Should_WorkWithCalculator_ViaRelativeElements()
         {
-            calculatorWindow.OneButton.Click();
-            calculatorWindow.PlusButton.Click();
-            calculatorWindow.TwoButton.Click();
-            calculatorWindow.EqualsButton.Click();
-            StringAssert.Contains("3", calculatorWindow.ResultsLabel.Text);
+            CalculatorWindowWithRelativeElements.OneButton.Click();
+            CalculatorWindowWithRelativeElements.PlusButton.Click();
+            CalculatorWindowWithRelativeElements.TwoButton.Click();
+            CalculatorWindowWithRelativeElements.EqualsButton.Click();
+            StringAssert.Contains("3", CalculatorWindowWithRelativeElements.ResultsLabel.Text);
         }
 
         [Test]
         public void Should_GetSizeCorrectly_WhenindowIsPresent()
         {
-            var windowSize = new CalculatorWindow().Size;
+            var windowSize = CalculatorWindow.Size;
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(windowSize.IsEmpty, "Window is not empty");
@@ -49,7 +50,7 @@ namespace Aquality.WinAppDriver.Tests.Windows
         [Test]
         public void Should_ReturnTrue_IfWindowIsDisplayed()
         {
-            Assert.IsTrue(new CalculatorWindow().IsDisplayed);
+            Assert.IsTrue(CalculatorWindow.IsDisplayed);
         }
 
         [Test]
