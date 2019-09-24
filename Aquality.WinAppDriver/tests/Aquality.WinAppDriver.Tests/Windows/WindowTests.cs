@@ -16,6 +16,8 @@ namespace Aquality.WinAppDriver.Tests.Windows
 
         private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
 
+        private static TestWindow TestWindow => new TestWindow(Locator, PageName);
+
         [Test]
         public void Should_WorkWithCalculator_ViaRelativeElements()
         {
@@ -76,7 +78,5 @@ namespace Aquality.WinAppDriver.Tests.Windows
         {
             Assert.AreEqual(ExpectedElementType, TestWindow.ElementType);
         }
-
-        private static TestWindow TestWindow => new TestWindow(Locator, PageName);
     }
 }
