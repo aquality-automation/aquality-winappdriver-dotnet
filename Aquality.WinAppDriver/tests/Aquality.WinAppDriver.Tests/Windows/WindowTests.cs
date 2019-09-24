@@ -1,5 +1,4 @@
-﻿using Aquality.WinAppDriver.Tests.Windows.Models;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Windows
@@ -10,7 +9,11 @@ namespace Aquality.WinAppDriver.Tests.Windows
         private const int ExpectedWidth = 709;
         private static readonly By Locator = By.XPath("//*[@id='111111']");
         private const string PageName = "Not present page";
-        private static readonly CalculatorWindowWithRelativeElements CalculatorWindowWithRelativeElements = new CalculatorWindowWithRelativeElements();
+        private const string ExpectedElementType = "Акно";
+
+        private static readonly CalculatorWindowWithRelativeElements CalculatorWindowWithRelativeElements =
+            new CalculatorWindowWithRelativeElements();
+
         private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
 
         [Test]
@@ -36,14 +39,11 @@ namespace Aquality.WinAppDriver.Tests.Windows
         }
 
         [Test]
-        public void Should_GetSizeCorrectly_WhenWindowIsNotPresent()
+        public void Should_ThrowException_InGetSize_WhenWindowIsNotPresent()
         {
-            var windowSize = TestWindow.Size;
-            Assert.Multiple(() =>
+            Assert.Throws<NoSuchElementException>(() =>
             {
-                Assert.IsTrue(windowSize.IsEmpty, "Window is not empty");
-                Assert.AreEqual(0, windowSize.Height, "Height");
-                Assert.AreEqual(0, windowSize.Width, "Width");
+                var testWindowSize = TestWindow.Size;
             });
         }
 
@@ -69,6 +69,12 @@ namespace Aquality.WinAppDriver.Tests.Windows
         public void Should_SetCorrectPageNameInConstructor()
         {
             Assert.AreEqual(PageName, TestWindow.Name, "Name");
+        }
+
+        [Test]
+        public void Should_ReturnCorrectElementType()
+        {
+            Assert.AreEqual(ExpectedElementType, TestWindow.ElementType);
         }
 
         private static TestWindow TestWindow => new TestWindow(Locator, PageName);
