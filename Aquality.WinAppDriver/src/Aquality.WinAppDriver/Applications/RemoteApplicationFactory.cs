@@ -1,5 +1,4 @@
-﻿using Aquality.Selenium.Core.Localization;
-using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium.Remote;
 using System;
 
 namespace Aquality.WinAppDriver.Applications
