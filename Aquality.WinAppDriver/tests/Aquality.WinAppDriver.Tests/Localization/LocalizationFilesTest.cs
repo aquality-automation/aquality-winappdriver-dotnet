@@ -91,7 +91,7 @@ namespace Aquality.WinAppDriver.Tests.Localization
 
         private static IList<KeyValuePair<string, string>> GetLocalizationDictionaryAsList(string language)
         {
-            return new JsonFile($"Resources.Localization.{language}.json", LibraryAssembly).GetValue<Dictionary<string, string>>("$").ToList();
+            return new JsonSettingsFile($"Resources.Localization.{language}.json", LibraryAssembly).GetValue<Dictionary<string, string>>("$").ToList();
         }
 
         private LocalizationManager GetLocalizationManager(string customLanguage)

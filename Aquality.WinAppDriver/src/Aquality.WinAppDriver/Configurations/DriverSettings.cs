@@ -3,6 +3,7 @@ using OpenQA.Selenium.Appium;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Aquality.Selenium.Core.Configurations;
 
 namespace Aquality.WinAppDriver.Configurations
 {
@@ -19,12 +20,12 @@ namespace Aquality.WinAppDriver.Configurations
         /// Instantiates class using JSON file with general settings.
         /// </summary>
         /// <param name="settingsFile">JSON settings file.</param>
-        public DriverSettings(JsonFile settingsFile)
+        public DriverSettings(ISettingsFile settingsFile)
         {
             SettingsFile = settingsFile;
         }
 
-        protected JsonFile SettingsFile { get; }
+        protected ISettingsFile SettingsFile { get; }
 
         protected IDictionary<string, object> Capabilities => SettingsFile.GetValueOrNew<Dictionary<string, object>>($"{DriverSettingsPath}.capabilities");
 

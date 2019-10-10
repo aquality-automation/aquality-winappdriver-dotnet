@@ -1,5 +1,5 @@
-﻿using Aquality.Selenium.Core.Utilities;
-using System;
+﻿using System;
+using Aquality.Selenium.Core.Configurations;
 
 namespace Aquality.WinAppDriver.Configurations
 {
@@ -13,13 +13,13 @@ namespace Aquality.WinAppDriver.Configurations
         /// </summary>
         /// <param name="settingsFile">JSON settings file.</param>
         /// <param name="driverSettings">Instance of <see cref="IDriverSettings"/></param>
-        public ApplicationProfile(JsonFile settingsFile, IDriverSettings driverSettings)
+        public ApplicationProfile(ISettingsFile settingsFile, IDriverSettings driverSettings)
         {
             SettingsFile = settingsFile;
             DriverSettings = driverSettings;
         }
 
-        protected JsonFile SettingsFile { get; }
+        protected ISettingsFile SettingsFile { get; }
 
         public IDriverSettings DriverSettings { get; }
 
