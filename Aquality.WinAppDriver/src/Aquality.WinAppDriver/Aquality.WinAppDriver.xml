@@ -234,7 +234,7 @@
             Provides application profile.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Configurations.ApplicationProfile.#ctor(Aquality.Selenium.Core.Utilities.JsonFile,Aquality.WinAppDriver.Configurations.IDriverSettings)">
+        <member name="M:Aquality.WinAppDriver.Configurations.ApplicationProfile.#ctor(Aquality.Selenium.Core.Configurations.ISettingsFile,Aquality.WinAppDriver.Configurations.IDriverSettings)">
             <summary>
             Instantiates class using JSON file with general settings.
             </summary>
@@ -246,7 +246,7 @@
             Provides target application profile.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Configurations.DriverSettings.#ctor(Aquality.Selenium.Core.Utilities.JsonFile)">
+        <member name="M:Aquality.WinAppDriver.Configurations.DriverSettings.#ctor(Aquality.Selenium.Core.Configurations.ISettingsFile)">
             <summary>
             Instantiates class using JSON file with general settings.
             </summary>
@@ -443,31 +443,34 @@
             Defines the interface used to create the windows application's elements.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetButton(OpenQA.Selenium.By,System.String)">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetButton(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Creates element that implements IButton interface.
             </summary>
             <param name="locator">Element locator</param>
             <param name="name">Element name</param>
+            <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements IButton interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetLabel(OpenQA.Selenium.By,System.String)">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetLabel(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Creates element that implements ILabel interface.
             </summary>
             <param name="locator">Element locator</param>
             <param name="name">Element name</param>
+            <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements ILabel interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetTextBox(OpenQA.Selenium.By,System.String)">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.GetTextBox(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Creates element that implements ITextBox interface.
             </summary>
             <param name="locator">Element locator</param>
             <param name="name">Element name</param>
+            <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements ITextBox interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Windows.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0})">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Windows.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Finds element relative to parent window.
             </summary>
@@ -476,6 +479,7 @@
             <param name="childLocator">Locator of the element relative to parent window.</param>
             <param name="childName">Name of the element.</param>
             <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <param name="elementState">Element existance state</param>
             <returns>Instance of element.</returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.ILabel">
@@ -550,7 +554,7 @@
             </summary>
             <value>Element factory.</value>
         </member>
-        <member name="M:Aquality.WinAppDriver.Windows.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0})">
+        <member name="M:Aquality.WinAppDriver.Windows.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Finds element relative to current window.
             </summary>
@@ -558,6 +562,7 @@
             <param name="childLocator">Locator of the element relative to current window.</param>
             <param name="childName">Name of the element.</param>
             <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <param name="elementState">Element existance state</param>
             <returns>Instance of element.</returns>
         </member>
         <member name="P:Aquality.WinAppDriver.Windows.Window.IsDisplayed">

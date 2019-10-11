@@ -35,10 +35,11 @@ namespace Aquality.WinAppDriver.Windows
         /// <param name="childLocator">Locator of the element relative to current window.</param>
         /// <param name="childName">Name of the element.</param>
         /// <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+        /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element.</returns>
-        public T FindChildElement<T>(By childLocator, string childName, ElementSupplier<T> supplier = null) where T : IElement
+        public T FindChildElement<T>(By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement
         {
-            return ElementFactory.FindChildElement(this, childLocator, childName, supplier);
+            return ElementFactory.FindChildElement(this, childLocator, childName, supplier, elementState);
         }
 
         /// <summary>

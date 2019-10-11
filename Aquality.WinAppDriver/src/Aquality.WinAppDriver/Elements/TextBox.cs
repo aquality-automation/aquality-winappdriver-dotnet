@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using ElementState = Aquality.Selenium.Core.Elements.ElementState;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -10,7 +11,7 @@ namespace Aquality.WinAppDriver.Elements
     {
         private const string SecretMask = "*********";
 
-        protected internal TextBox(By locator, string name) : base(locator, name)
+        protected internal TextBox(By locator, string name, ElementState elementState = ElementState.Displayed) : base(locator, name, elementState)
         {
         }
 
