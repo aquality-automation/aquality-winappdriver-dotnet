@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Elements
 {
     public abstract class Element : CoreElement, IElement
     {
-        protected Element(By locator, string name) : base(locator, name, ElementState.Displayed)
+        protected Element(By locator, string name, ElementState elementState = ElementState.Displayed) : base(locator, name, elementState)
         {
         }
 
@@ -33,11 +33,6 @@ namespace Aquality.WinAppDriver.Elements
         public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
 
         public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
-
-        public T FindChildElement<T>(By childLocator, ElementSupplier<T> supplier = null) where T : IElement
-        {
-            return FindChildElement(childLocator, supplier, ElementState.Displayed);
-        }
 
         protected override CoreElementFinder Finder => ApplicationManager.GetRequiredService<CoreElementFinder>();
 

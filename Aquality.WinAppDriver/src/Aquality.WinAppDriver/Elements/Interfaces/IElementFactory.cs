@@ -15,24 +15,27 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// </summary>
         /// <param name="locator">Element locator</param>
         /// <param name="name">Element name</param>
+        /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element that implements IButton interface</returns>
-        IButton GetButton(By locator, string name);
+        IButton GetButton(By locator, string name, ElementState elementState = ElementState.Displayed);
 
         /// <summary>
         /// Creates element that implements ILabel interface.
         /// </summary>
         /// <param name="locator">Element locator</param>
         /// <param name="name">Element name</param>
+        /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element that implements ILabel interface</returns>
-        ILabel GetLabel(By locator, string name);
+        ILabel GetLabel(By locator, string name, ElementState elementState = ElementState.Displayed);
 
         /// <summary>
         /// Creates element that implements ITextBox interface.
         /// </summary>
         /// <param name="locator">Element locator</param>
         /// <param name="name">Element name</param>
+        /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element that implements ITextBox interface</returns>
-        ITextBox GetTextBox(By locator, string name);
+        ITextBox GetTextBox(By locator, string name, ElementState elementState = ElementState.Displayed);
 
         /// <summary>
         /// Finds element relative to parent window.
@@ -42,7 +45,8 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// <param name="childLocator">Locator of the element relative to parent window.</param>
         /// <param name="childName">Name of the element.</param>
         /// <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+        /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element.</returns>
-        T FindChildElement<T>(Window parentWindow, By childLocator, string childName, ElementSupplier<T> supplier = null) where T : IElement;
+        T FindChildElement<T>(Window parentWindow, By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using ElementState = Aquality.Selenium.Core.Elements.ElementState;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -8,7 +9,7 @@ namespace Aquality.WinAppDriver.Elements
     /// </summary>
     public class Button : Element, IButton
     {
-        protected internal Button(By locator, string name) : base(locator, name)
+        protected internal Button(By locator, string name, ElementState elementState = ElementState.Displayed) : base(locator, name, elementState)
         {
         }
 
