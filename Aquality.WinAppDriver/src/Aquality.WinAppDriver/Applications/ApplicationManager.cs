@@ -18,7 +18,7 @@ namespace Aquality.WinAppDriver.Applications
     /// <summary>
     /// Controls application and Aquality services
     /// </summary>
-    public class ApplicationManager : ApplicationManager<ApplicationManager, Application>
+    public class ApplicationManager : ApplicationManager<Application>
     {
         private static readonly ThreadLocal<IApplicationFactory> ApplicationFactoryContainer = new ThreadLocal<IApplicationFactory>();
         private static readonly ThreadLocal<AppiumLocalService> AppiumLocalServiceContainer = new ThreadLocal<AppiumLocalService>(AppiumLocalService.BuildDefaultService);

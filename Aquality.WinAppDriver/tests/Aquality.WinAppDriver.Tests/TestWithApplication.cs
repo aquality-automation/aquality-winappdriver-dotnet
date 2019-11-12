@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Tests
         [TearDown]
         public void CleanUp()
         {
-            if (ApplicationManager.IsStarted)
+            if (ApplicationManager.IsApplicationStarted())
             {
                 ApplicationManager.Application.Quit();
             }
