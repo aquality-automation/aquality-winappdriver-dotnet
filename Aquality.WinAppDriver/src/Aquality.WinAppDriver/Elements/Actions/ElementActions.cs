@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         private readonly IElement element;
         private readonly string elementType;
         private readonly Func<IApplication> applicationSupplier;
-        private readonly LocalizationLogger localizationLogger;
+        private readonly ILocalizedLogger localizedLogger;
         private readonly ElementActionRetrier elementActionsRetrier;
 
         /// <summary>
@@ -25,14 +25,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
         /// <param name="applicationSupplier">Method to get current application session.</param>
-        /// <param name="localizationLogger">Logger for localized values.</param>
+        /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        protected ElementActions(IElement element, string elementType, Func<IApplication> applicationSupplier, LocalizationLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
+        protected ElementActions(IElement element, string elementType, Func<IApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
         {
             this.element = element;
             this.elementType = elementType;
             this.applicationSupplier = applicationSupplier;
-            this.localizationLogger = localizationLogger;
+            this.localizedLogger = localizedLogger;
             this.elementActionsRetrier = elementActionsRetrier;
         }
 
@@ -55,7 +55,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="args">Arguments for the localized message.</param>
         protected virtual void LogAction(string messageKey, params object[] args)
         {
-            localizationLogger.InfoElementAction(elementType, element.Name, messageKey, args);
+            localizedLogger.InfoElementAction(elementType, element.Name, messageKey, args);
         }
     }
 }

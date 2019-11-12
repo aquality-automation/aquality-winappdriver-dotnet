@@ -18,10 +18,10 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
         /// <param name="applicationSupplier">Method to get current application session.</param>
-        /// <param name="localizationLogger">Logger for localized values.</param>
+        /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public KeyboardActions(IElement element, string elementType, Func<IApplication> applicationSupplier, LocalizationLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
-            : base(element, elementType, applicationSupplier, localizationLogger, elementActionsRetrier)
+        public KeyboardActions(IElement element, string elementType, Func<IApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
+            : base(element, elementType, applicationSupplier, localizedLogger, elementActionsRetrier)
         {
         }
 

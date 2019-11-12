@@ -24,7 +24,7 @@ namespace Aquality.WinAppDriver.Applications
         public Application(WindowsDriver<WindowsElement> windowsDriver, IServiceProvider serviceProvider)
         {
             WindowsDriver = windowsDriver;
-            Logger = serviceProvider.GetRequiredService<LocalizationLogger>();
+            Logger = serviceProvider.GetRequiredService<ILocalizedLogger>();
             KeyboardActions = serviceProvider.GetRequiredService<IKeyboardActions>();
             MouseActions = serviceProvider.GetRequiredService<IMouseActions>();
             var timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
@@ -32,7 +32,7 @@ namespace Aquality.WinAppDriver.Applications
             Logger.Info("loc.application.ready");
         }
 
-        private LocalizationLogger Logger { get; }
+        private ILocalizedLogger Logger { get; }
 
         public RemoteWebDriver Driver => WindowsDriver;
 

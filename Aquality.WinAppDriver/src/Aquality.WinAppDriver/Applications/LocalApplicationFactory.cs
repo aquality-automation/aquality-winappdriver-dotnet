@@ -19,7 +19,7 @@ namespace Aquality.WinAppDriver.Applications
             {
                 driverService.Start();
                 var serviceUrl = driverService.ServiceUrl;
-                LocalizationLogger.Info("loc.application.driver.service.local.start", serviceUrl);
+                LocalizedLogger.Info("loc.application.driver.service.local.start", serviceUrl);
                 var driver = GetDriver(serviceUrl);
                 return new Application(driver, ServiceProvider);
             }

@@ -10,18 +10,18 @@ namespace Aquality.WinAppDriver.Actions
     /// </summary>
     public abstract class ApplicationActions
     {
-        private readonly LocalizationLogger localizationLogger;
+        private readonly ILocalizedLogger localizedLogger;
         private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
 
 
         /// <summary>
         /// Instantiates Aplication actions.
         /// </summary>
-        /// <param name="localizationLogger">Logger for localized values.</param>
+        /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
-        protected ApplicationActions(LocalizationLogger localizationLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+        protected ApplicationActions(ILocalizedLogger localizedLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
         {
-            this.localizationLogger = localizationLogger;
+            this.localizedLogger = localizedLogger;
             this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Actions
         /// <param name="args">Arguments for the localized message.</param>
         protected virtual void LogAction(string messageKey, params object[] args)
         {
-            localizationLogger.Info(messageKey, args);
+            localizedLogger.Info(messageKey, args);
         }
     }
 }

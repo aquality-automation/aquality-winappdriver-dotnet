@@ -20,7 +20,7 @@ namespace Aquality.WinAppDriver.Elements
     /// </summary>
     public class ElementFactory : CoreFactory, IElementFactory
     {
-        public ElementFactory(ConditionalWait conditionalWait, IElementFinder elementFinder, LocalizationManager localizationManager) : base(conditionalWait, elementFinder, localizationManager)
+        public ElementFactory(ConditionalWait conditionalWait, IElementFinder elementFinder, ILocalizationManager localizationManager) : base(conditionalWait, elementFinder, localizationManager)
         {
         }
 

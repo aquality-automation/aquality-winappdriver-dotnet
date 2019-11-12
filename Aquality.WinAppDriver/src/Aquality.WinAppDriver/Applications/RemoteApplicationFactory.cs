@@ -17,7 +17,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                LocalizationLogger.Info("loc.application.driver.service.remote", driverServerUri);
+                LocalizedLogger.Info("loc.application.driver.service.remote", driverServerUri);
                 var driver = GetDriver(driverServerUri);
                 driver.FileDetector = new LocalFileDetector();
                 return new Application(driver, ServiceProvider);
