@@ -9,11 +9,11 @@
             Abstract class for any actions against the whole application.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.#ctor(Aquality.Selenium.Core.Localization.LocalizationLogger,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
+        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.#ctor(Aquality.Selenium.Core.Localization.ILocalizedLogger,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
             <summary>
             Instantiates Aplication actions.
             </summary>
-            <param name="localizationLogger">Logger for localized values.</param>
+            <param name="localizedLogger">Logger for localized values.</param>
             <param name="windowsDriverSupplier">Method to get current application session.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.PerformAction(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
@@ -297,14 +297,14 @@
             Abstract class for any actions agains element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.LocalizationLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Element actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
             <param name="applicationSupplier">Method to get current application session.</param>
-            <param name="localizationLogger">Logger for localized values.</param>
+            <param name="localizedLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.PerformAction(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.IWebElement,OpenQA.Selenium.Interactions.Actions})">
@@ -383,14 +383,14 @@
             Implements Keyboard actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.LocalizationLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Keyboard actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
             <param name="applicationSupplier">Method to get current application session.</param>
-            <param name="localizationLogger">Logger for localized values.</param>
+            <param name="localizedLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Actions.MouseActions">
@@ -398,7 +398,7 @@
             Implements Mouse actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.LocalizationLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Mouse actions for a specific element.
             </summary>

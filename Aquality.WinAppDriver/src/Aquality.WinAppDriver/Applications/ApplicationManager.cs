@@ -31,7 +31,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             if(AppiumLocalServiceContainer.IsValueCreated && AppiumLocalServiceContainer.Value.IsRunning)
             {
-                GetRequiredService<LocalizationLogger>().Info("loc.application.driver.service.local.stop");
+                GetRequiredService<ILocalizedLogger>().Info("loc.application.driver.service.local.stop");
                 AppiumLocalServiceContainer.Value.Dispose();
                 return true;
             }
@@ -129,9 +129,9 @@ namespace Aquality.WinAppDriver.Applications
             services.AddTransient<CoreElementFactory, ElementFactory>();
             services.AddSingleton<IDriverSettings>(serviceProvider => new DriverSettings(settingsFile));
             services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settingsFile, serviceProvider.GetRequiredService<IDriverSettings>()));
-            services.AddSingleton(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
-            services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
-            services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<LocalizationLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton<ILocalizationManager>(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
+            services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.WindowsDriver));
+            services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.WindowsDriver));
             services.AddTransient(serviceProvider => ApplicationFactory);
             return services;
         }

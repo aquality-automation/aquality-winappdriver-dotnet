@@ -30,14 +30,14 @@ namespace Aquality.WinAppDriver.Elements
 
         protected virtual IElementFactory CustomFactory => ApplicationManager.GetRequiredService<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
 
-        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizationLogger, ActionRetrier);
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
 
         protected override CoreElementFinder Finder => ApplicationManager.GetRequiredService<CoreElementFinder>();
 
-        protected override LocalizationLogger LocalizationLogger => ApplicationManager.GetRequiredService<LocalizationLogger>();
+        protected override ILocalizedLogger LocalizedLogger => ApplicationManager.GetRequiredService<ILocalizedLogger>();
 
-        protected LocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<LocalizationManager>();
+        protected ILocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<ILocalizationManager>();
     }
 }

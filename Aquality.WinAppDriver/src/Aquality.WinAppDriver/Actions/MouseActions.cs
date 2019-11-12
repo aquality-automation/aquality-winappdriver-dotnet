@@ -12,8 +12,8 @@ namespace Aquality.WinAppDriver.Actions
     {
         private readonly Func<RemoteTouchScreen> remoteTouchScreenSupplier;
 
-        public MouseActions(LocalizationLogger localizationLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
-            : base(localizationLogger, windowsDriverSupplier)
+        public MouseActions(ILocalizedLogger localizedLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+            : base(localizedLogger, windowsDriverSupplier)
         {
             remoteTouchScreenSupplier = () => new RemoteTouchScreen(windowsDriverSupplier());
         }

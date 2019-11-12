@@ -12,12 +12,12 @@ namespace Aquality.WinAppDriver.Applications
         private readonly IDriverSettings driverSettings;
         private readonly ITimeoutConfiguration timeoutConfiguration;
 
-        protected LocalizationLogger LocalizationLogger { get; }
+        protected ILocalizedLogger LocalizedLogger { get; }
         protected IServiceProvider ServiceProvider { get; }
 
         protected ApplicationFactory(IServiceProvider serviceProvider)
         {
-            LocalizationLogger = serviceProvider.GetRequiredService<LocalizationLogger>();
+            LocalizedLogger = serviceProvider.GetRequiredService<ILocalizedLogger>();
             driverSettings = serviceProvider.GetRequiredService<IDriverSettings>();
             timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
             ServiceProvider = serviceProvider;
@@ -29,7 +29,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             var options = driverSettings.AppiumOptions;
             options.ToDictionary().TryGetValue("app", out var appPath);
-            LocalizationLogger.Info("loc.application.start", appPath);
+            LocalizedLogger.Info("loc.application.start", appPath);
             return new WindowsDriver<WindowsElement>(driverServerUri, options, timeoutConfiguration.Command);
         }
     }

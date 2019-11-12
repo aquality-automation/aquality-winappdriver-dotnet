@@ -22,7 +22,7 @@ namespace Aquality.WinAppDriver.Tests.Localization
         private static readonly IEnumerable<string> KeysWithTwoAndMoreParameters = LocalizationFileEnglishDictionary.Where(pair => pair.Value.Contains("{1}")).Select(pair => pair.Key);
         private static readonly IEnumerable<string> KeysWithParameters = LocalizationFileEnglishDictionary.Where(pair => pair.Value.Contains("{0}")).Select(pair => pair.Key);
 
-        private LocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<LocalizationManager>();
+        private ILocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<ILocalizationManager>();
 
         [Test]
         public void Should_BePossibleTo_UseLocalizationManager_OnCustomLanguage_ForClicking()
