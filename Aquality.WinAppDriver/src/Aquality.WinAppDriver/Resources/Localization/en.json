@@ -11,7 +11,7 @@
   "loc.application.ready": "Application is ready",
   "loc.application.quit": "Closing application",
   "loc.application.driver.service.local.stop": "Stopping Appium local service",
-  "loc.application.driver.service.local.start": "Started Запусцілі лакальны сэрвіс Appium па адрасе '{0}'",
+  "loc.application.driver.service.local.start": "Started local Appium service on address '{0}'",
   "loc.application.driver.service.remote": "Using driver service running on '{0}'",
   "loc.button": "Button",
   "loc.label": "Label",

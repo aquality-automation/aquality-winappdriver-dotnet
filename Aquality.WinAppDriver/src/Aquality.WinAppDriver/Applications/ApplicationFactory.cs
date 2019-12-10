@@ -2,6 +2,7 @@
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Configurations;
 using Microsoft.Extensions.DependencyInjection;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 
@@ -9,28 +10,45 @@ namespace Aquality.WinAppDriver.Applications
 {
     public abstract class ApplicationFactory : IApplicationFactory
     {
-        private readonly IDriverSettings driverSettings;
         private readonly ITimeoutConfiguration timeoutConfiguration;
 
         protected ILocalizedLogger LocalizedLogger { get; }
+        protected IDriverSettings DriverSettings { get; }
         protected IServiceProvider ServiceProvider { get; }
 
         protected ApplicationFactory(IServiceProvider serviceProvider)
         {
             LocalizedLogger = serviceProvider.GetRequiredService<ILocalizedLogger>();
-            driverSettings = serviceProvider.GetRequiredService<IDriverSettings>();
+            DriverSettings = serviceProvider.GetRequiredService<IDriverSettings>();
             timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
             ServiceProvider = serviceProvider;
         }
 
         public abstract Application Application { get; }
 
-        protected WindowsDriver<WindowsElement> GetDriver(Uri driverServerUri)
+        protected virtual Application GetApplication(Uri driverServerUri)
         {
-            var options = driverSettings.AppiumOptions;
+            return new Application(() => GetApplicationSession(driverServerUri), () => GetRootSession(driverServerUri), ServiceProvider);
+        }
+
+        protected virtual WindowsDriver<WindowsElement> GetApplicationSession(Uri driverServerUri)
+        {
+            var options = DriverSettings.AppiumOptions;
             options.ToDictionary().TryGetValue("app", out var appPath);
             LocalizedLogger.Info("loc.application.start", appPath);
-            return new WindowsDriver<WindowsElement>(driverServerUri, options, timeoutConfiguration.Command);
+            return CreateSession(driverServerUri, options);
+        }
+
+        protected virtual WindowsDriver<WindowsElement> GetRootSession(Uri driverServerUri)
+        {
+            var options = DriverSettings.AppiumOptions; 
+            options.AddAdditionalCapability("app", "Root");
+            return CreateSession(driverServerUri, options);
+        }
+
+        protected virtual WindowsDriver<WindowsElement> CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
+        {
+            return new WindowsDriver<WindowsElement>(driverServerUri, appliumOptions, timeoutConfiguration.Command);
         }
     }
 }

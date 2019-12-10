@@ -12,38 +12,63 @@ namespace Aquality.WinAppDriver.Applications
     /// <summary>
     /// Provides functionality to work with Windows application via WinAppDriver.  
     /// </summary>
-    public class Application : IApplication
+    public class Application : IWindowsApplication
     {
         private TimeSpan implicitWait;
+        private WindowsDriver<WindowsElement> applicationSession;
+        private WindowsDriver<WindowsElement> rootSession;
+        private readonly Func<WindowsDriver<WindowsElement>> createApplicationSession;
+        private readonly Func<WindowsDriver<WindowsElement>> createDesktopSession;
 
         /// <summary>
         /// Instantiate application.
         /// </summary>
-        /// <param name="windowsDriver">Instance of WinAppDriver</param>
+        /// <param name="createApplicationSession">Function to create an instance of WinAppDriver for current application</param>
+        /// <param name="createRootSession">Function to create an instance of WinAppDriver for desktop session</param>
         /// <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
-        public Application(WindowsDriver<WindowsElement> windowsDriver, IServiceProvider serviceProvider)
+        public Application(Func<WindowsDriver<WindowsElement>> createApplicationSession, Func<WindowsDriver<WindowsElement>> createRootSession, IServiceProvider serviceProvider)
         {
-            WindowsDriver = windowsDriver;
+            this.createApplicationSession = createApplicationSession;
+            this.createDesktopSession = createRootSession;
             Logger = serviceProvider.GetRequiredService<ILocalizedLogger>();
             KeyboardActions = serviceProvider.GetRequiredService<IKeyboardActions>();
             MouseActions = serviceProvider.GetRequiredService<IMouseActions>();
             var timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
-            WindowsDriver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
-            Logger.Info("loc.application.ready");
+            Driver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
         }
 
         private ILocalizedLogger Logger { get; }
 
-        public RemoteWebDriver Driver => WindowsDriver;
+        RemoteWebDriver IApplication.Driver => Driver;
 
-        /// <summary>
-        /// Provides instance of Windows Driver
-        /// </summary>
-        public WindowsDriver<WindowsElement> WindowsDriver { get; }
+        public WindowsDriver<WindowsElement> Driver
+        {
+            get
+            {
+                if (applicationSession == null)
+                {
+                    applicationSession = createApplicationSession();
+                    Logger.Info("loc.application.ready");
+                }
+                return applicationSession;
+            }
+        }
 
         public IKeyboardActions KeyboardActions { get; }
 
         public IMouseActions MouseActions { get; }
+
+        public WindowsDriver<WindowsElement> RootSession
+        {
+            get
+            {
+                if (rootSession == null)
+                {
+                    rootSession = createDesktopSession();
+                }
+                return rootSession;
+            }
+        }
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
@@ -54,7 +79,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             if (timeout != implicitWait)
             {
-                WindowsDriver.Manage().Timeouts().ImplicitWait = timeout;
+                Driver.Manage().Timeouts().ImplicitWait = timeout;
                 implicitWait = timeout;
             }
         }
@@ -65,7 +90,7 @@ namespace Aquality.WinAppDriver.Applications
         public void Quit()
         {
             Logger.Info("loc.application.quit");
-            WindowsDriver?.Quit();
+            Driver?.Quit();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Remote;
 using System;
 
 namespace Aquality.WinAppDriver.Applications
@@ -18,10 +20,15 @@ namespace Aquality.WinAppDriver.Applications
             get
             {
                 LocalizedLogger.Info("loc.application.driver.service.remote", driverServerUri);
-                var driver = GetDriver(driverServerUri);
-                driver.FileDetector = new LocalFileDetector();
-                return new Application(driver, ServiceProvider);
+                return GetApplication(driverServerUri);
             }
+        }
+
+        protected override WindowsDriver<WindowsElement> CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
+        {
+            var session = base.CreateSession(driverServerUri, appliumOptions);
+            session.FileDetector = new LocalFileDetector();
+            return session;
         }
     }
 }
