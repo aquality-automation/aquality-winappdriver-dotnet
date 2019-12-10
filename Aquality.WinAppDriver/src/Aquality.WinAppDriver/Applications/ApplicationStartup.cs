@@ -33,7 +33,5 @@ namespace Aquality.WinAppDriver.Applications
             services.AddTransient(serviceProvider => ApplicationManager.ApplicationFactory);
             return services;
         }
-
-        
     }
 }
