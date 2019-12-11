@@ -26,6 +26,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public new void CleanUp()
         {
             base.CleanUp();
+            ApplicationManager.SetDefaultFactory();
             var executableName = ApplicationPath.Contains('\\') ? ApplicationPath.Substring(ApplicationPath.LastIndexOf('\\') + 1) : ApplicationPath;
             ProcessManager.TryToStopExecutables(executableName);
         }
