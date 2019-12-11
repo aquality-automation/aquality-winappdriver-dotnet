@@ -165,17 +165,13 @@
             Provides functionality to work with Windows application via WinAppDriver.  
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.IServiceProvider)">
+        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.IServiceProvider)">
             <summary>
             Instantiate application.
             </summary>
-            <param name="windowsDriver">Instance of WinAppDriver</param>
+            <param name="createApplicationSession">Function to create an instance of WinAppDriver for current application</param>
+            <param name="createRootSession">Function to create an instance of WinAppDriver for desktop session</param>
             <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Applications.Application.WindowsDriver">
-            <summary>
-            Provides instance of Windows Driver
-            </summary>
         </member>
         <member name="M:Aquality.WinAppDriver.Applications.Application.SetImplicitWaitTimeout(System.TimeSpan)">
             <summary>
@@ -227,6 +223,16 @@
             <summary>
             Sets default factory responsible for application creation.
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver">
+            <summary>
+            Provides instance of Windows Driver for current application
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession">
+            <summary>
+            Provides instance of Windows Driver for desktop session
             </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Configurations.ApplicationProfile">
@@ -535,6 +541,71 @@
             </summary>
             <param name="element"></param>
             <returns></returns>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Utilities.IProcessManager">
+            <summary>
+            Provides ability to detect running processes and to stop them.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IProcessManager.IsProcessRunning(System.String)">
+            <summary>
+            Defines if any process with the specified name is running.
+            </summary>
+            <param name="name">Pure name of the process (e.g. for WinAppDriver.exe pure name is WinAppDriver).</param>
+            <returns>True if any process by the name specified was found, false otherwise.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IProcessManager.IsExecutableRunning(System.String)">
+            <summary>
+            Defines if any executable with the specified name is running.
+            </summary>
+            <param name="name">Name of the executable (e.g. WinAppDriver.exe).</param>
+            <returns>True if any process was found by the specified executable name, false otherwise.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IProcessManager.Start(System.String)">
+            <summary>
+            Starts a process resource by specifying the name of a document or application 
+            file and associates the resource with a new System.Diagnostics.Process component.
+            </summary>
+            <param name="fileName">The name of a document or application file to run in the process.</param>
+            <returns>A new <see cref="T:System.Diagnostics.Process"/> that is associated with the process resource,
+            or null if no process resource is started.</returns>
+            <see cref="M:System.Diagnostics.Process.Start(System.String)"/>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IProcessManager.TryToStopProcesses(System.String)">
+            <summary>
+            Attempts to stop all processes with the specified name.
+            </summary>
+            <param name="name">Pure name of the process (e.g. for WinAppDriver.exe pure name is WinAppDriver).</param>
+            <returns>True if any process was found and all of found processes were stopped successfully, false otherwise.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IProcessManager.TryToStopExecutables(System.String)">
+            <summary>
+            Attempts to stop all processes with the specified name.
+            </summary>
+            <param name="name">Name of the executable (e.g. WinAppDriver.exe).</param>
+            <returns>True if any process was found and all of found processes were stopped successfully, false otherwise.</returns>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher">
+            <summary>
+            Provides ability to start and stop WinAppDriver
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher.StartWinAppDriverIfRequired">
+            <summary>
+            Attepmts to find running WinAppDriver process; if no process found, starts it
+            </summary>
+            <returns>Instance of process if it was started or null if it wasn't.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher.TryToStopWinAppDriver">
+            <summary>
+            Attempts to stop WinAppDriver process
+            </summary>
+            <returns>True if the process was found and stopped, false otherwise</returns>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Utilities.ProcessManager">
+            <summary>
+            Implementation of <see cref="T:Aquality.WinAppDriver.Utilities.IProcessManager"/>
+            </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Windows.Window">
             <summary>

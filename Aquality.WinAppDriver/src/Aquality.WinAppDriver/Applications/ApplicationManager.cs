@@ -12,6 +12,7 @@ using OpenQA.Selenium.Appium.Service;
 using Aquality.Selenium.Core.Logging;
 using System.Reflection;
 using Aquality.WinAppDriver.Actions;
+using Aquality.WinAppDriver.Utilities;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -133,6 +134,8 @@ namespace Aquality.WinAppDriver.Applications
             services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.Driver));
             services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.Driver));
             services.AddTransient(serviceProvider => ApplicationFactory);
+            services.AddTransient<IProcessManager, ProcessManager>();
+            services.AddTransient<IWinAppDriverLauncher, WinAppDriverLauncher>();
             return services;
         }
 

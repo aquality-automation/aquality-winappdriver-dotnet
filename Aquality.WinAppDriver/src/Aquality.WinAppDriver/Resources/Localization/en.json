@@ -35,5 +35,8 @@
   "loc.mouse.movetoelement": "Moving mouse to element",
   "loc.mouse.movetoelement.byoffset": "Moving mouse to element by '{0}' vertical and '{1}' horizontal offset",
   "loc.mouse.movetoelement.byoffset.withorigin": "Moving mouse to element by '{0}' vertical and '{1}' horizontal offset with origin at '{2}'",
-  "loc.mouse.scrollbyoffset": "Scroll mouse wheel by '{0}' vertical and '{1}' horizontal offset"
+  "loc.mouse.scrollbyoffset": "Scroll mouse wheel by '{0}' vertical and '{1}' horizontal offset",
+  "loc.processes.stop": "Attempting to stop all processes by name '{0}'",
+  "loc.processes.notfound": "No process was found by name '{0}'",
+  "loc.processes.start": "Starting a process '{0}'"
 }
