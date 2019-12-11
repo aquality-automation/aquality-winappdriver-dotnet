@@ -10,17 +10,16 @@ namespace Aquality.WinAppDriver.Applications
     public class WindowHandleApplicationFactory : ApplicationFactory
     {
         private const string WindowHandleCapability = "appTopLevelWindow";
+        private const string AppNameCapability = "app";
         private readonly Uri driverServerUri;
-        private readonly Func<string> getWindowHandleFunction;
-        private readonly string appName;
+        private readonly Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction;
         private readonly bool isRemote;
 
-        public WindowHandleApplicationFactory(Uri driverServerUri, IServiceProvider serviceProvider, Func<string> getWindowHandleFunction, string appName)
+        public WindowHandleApplicationFactory(Uri driverServerUri, IServiceProvider serviceProvider, Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
             : base(serviceProvider)
         {
             this.driverServerUri = driverServerUri;
             this.getWindowHandleFunction = getWindowHandleFunction;
-            this.appName = appName;
             isRemote = serviceProvider.GetRequiredService<IApplicationProfile>().IsRemote;
         }
 
@@ -36,8 +35,8 @@ namespace Aquality.WinAppDriver.Applications
         protected override WindowsDriver<WindowsElement> GetApplicationSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions;
-            LocalizedLogger.Info("loc.application.start", appName);
-            options.AddAdditionalCapability(WindowHandleCapability, getWindowHandleFunction());
+            options.AddAdditionalCapability(AppNameCapability, null);
+            options.AddAdditionalCapability(WindowHandleCapability, getWindowHandleFunction(GetRootSession(driverServerUri)));
             return CreateSession(driverServerUri, options);
         }
 

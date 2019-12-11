@@ -34,7 +34,7 @@ namespace Aquality.WinAppDriver.Applications
             KeyboardActions = serviceProvider.GetRequiredService<IKeyboardActions>();
             MouseActions = serviceProvider.GetRequiredService<IMouseActions>();
             var timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
-            Driver.Manage().Timeouts().ImplicitWait = timeoutConfiguration.Implicit;
+            implicitWait = timeoutConfiguration.Implicit;
         }
 
         private ILocalizedLogger Logger { get; }
@@ -49,6 +49,7 @@ namespace Aquality.WinAppDriver.Applications
                 {
                     applicationSession = createApplicationSession();
                     Logger.Info("loc.application.ready");
+                    applicationSession.Manage().Timeouts().ImplicitWait = implicitWait;
                 }
                 return applicationSession;
             }
@@ -65,6 +66,7 @@ namespace Aquality.WinAppDriver.Applications
                 if (rootSession == null)
                 {
                     rootSession = createDesktopSession();
+                    rootSession.Manage().Timeouts().ImplicitWait = implicitWait;
                 }
                 return rootSession;
             }
@@ -79,7 +81,14 @@ namespace Aquality.WinAppDriver.Applications
         {
             if (timeout != implicitWait)
             {
-                Driver.Manage().Timeouts().ImplicitWait = timeout;
+                if (rootSession != null)
+                {
+                    RootSession.Manage().Timeouts().ImplicitWait = timeout;
+                }
+                if (applicationSession != null)
+                {
+                    Driver.Manage().Timeouts().ImplicitWait = timeout;
+                }
                 implicitWait = timeout;
             }
         }

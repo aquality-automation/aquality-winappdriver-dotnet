@@ -225,6 +225,12 @@
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
             </summary>
         </member>
+        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetWindowHandleApplicationFactory(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.String})">
+            <summary>
+            Sets window handle factory, which attaches to already running application by it's window handle
+            </summary>
+            <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
+        </member>
         <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver">
             <summary>
             Provides instance of Windows Driver for current application
