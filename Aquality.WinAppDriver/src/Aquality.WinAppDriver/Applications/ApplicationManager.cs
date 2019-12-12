@@ -12,6 +12,8 @@ using OpenQA.Selenium.Appium.Service;
 using Aquality.Selenium.Core.Logging;
 using System.Reflection;
 using Aquality.WinAppDriver.Actions;
+using Aquality.WinAppDriver.Utilities;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -116,6 +118,17 @@ namespace Aquality.WinAppDriver.Applications
             }
 
             ApplicationFactory = applicationFactory;
+        }
+
+        /// <summary>
+        /// Sets window handle factory, which attaches to already running application by it's window handle
+        /// </summary>
+        /// <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
+        public static void SetWindowHandleApplicationFactory(Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
+        {
+            var appProfile = GetRequiredService<IApplicationProfile>();
+            var serviceUri = appProfile.IsRemote ? appProfile.RemoteConnectionUrl : AppiumLocalServiceContainer.Value.ServiceUrl;
+            ApplicationFactory = new WindowHandleApplicationFactory(serviceUri, ServiceProvider, getWindowHandleFunction);
         }
 
         private static Func<IServiceProvider, Application> StartApplicationFunction
