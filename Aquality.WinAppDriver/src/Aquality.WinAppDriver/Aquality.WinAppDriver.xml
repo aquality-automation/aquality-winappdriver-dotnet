@@ -210,6 +210,12 @@
             Provides access to Aquality services, registered in DI container.
             </summary>
         </member>
+        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetStartup(Aquality.WinAppDriver.Applications.ApplicationStartup)">
+            <summary>
+            Method which allow user to override or add custom services.
+            </summary>
+            <param name="startup"><see cref="T:Aquality.WinAppDriver.Applications.ApplicationStartup"/>> object with custom or overriden services.</param>
+        </member>
         <member name="P:Aquality.WinAppDriver.Applications.ApplicationManager.ApplicationFactory">
             <summary>
             Factory for application creation.
@@ -227,6 +233,11 @@
             <summary>
             Sets default factory responsible for application creation.
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
+            </summary>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Applications.ApplicationStartup">
+            <summary>
+            Provides functionality to  register services
             </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Configurations.ApplicationProfile">
