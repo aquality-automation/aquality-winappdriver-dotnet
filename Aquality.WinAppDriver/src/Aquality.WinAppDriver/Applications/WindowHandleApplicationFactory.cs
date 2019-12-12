@@ -27,7 +27,8 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                LocalizedLogger.Info(isRemote ? "loc.application.driver.service.remote" : "loc.application.driver.service.local.start", driverServerUri);
+                var messageKey = isRemote ? "loc.application.driver.service.remote" : "loc.application.driver.service.local.start";
+                LocalizedLogger.Info(messageKey, driverServerUri);
                 return GetApplication(driverServerUri);
             }
         }
