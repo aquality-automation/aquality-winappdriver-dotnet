@@ -22,6 +22,7 @@ namespace Aquality.WinAppDriver.Applications
     /// </summary>
     public class ApplicationManager : ApplicationManager<Application>
     {
+        private static readonly ThreadLocal<ApplicationStartup> ApplicationStartupContainer = new ThreadLocal<ApplicationStartup>(() => new ApplicationStartup());
         private static readonly ThreadLocal<IApplicationFactory> ApplicationFactoryContainer = new ThreadLocal<IApplicationFactory>();
         private static readonly ThreadLocal<AppiumLocalService> AppiumLocalServiceContainer = new ThreadLocal<AppiumLocalService>(AppiumLocalService.BuildDefaultService);
 
@@ -46,14 +47,8 @@ namespace Aquality.WinAppDriver.Applications
         /// </summary>
         public static Application Application
         {
-            get
-            {
-                return GetApplication(StartApplicationFunction, () => RegisterServices(services => Application));
-            }
-            set
-            {
-                SetApplication(value);
-            }
+            get => GetApplication(StartApplicationFunction, ConfigureServices);
+            set => SetApplication(value);
         }
 
         /// <summary>
@@ -61,13 +56,20 @@ namespace Aquality.WinAppDriver.Applications
         /// </summary>
         public static IServiceProvider ServiceProvider
         {
-            get
+            get => GetServiceProvider(services => Application, ConfigureServices);
+            set => SetServiceProvider(value);
+        }
+
+        /// <summary>
+        /// Method which allow user to override or add custom services.
+        /// </summary>
+        /// <param name="startup"><see cref="ApplicationStartup"/>> object with custom or overriden services.</param>
+        public static void SetStartup(ApplicationStartup startup)
+        {
+            if (startup != null)
             {
-                return GetServiceProvider(services => Application, () => RegisterServices(services => Application));
-            }
-            set
-            {
-                SetServiceProvider(value);
+                ApplicationStartupContainer.Value = startup;
+                SetServiceProvider(ConfigureServices().BuildServiceProvider());
             }
         }
 
@@ -84,10 +86,7 @@ namespace Aquality.WinAppDriver.Applications
                 }
                 return ApplicationFactoryContainer.Value;
             }
-            set
-            {
-                ApplicationFactoryContainer.Value = value;
-            }
+            set => ApplicationFactoryContainer.Value = value;
         }
 
         /// <summary>
@@ -132,31 +131,17 @@ namespace Aquality.WinAppDriver.Applications
             ApplicationFactory = new WindowHandleApplicationFactory(serviceUri, ServiceProvider, getWindowHandleFunction);
         }
 
-        private static IServiceCollection RegisterServices(Func<IServiceProvider, Application> applicationSupplier)
-        {
-            var services = new ServiceCollection();
-            var startup = new Startup();
-            var settingsFile = startup.GetSettings();
-            startup.ConfigureServices(services, applicationSupplier, settingsFile);
-            services.AddTransient<IElementFactory, ElementFactory>();
-            services.AddTransient<CoreElementFactory, ElementFactory>();
-            services.AddSingleton<IDriverSettings>(serviceProvider => new DriverSettings(settingsFile));
-            services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settingsFile, serviceProvider.GetRequiredService<IDriverSettings>()));
-            services.AddSingleton<ILocalizationManager>(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
-            services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.Driver));
-            services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => Application.Driver));
-            services.AddTransient(serviceProvider => ApplicationFactory);
-            services.AddTransient<IProcessManager, ProcessManager>();
-            services.AddTransient<IWinAppDriverLauncher, WinAppDriverLauncher>();
-            return services;
-        }
-
         private static Func<IServiceProvider, Application> StartApplicationFunction
         {
             get
             {
                 return (services) => ApplicationFactory.Application;
             }
+        }
+
+        private static IServiceCollection ConfigureServices()
+        {
+            return ApplicationStartupContainer.Value.ConfigureServices(new ServiceCollection(), services => Application);
         }
     }
 }
