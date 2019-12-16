@@ -21,6 +21,8 @@
   "loc.text.typing": "Уводзім значэнне '{0}'",
   "loc.keyboard.presskey": "Заціскаем клавішу '{0}'",
   "loc.keyboard.releasekey": "Адпускаем клавішу '{0}'",
+  "loc.keyboard.sendkey": "Націскаем клавішу '{0}'",
+  "loc.keyboard.sendkey.times": "Націскаем клавішу '{0}' {1} раз(ы|оў)",
   "loc.keyboard.sendkeys": "Націскаем клавішы '{0}'",
   "loc.keyboard.sendkeys.withkeyhold": "Націскаем клавішы '{0}' з заціснутай клавішай '{1}'",
   "loc.mouse.click": "Націскаем кнопку мышы",

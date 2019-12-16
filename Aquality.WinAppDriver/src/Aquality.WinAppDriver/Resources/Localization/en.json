@@ -21,6 +21,8 @@
   "loc.text.typing": "Typing '{0}'",
   "loc.keyboard.presskey": "Pressing key '{0}'",
   "loc.keyboard.releasekey": "Releasing key '{0}'",
+  "loc.keyboard.sendkey": "Sending key '{0}'",
+  "loc.keyboard.sendkey.times": "Sending key '{0}' {1} times",
   "loc.keyboard.sendkeys": "Sending keys '{0}'",
   "loc.keyboard.sendkeys.withkeyhold": "Sending keys '{0}' with holded key '{1}'",
   "loc.mouse.click": "Clicking mouse button",

@@ -1,6 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System.Linq;
-using System.Reflection;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -42,15 +40,5 @@ namespace Aquality.WinAppDriver.Actions
         /// Represents the Shift key.
         /// </summary>
         Shift
-    }
-
-    internal static class ModifierKeyExtensions
-    {
-        public static string GetKeysString(this ModifierKey modifierKey)
-        {
-            return typeof(Keys)
-                .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .FirstOrDefault(field => field.Name == modifierKey.ToString())?.GetValue(null).ToString();
-        }
     }
 }

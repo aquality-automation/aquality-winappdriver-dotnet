@@ -4,6 +4,328 @@
         <name>Aquality.WinAppDriver</name>
     </assembly>
     <members>
+        <member name="T:Aquality.WinAppDriver.Actions.ActionKey">
+            <summary>
+            Represents action keys which could be used in <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/>.
+            Used to enhance logging of SendKeys actions
+            Directly related to <see cref="T:OpenQA.Selenium.Keys"/>
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Null">
+            <summary>
+            Represents the NUL keystroke.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad0">
+            <summary>
+            Represents the number pad 0 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad1">
+            <summary>
+            Represents the number pad 1 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad2">
+            <summary>
+            Represents the number pad 2 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad3">
+            <summary>
+            Represents the number pad 3 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad4">
+            <summary>
+            Represents the number pad 4 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad5">
+            <summary>
+            Represents the number pad 5 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad6">
+            <summary>
+            Represents the number pad 6 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad7">
+            <summary>
+            Represents the number pad 7 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad8">
+            <summary>
+            Represents the number pad 8 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad9">
+            <summary>
+            Represents the number pad 9 key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Multiply">
+            <summary>
+            Represents the number pad multiplication key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Add">
+            <summary>
+            Represents the number pad addition key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Separator">
+            <summary>
+            Represents the number pad thousands separator key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Equal">
+            <summary>
+            Represents the equal sign key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Subtract">
+            <summary>
+            Represents the number pad subtraction key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Divide">
+            <summary>
+            Represents the number pad division key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F1">
+            <summary>
+            Represents the function key F1.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F2">
+            <summary>
+            Represents the function key F2.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F3">
+            <summary>
+            Represents the function key F3.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F4">
+            <summary>
+            Represents the function key F4.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F5">
+            <summary>
+            Represents the function key F5.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F6">
+            <summary>
+            Represents the function key F6.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F7">
+            <summary>
+            Represents the function key F7.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F8">
+            <summary>
+            Represents the function key F8.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F9">
+            <summary>
+            Represents the function key F9.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F10">
+            <summary>
+            Represents the function key F10.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F11">
+            <summary>
+            Represents the function key F11.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F12">
+            <summary>
+            Represents the function key F12.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Decimal">
+            <summary>
+            Represents the number pad decimal separator key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Meta">
+            <summary>
+            Represents the function key META.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Semicolon">
+            <summary>
+            Represents the semi-colon key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Insert">
+            <summary>
+            Represents the Insert key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Cancel">
+            <summary>
+            Represents the Cancel keystroke.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Help">
+            <summary>
+            Represents the Help keystroke.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Backspace">
+            <summary>
+            Represents the Backspace key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Tab">
+            <summary>
+            Represents the Tab key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Clear">
+            <summary>
+            Represents the Clear keystroke.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Return">
+            <summary>
+            Represents the Return key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Enter">
+            <summary>
+            Represents the Enter key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Shift">
+            <summary>
+            Represents the Shift key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.LeftShift">
+            <summary>
+            Represents the Shift key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Control">
+            <summary>
+            Represents the Control key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.LeftControl">
+            <summary>
+            Represents the Control key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Alt">
+            <summary>
+            Represents the Alt key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.LeftAlt">
+            <summary>
+            Represents the Alt key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Delete">
+            <summary>
+            Represents the Delete key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Pause">
+            <summary>
+            Represents the Pause key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Space">
+            <summary>
+            Represents the Spacebar key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.PageUp">
+            <summary>
+            Represents the Page Up key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.PageDown">
+            <summary>
+            Represents the Page Down key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.End">
+            <summary>
+            Represents the End key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Home">
+            <summary>
+            Represents the Home key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Left">
+            <summary>
+            Represents the left arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.ArrowLeft">
+            <summary>
+            Represents the left arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Up">
+            <summary>
+            Represents the up arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.ArrowUp">
+            <summary>
+            Represents the up arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Right">
+            <summary>
+            Represents the right arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.ArrowRight">
+            <summary>
+            Represents the right arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Down">
+            <summary>
+            Represents the Left arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.ArrowDown">
+            <summary>
+            Represents the Left arrow key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Escape">
+            <summary>
+            Represents the Escape key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Command">
+            <summary>
+            Represents the function key COMMAND.
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Actions.ApplicationActions">
             <summary>
             Abstract class for any actions against the whole application.
@@ -46,11 +368,19 @@
             </summary>
             <param name="keyToRelease">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to release.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeys(System.String)">
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeys(System.String,System.Nullable{Aquality.WinAppDriver.Actions.ActionKey})">
             <summary>
             Sends a sequence of keystrokes to the target.
             </summary>
             <param name="keySequence">A string representing the keystrokes to send.</param>
+            <param name="sendAfterSequence">An action key to send right after the <paramref name="keySequence"/></param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeys(Aquality.WinAppDriver.Actions.ActionKey,System.Int32)">
+            <summary>
+            Sends a sequence of keystrokes to the target.
+            </summary>
+            <param name="key">The <see cref="T:Aquality.WinAppDriver.Actions.ActionKey"/> value representing the keystroke to send.</param>
+            <param name="times">Number of times for the keystroke to send.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,Aquality.WinAppDriver.Actions.ModifierKey)">
             <summary>

@@ -21,7 +21,15 @@
         /// Sends a sequence of keystrokes to the target.
         /// </summary>
         /// <param name="keySequence">A string representing the keystrokes to send.</param>
-        void SendKeys(string keySequence);
+        /// <param name="sendAfterSequence">An action key to send right after the <paramref name="keySequence"/></param>
+        void SendKeys(string keySequence, ActionKey? sendAfterSequence = null);
+
+        /// <summary>
+        /// Sends a sequence of keystrokes to the target.
+        /// </summary>
+        /// <param name="key">The <see cref="ActionKey"/> value representing the keystroke to send.</param>
+        /// <param name="times">Number of times for the keystroke to send.</param>
+        void SendKeys(ActionKey key, int times = 1);
 
         /// <summary>
         /// Sends a sequence of keystrokes to the application, holding a specified key.

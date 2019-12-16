@@ -17,12 +17,41 @@ namespace Aquality.WinAppDriver.Tests.Actions
 
         protected static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 
+        protected static readonly ActionKey[] actionKeys = Enum.GetValues(typeof(ActionKey)) as ActionKey[];
+
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend);
             Assert.AreEqual(ValueToSend, RightArgumentTextBox.Value);
+        }
+
+        [Test]
+        public void Should_SendKey_ViaKeyboardActions()
+        {
+            RightArgumentTextBox.Click();
+            KeyboardActions.SendKeys(ActionKey.Equal);
+            KeyboardActions.SendKeys(ValueToSend);
+            Assert.AreEqual("=" + ValueToSend, RightArgumentTextBox.Value);
+        }
+
+        [Test]
+        public void Should_SendKey_AfterSequence_ViaKeyboardActions()
+        {
+            RightArgumentTextBox.Click();
+            KeyboardActions.SendKeys(ValueToSend, ActionKey.Equal);
+            Assert.AreEqual(ValueToSend + "=", RightArgumentTextBox.Value);
+        }
+
+        [Test]
+        public void Should_SendKey_SeveralTimes_ViaKeyboardActions()
+        {
+            const int numberOfCharsToDelete = 2;
+            RightArgumentTextBox.Click();
+            KeyboardActions.SendKeys(ValueToSend);
+            KeyboardActions.SendKeys(ActionKey.Backspace, times: numberOfCharsToDelete);
+            Assert.AreEqual(ValueToSend.Substring(0, ValueToSend.Length - numberOfCharsToDelete), RightArgumentTextBox.Value);
         }
 
         [Test]
@@ -59,6 +88,13 @@ namespace Aquality.WinAppDriver.Tests.Actions
         {
             RightArgumentTextBox.Click();
             Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey));
+        }
+
+        [Test]
+        public void Should_NotThrow_WhenSendKeyTwice_ViaKeyboardActions([ValueSource(nameof(actionKeys))] ActionKey actionKey)
+        {
+            RightArgumentTextBox.Click();
+            Assert.DoesNotThrow(() => KeyboardActions.SendKeys(actionKey, times: 2));
         }
     }
 }
