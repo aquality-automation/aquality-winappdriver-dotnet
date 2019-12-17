@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Actions
 
 
         /// <summary>
-        /// Instantiates Aplication actions.
+        /// Instantiates Application actions.
         /// </summary>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
