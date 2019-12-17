@@ -21,6 +21,8 @@
   "loc.text.typing": "Вводим значение '{0}'",
   "loc.keyboard.presskey": "Зажимаем клавишу '{0}'",
   "loc.keyboard.releasekey": "Отпускаем клавишу '{0}'",
+  "loc.keyboard.sendkey": "Нажимаем клавишу '{0}'",
+  "loc.keyboard.sendkey.times": "Нажимаем клавишу '{0}' {1} раз(а)",
   "loc.keyboard.sendkeys": "Нажимаем клавиши '{0}'",
   "loc.keyboard.sendkeys.withkeyhold": "Нажимаем клавиши '{0}' с зажатой клавишей '{1}'",
   "loc.mouse.click": "Щёлкаем кнопку мыши",

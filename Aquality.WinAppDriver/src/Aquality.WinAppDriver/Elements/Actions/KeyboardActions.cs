@@ -37,10 +37,25 @@ namespace Aquality.WinAppDriver.Elements.Actions
             PerformAction((actions, element) => actions.KeyUp(element, keyToRelease.GetKeysString()));
         }
 
-        public void SendKeys(string keySequence)
+        public void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
         {
-            LogAction("loc.keyboard.sendkeys", keySequence);
-            PerformAction((actions, element) => actions.SendKeys(element, keySequence));
+            var valueToLog = $"{keySequence}{(sendAfterSequence == null ? string.Empty : $" + {sendAfterSequence}")}";
+            LogAction("loc.keyboard.sendkeys", valueToLog);
+            var valueToSend = $"{keySequence}{sendAfterSequence.GetKeysOrEmptyString()}";
+            PerformAction((actions, element) => actions.SendKeys(element, valueToSend));
+        }
+
+        public void SendKeys(ActionKey key, int times = 1)
+        {
+            if (times == 1)
+            {
+                LogAction("loc.keyboard.sendkey", key);
+            }
+            else
+            {
+                LogAction("loc.keyboard.sendkey.times", key, times);
+            }
+            PerformAction((actions, element) => actions.SendKeys(key.GetKeysString(times)));
         }
 
         public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold)
