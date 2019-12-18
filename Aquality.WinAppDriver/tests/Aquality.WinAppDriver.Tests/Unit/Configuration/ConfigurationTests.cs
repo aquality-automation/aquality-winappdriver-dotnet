@@ -18,31 +18,31 @@ namespace Aquality.WinAppDriver.Tests.Unit.Configuration
         [SetUp]
         public static void SetUp()
         {
-            ApplicationManager.SetStartup(new CustomStartup());
+            AqualityServices.SetStartup(new CustomStartup());
         }
 
         [Test]
         public void Should_BeAbleOverrideDependencies_AndGetCustomService()
         {
-            Assert.AreEqual(SpecialLoggerLanguage, ApplicationManager.GetRequiredService<ILoggerConfiguration>().Language, "Configuration value should be overriden.");
+            Assert.AreEqual(SpecialLoggerLanguage, AqualityServices.Get<ILoggerConfiguration>().Language, "Configuration value should be overriden.");
         }
 
         [Test]
         public void Should_BeAbleAdd_CustomService()
         {
-            Assert.AreEqual(SpecialCustomValue, ApplicationManager.GetRequiredService<ICustomService>().CustomValue, "Custom service should have value");
+            Assert.AreEqual(SpecialCustomValue, AqualityServices.Get<ICustomService>().CustomValue, "Custom service should have value");
         }
 
         [Test]
         public void Should_BeAbleGet_DefaultService()
         {
-            Assert.AreEqual(DefaultCommandTimeout, ApplicationManager.GetRequiredService<ITimeoutConfiguration>().Command, "Default service value should have default value");
+            Assert.AreEqual(DefaultCommandTimeout, AqualityServices.Get<ITimeoutConfiguration>().Command, "Default service value should have default value");
         }
 
         [TearDown]
         public static void TearDown()
         {
-            ApplicationManager.SetStartup(new ApplicationStartup());
+            AqualityServices.SetStartup(new ApplicationStartup());
         }
 
         private class CustomLoggerConfiguration : ILoggerConfiguration

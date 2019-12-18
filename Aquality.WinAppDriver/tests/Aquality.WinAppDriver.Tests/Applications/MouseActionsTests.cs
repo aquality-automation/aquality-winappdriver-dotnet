@@ -5,6 +5,6 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class MouseActionsTests : Actions.MouseActionsTests
     {
-        protected override IMouseActions MouseActions => ApplicationManager.Application.MouseActions;
+        protected override IMouseActions MouseActions => AqualityServices.Application.MouseActions;
     }
 }

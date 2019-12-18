@@ -20,24 +20,24 @@ namespace Aquality.WinAppDriver.Elements
         {
         }
 
-        protected override ElementActionRetrier ActionRetrier => ApplicationManager.GetRequiredService<ElementActionRetrier>();
+        protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
 
-        protected override IApplication Application => ApplicationManager.Application;
+        protected override IApplication Application => AqualityServices.Application;
 
-        protected override ConditionalWait ConditionalWait => ApplicationManager.GetRequiredService<ConditionalWait>();
+        protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 
-        protected virtual IElementFactory CustomFactory => ApplicationManager.GetRequiredService<IElementFactory>();
+        protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
 
         public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
 
         public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
 
-        protected override CoreElementFinder Finder => ApplicationManager.GetRequiredService<CoreElementFinder>();
+        protected override CoreElementFinder Finder => AqualityServices.Get<CoreElementFinder>();
 
-        protected override ILocalizedLogger LocalizedLogger => ApplicationManager.GetRequiredService<ILocalizedLogger>();
+        protected override ILocalizedLogger LocalizedLogger => AqualityServices.Get<ILocalizedLogger>();
 
-        protected ILocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<ILocalizationManager>();
+        protected ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
     }
 }

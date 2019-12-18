@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
     {
         private const string ValueToSend = "abc";
 
-        protected virtual IKeyboardActions KeyboardActions => ApplicationManager.GetRequiredService<IKeyboardActions>();
+        protected virtual IKeyboardActions KeyboardActions => AqualityServices.KeyboardActions;
 
         protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
 

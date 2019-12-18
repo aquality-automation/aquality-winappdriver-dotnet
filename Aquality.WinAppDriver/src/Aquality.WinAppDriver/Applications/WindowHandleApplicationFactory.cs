@@ -1,5 +1,4 @@
 ﻿using Aquality.WinAppDriver.Configurations;
-using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
@@ -15,12 +14,12 @@ namespace Aquality.WinAppDriver.Applications
         private readonly Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction;
         private readonly bool isRemote;
 
-        public WindowHandleApplicationFactory(Uri driverServerUri, IServiceProvider serviceProvider, Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
-            : base(serviceProvider)
+        public WindowHandleApplicationFactory(Uri driverServerUri, Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
+            : base()
         {
             this.driverServerUri = driverServerUri;
             this.getWindowHandleFunction = getWindowHandleFunction;
-            isRemote = serviceProvider.GetRequiredService<IApplicationProfile>().IsRemote;
+            isRemote = AqualityServices.Get<IApplicationProfile>().IsRemote;
         }
 
         public override Application Application

@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
     public class ElementFactoryTests : TestWithApplication
     {
         private static readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
-        private IElementFactory Factory => ApplicationManager.GetRequiredService<IElementFactory>();
+        private IElementFactory Factory => AqualityServices.Get<IElementFactory>();
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFactory()

@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Utilities
     public class ProcessManagerTests
     {
         private const string TestProcess = "cmd.exe";
-        private static IProcessManager ProcessManager => ApplicationManager.GetRequiredService<IProcessManager>();
+        private static IProcessManager ProcessManager => AqualityServices.ProcessManager;
 
         private static IEnumerable<Func<string, bool>> FunctionsReturnTrueWhenProcessStarted
         {

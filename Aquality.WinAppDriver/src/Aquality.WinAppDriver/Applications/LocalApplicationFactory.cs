@@ -7,8 +7,7 @@ namespace Aquality.WinAppDriver.Applications
     {
         private readonly AppiumLocalService driverService;
 
-        public LocalApplicationFactory(AppiumLocalService driverService, IServiceProvider serviceProvider) 
-            : base(serviceProvider)
+        public LocalApplicationFactory(AppiumLocalService driverService) : base()
         {
             this.driverService = driverService;
         }
@@ -20,7 +19,7 @@ namespace Aquality.WinAppDriver.Applications
                 driverService.Start();
                 var serviceUrl = driverService.ServiceUrl;
                 LocalizedLogger.Info("loc.application.driver.service.local.start", serviceUrl);
-                return new Application(() => GetApplicationSession(serviceUrl), () => GetRootSession(serviceUrl), ServiceProvider);
+                return new Application(() => GetApplicationSession(serviceUrl), () => GetRootSession(serviceUrl));
             }
         }
     }

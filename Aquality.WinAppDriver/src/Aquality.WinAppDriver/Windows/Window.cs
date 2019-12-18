@@ -26,7 +26,7 @@ namespace Aquality.WinAppDriver.Windows
         /// Element factory <see cref="IElementFactory"/>
         /// </summary>
         /// <value>Element factory.</value>
-        protected IElementFactory ElementFactory => ApplicationManager.GetRequiredService<IElementFactory>();
+        protected IElementFactory ElementFactory => AqualityServices.Get<IElementFactory>();
 
         /// <summary>
         /// Finds element relative to current window.

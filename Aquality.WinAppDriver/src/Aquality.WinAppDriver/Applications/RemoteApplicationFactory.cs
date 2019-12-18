@@ -9,8 +9,7 @@ namespace Aquality.WinAppDriver.Applications
     {
         private readonly Uri driverServerUri;
 
-        public RemoteApplicationFactory(Uri driverServerUri, IServiceProvider serviceProvider) 
-            : base(serviceProvider)
+        public RemoteApplicationFactory(Uri driverServerUri) : base()
         {
             this.driverServerUri = driverServerUri;
         }

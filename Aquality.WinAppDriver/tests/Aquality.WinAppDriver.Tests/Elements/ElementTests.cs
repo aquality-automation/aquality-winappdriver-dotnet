@@ -14,7 +14,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private static readonly By ElementLocator = By.XPath("//*[@id='111111']");
         private const string ElementDescription = "Not present element";
 
-        private IElementFactory Factory => ApplicationManager.GetRequiredService<IElementFactory>();
+        private IElementFactory Factory => AqualityServices.Get<IElementFactory>();
         private IElement Label => Factory.GetLabel(ElementLocator, ElementDescription);
 
         [Test]

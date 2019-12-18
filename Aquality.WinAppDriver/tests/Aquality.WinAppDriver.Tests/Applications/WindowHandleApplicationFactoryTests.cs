@@ -9,15 +9,15 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class WindowHandleApplicationFactoryTests : TestWithApplication
     {
-        private IProcessManager ProcessManager => ApplicationManager.GetRequiredService<IProcessManager>();
-        private string ApplicationPath => ApplicationManager.GetRequiredService<IDriverSettings>().ApplicationPath;
+        private IProcessManager ProcessManager => AqualityServices.ProcessManager;
+        private string ApplicationPath => AqualityServices.Get<IDriverSettings>().ApplicationPath;
 
         [Test]
         public void Should_BePossibleTo_SetWindowHandleApplicationFactory()
         {
             const string appName = "Day Maxi Calc  v.1.5 Freeware";
             ProcessManager.Start(ApplicationPath);
-            ApplicationManager.SetWindowHandleApplicationFactory(
+            AqualityServices.SetWindowHandleApplicationFactory(
                 rootSession => GetWindowHandle(rootSession.FindElementByName(appName)));
             Assert.IsTrue(new CalculatorWindow().IsDisplayed);
         }
@@ -26,7 +26,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public new void CleanUp()
         {
             base.CleanUp();
-            ApplicationManager.SetDefaultFactory();
+            AqualityServices.SetDefaultFactory();
             var executableName = ApplicationPath.Contains('\\') ? ApplicationPath.Substring(ApplicationPath.LastIndexOf('\\') + 1) : ApplicationPath;
             ProcessManager.TryToStopExecutables(executableName);
         }

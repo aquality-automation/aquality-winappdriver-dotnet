@@ -3,7 +3,6 @@ using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Actions;
-using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 
@@ -25,15 +24,14 @@ namespace Aquality.WinAppDriver.Applications
         /// </summary>
         /// <param name="createApplicationSession">Function to create an instance of WinAppDriver for current application</param>
         /// <param name="createRootSession">Function to create an instance of WinAppDriver for desktop session</param>
-        /// <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
-        public Application(Func<WindowsDriver<WindowsElement>> createApplicationSession, Func<WindowsDriver<WindowsElement>> createRootSession, IServiceProvider serviceProvider)
+        public Application(Func<WindowsDriver<WindowsElement>> createApplicationSession, Func<WindowsDriver<WindowsElement>> createRootSession)
         {
             this.createApplicationSession = createApplicationSession;
             this.createDesktopSession = createRootSession;
-            Logger = serviceProvider.GetRequiredService<ILocalizedLogger>();
-            KeyboardActions = serviceProvider.GetRequiredService<IKeyboardActions>();
-            MouseActions = serviceProvider.GetRequiredService<IMouseActions>();
-            var timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
+            Logger = AqualityServices.Get<ILocalizedLogger>();
+            KeyboardActions = AqualityServices.KeyboardActions;
+            MouseActions = AqualityServices.MouseActions;
+            var timeoutConfiguration = AqualityServices.Get<ITimeoutConfiguration>();
             implicitWait = timeoutConfiguration.Implicit;
         }
 

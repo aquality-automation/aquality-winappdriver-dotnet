@@ -1,6 +1,5 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Configurations;
-using Aquality.WinAppDriver.Utilities;
 using NUnit.Framework;
 using System.Diagnostics;
 
@@ -14,24 +13,24 @@ namespace Aquality.WinAppDriver.Tests
         [SetUp]
         public void SetUp()
         {
-            if (ApplicationManager.GetRequiredService<IApplicationProfile>().IsRemote)
+            if (AqualityServices.Get<IApplicationProfile>().IsRemote)
             {
                 winAppDriverProcess =
-                    ApplicationManager.GetRequiredService<IWinAppDriverLauncher>().StartWinAppDriverIfRequired();
+                    AqualityServices.WinAppDriverLauncher.StartWinAppDriverIfRequired();
             }            
         }
 
         [TearDown]
         public void CleanUp()
         {
-            if (ApplicationManager.IsApplicationStarted())
+            if (AqualityServices.IsApplicationStarted)
             {
-                ApplicationManager.Application.Quit();
+                AqualityServices.Application.Quit();
             }
-            ApplicationManager.TryToStopAppiumLocalService();
+            AqualityServices.TryToStopAppiumLocalService();
             if (winAppDriverProcess != null)
             {
-                ApplicationManager.GetRequiredService<IWinAppDriverLauncher>().TryToStopWinAppDriver();
+                AqualityServices.WinAppDriverLauncher.TryToStopWinAppDriver();
             }
         }
     }

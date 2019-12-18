@@ -8,7 +8,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
 {
     public class MouseActionsTests : TestWithApplication
     {
-        protected virtual IMouseActions MouseActions => ApplicationManager.GetRequiredService<IMouseActions>();
+        protected virtual IMouseActions MouseActions => AqualityServices.MouseActions;
 
         protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
 
