@@ -87,5 +87,65 @@ namespace Aquality.WinAppDriver.Tests.Applications
                 Assert.AreSame(secondApplication, secondApplicationFromServiceProvider);
             }
         }
+
+        [Test]
+        public void Should_BeAbleGetApplication()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.Application.Driver.Manage());
+        }
+
+        [Test]
+        [Parallelizable]
+        public void Should_BeAbleCheck_IsApplicationNotStarted()
+        {
+            Assert.IsFalse(AqualityServices.IsApplicationStarted, "Application is not started");
+        }
+
+        [Test]
+        public void Should_BeAbleCheck_IsApplicationStarted()
+        {
+            AqualityServices.Application.Driver.Manage();
+            Assert.IsTrue(AqualityServices.IsApplicationStarted, "Application is started");
+        }
+
+        [Test]
+        [Parallelizable]
+        public void Should_BeAbleToGet_Logger()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.Logger.Info("message"), "Logger should not be null");
+        }
+
+        [Test]
+        [Parallelizable]
+        public void Should_BeAbleToGet_ConditionalWait()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.ConditionalWait.WaitForTrue(() => true), "ConditionalWait should not be null");
+        }
+
+        [Test]
+        public void Should_BeAbleToGet_KeyboardActions()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.KeyboardActions.SendKeys(WinAppDriver.Actions.ActionKey.Space), "KeyboardActions should not be null");
+        }
+
+        [Test]
+        public void Should_BeAbleToGet_MouseActions()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.MouseActions.MoveByOffset(1,1), "MouseActions should not be null");
+        }
+
+        [Test]
+        [Parallelizable]
+        public void Should_BeAbleToGet_WinAppDriverLauncher()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.WinAppDriverLauncher.TryToStopWinAppDriver(), "WinAppDriverLauncher should not be null");
+        }
+
+        [Test]
+        [Parallelizable]
+        public void Should_BeAbleToGet_ProcessManager()
+        {
+            Assert.DoesNotThrow(() => AqualityServices.ProcessManager.IsProcessRunning(string.Empty), "ProcessManager should not be null");
+        }
     }
 }
