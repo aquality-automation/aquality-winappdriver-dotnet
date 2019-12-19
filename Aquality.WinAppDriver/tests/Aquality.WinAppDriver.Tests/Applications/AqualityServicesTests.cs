@@ -139,7 +139,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         [Parallelizable]
         public void Should_BeAbleToGet_WinAppDriverLauncher()
         {
-            Assert.DoesNotThrow(() => AqualityServices.WinAppDriverLauncher.TryToStopWinAppDriver(), "WinAppDriverLauncher should not be null");
+            Assert.IsNotNull(AqualityServices.WinAppDriverLauncher, "WinAppDriverLauncher should not be null");
         }
 
         [Test]
