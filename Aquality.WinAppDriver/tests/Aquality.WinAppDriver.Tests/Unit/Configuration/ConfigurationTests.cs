@@ -8,7 +8,6 @@ using NUnit.Framework;
 namespace Aquality.WinAppDriver.Tests.Unit.Configuration
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.All)]
     internal class CustomConfigurationTests
     {
         private const string SpecialLoggerLanguage = "SpecialLoggerLanguage";
