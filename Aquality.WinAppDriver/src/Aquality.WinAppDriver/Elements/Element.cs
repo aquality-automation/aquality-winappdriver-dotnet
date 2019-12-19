@@ -36,7 +36,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override CoreElementFinder Finder => AqualityServices.Get<CoreElementFinder>();
 
-        protected override ILocalizedLogger LocalizedLogger => AqualityServices.Get<ILocalizedLogger>();
+        protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 
         protected ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
     }

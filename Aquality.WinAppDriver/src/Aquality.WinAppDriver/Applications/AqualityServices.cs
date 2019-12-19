@@ -29,6 +29,11 @@ namespace Aquality.WinAppDriver.Applications
         public new static bool IsApplicationStarted => IsApplicationStarted();
 
         /// <summary>
+        /// Gets registered instance of localized logger
+        /// </summary>
+        public static ILocalizedLogger LocalizedLogger => Get<ILocalizedLogger>();
+
+        /// <summary>
         /// Gets registered instance of Logger
         /// </summary>
         public static Logger Logger => Get<Logger>();
@@ -57,11 +62,6 @@ namespace Aquality.WinAppDriver.Applications
         /// Gets ProcessManager object
         /// </summary>
         public static IProcessManager ProcessManager => Get<IProcessManager>();
-
-        /// <summary>
-        /// Provides access to Aquality services, registered in DI container.
-        /// </summary>
-        public static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, ConfigureServices);
 
         /// <summary>
         /// Stops appium local service.
@@ -158,6 +158,8 @@ namespace Aquality.WinAppDriver.Applications
             var serviceUri = appProfile.IsRemote ? appProfile.RemoteConnectionUrl : AppiumLocalServiceContainer.Value.ServiceUrl;
             ApplicationFactory = new WindowHandleApplicationFactory(serviceUri, getWindowHandleFunction);
         }
+
+        private static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, ConfigureServices);
 
         private static Func<IServiceProvider, Application> StartApplicationFunction
         {

@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Applications
 
         protected ApplicationFactory()
         {
-            LocalizedLogger = AqualityServices.Get<ILocalizedLogger>();
+            LocalizedLogger = AqualityServices.LocalizedLogger;
             DriverSettings = AqualityServices.Get<IDriverSettings>();
             timeoutConfiguration = AqualityServices.Get<ITimeoutConfiguration>();
         }

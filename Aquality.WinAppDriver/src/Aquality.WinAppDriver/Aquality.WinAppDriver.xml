@@ -530,6 +530,11 @@
             </summary>
             <value>true if application started and false otherwise.</value>
         </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.LocalizedLogger">
+            <summary>
+            Gets registered instance of localized logger
+            </summary>
+        </member>
         <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.Logger">
             <summary>
             Gets registered instance of Logger
@@ -558,11 +563,6 @@
         <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ProcessManager">
             <summary>
             Gets ProcessManager object
-            </summary>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ServiceProvider">
-            <summary>
-            Provides access to Aquality services, registered in DI container.
             </summary>
         </member>
         <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.TryToStopAppiumLocalService">

@@ -4,6 +4,7 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Tests.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using System;
 
 namespace Aquality.WinAppDriver.Tests.Applications
 {
@@ -49,7 +50,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public void Should_GetCurrentApplication_AfterSetApplication()
         {
             IApplication firstApplication;
-            using(var scope = AqualityServices.ServiceProvider.CreateScope())
+            using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
                 firstApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
             }
@@ -57,7 +58,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             // Creating a second instance of Application
             AqualityServices.Application = AqualityServices.ApplicationFactory.Application;
 
-            using (var scope = AqualityServices.ServiceProvider.CreateScope())
+            using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
                 var secondApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
                 Assert.AreNotSame(firstApplication, secondApplication);
@@ -67,7 +68,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             // Switching back to a first instance of Application
             AqualityServices.Application = firstApplication as Application;
 
-            using (var scope = AqualityServices.ServiceProvider.CreateScope())
+            using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
                 Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IApplication>());
             }
@@ -80,7 +81,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             firstApplication.Quit();
             var secondApplication = AqualityServices.Application;
             Assert.AreNotSame(firstApplication, secondApplication);
-            using (var scope = AqualityServices.ServiceProvider.CreateScope())
+            using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
                 var secondApplicationFromServiceProvider = scope.ServiceProvider.GetRequiredService<IApplication>();
                 Assert.AreNotSame(firstApplication, secondApplicationFromServiceProvider);

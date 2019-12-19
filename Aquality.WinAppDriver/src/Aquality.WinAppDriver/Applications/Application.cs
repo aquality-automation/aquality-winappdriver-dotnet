@@ -28,7 +28,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             this.createApplicationSession = createApplicationSession;
             this.createDesktopSession = createRootSession;
-            Logger = AqualityServices.Get<ILocalizedLogger>();
+            Logger = AqualityServices.LocalizedLogger;
             KeyboardActions = AqualityServices.KeyboardActions;
             MouseActions = AqualityServices.MouseActions;
             var timeoutConfiguration = AqualityServices.Get<ITimeoutConfiguration>();
