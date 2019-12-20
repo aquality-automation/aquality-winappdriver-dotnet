@@ -11,6 +11,7 @@ using IKeyboardActions = Aquality.WinAppDriver.Actions.IKeyboardActions;
 using CoreElement = Aquality.Selenium.Core.Elements.Element;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 using CoreElementFinder = Aquality.Selenium.Core.Elements.Interfaces.IElementFinder;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -22,19 +23,19 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
 
-        protected override IApplication Application => WindowsApplication;
+        protected override IApplication Application => AqualityServices.Application;
 
-        protected virtual IWindowsApplication WindowsApplication => ApplicationManager.Application;
+        protected virtual WindowsDriver<WindowsElement> WindowsDriver => AqualityServices.Application.Driver;
 
-        protected override ConditionalWait ConditionalWait => ApplicationManager.GetRequiredService<ConditionalWait>();
+        protected override ConditionalWait ConditionalWait => AqualityServices.Get<ConditionalWait>();
 
         protected override CoreElementFactory Factory => CustomFactory;
 
         protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => WindowsApplication, LocalizedLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
 
-        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsApplication, LocalizedLogger, ActionRetrier);
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
 
         protected override CoreElementFinder Finder => AqualityServices.Get<CoreElementFinder>();
 

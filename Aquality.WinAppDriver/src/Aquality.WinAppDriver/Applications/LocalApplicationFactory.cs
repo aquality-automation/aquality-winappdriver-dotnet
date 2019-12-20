@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium.Appium.Service;
-using System;
 
 namespace Aquality.WinAppDriver.Applications
 {

@@ -692,13 +692,13 @@
             Abstract class for any actions agains element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Element actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
-            <param name="applicationSupplier">Method to get current application session.</param>
+            <param name="windowsDriverSupplier">Method to get current application session.</param>
             <param name="localizedLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
         </member>
@@ -784,13 +784,13 @@
             Implements Keyboard actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Keyboard actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
-            <param name="applicationSupplier">Method to get current application session.</param>
+            <param name="windowsDriverSupplier">Method to get current application session.</param>
             <param name="localizedLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
         </member>
@@ -799,13 +799,13 @@
             Implements Mouse actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Mouse actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
-            <param name="applicationSupplier">Method to get current application session.</param>
+            <param name="windowsDriverSupplier">Method to get current application session.</param>
             <param name="localizationLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
         </member>

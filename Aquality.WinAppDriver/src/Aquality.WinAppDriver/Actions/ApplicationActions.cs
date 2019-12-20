@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Actions
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
         {
-            action(new SeleniumActions(ApplicationManager.Application.RootSession)).Build().Perform();
+            action(new SeleniumActions(AqualityServices.Application.RootSession)).Build().Perform();
         }
 
         /// <summary>

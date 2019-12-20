@@ -1,8 +1,8 @@
 ﻿using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
-using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using System;
@@ -22,14 +22,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// </summary>
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
-        /// <param name="applicationSupplier">Method to get current application session.</param>
+        /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizationLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public MouseActions(IElement element, string elementType, Func<IWindowsApplication> applicationSupplier, ILocalizedLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
-            : base(element, elementType, applicationSupplier, localizationLogger, elementActionsRetrier)
+        public MouseActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
+            : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
         {
             this.element = element;
-            remoteTouchScreenSupplier = () => new RemoteTouchScreen(applicationSupplier().Driver);
+            remoteTouchScreenSupplier = () => new RemoteTouchScreen(windowsDriverSupplier());
         }
 
         public void Click()
