@@ -1,5 +1,5 @@
 ﻿using Aquality.Selenium.Core.Elements;
-using Aquality.WinAppDriver.Windows;
+using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 

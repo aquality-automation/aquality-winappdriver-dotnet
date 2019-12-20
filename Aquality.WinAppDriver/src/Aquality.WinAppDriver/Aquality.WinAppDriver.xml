@@ -871,7 +871,7 @@
             <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements ITextBox interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Windows.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Forms.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Finds element relative to parent window.
             </summary>
@@ -937,6 +937,47 @@
             <param name="element"></param>
             <returns></returns>
         </member>
+        <member name="T:Aquality.WinAppDriver.Forms.Window">
+            <summary>
+            Defines base class for any application's window.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Forms.Window.#ctor(OpenQA.Selenium.By,System.String)">
+            <summary>
+            Constructor with parameters.
+            </summary>
+            <param name="locator">Unique locator of the window.</param>
+            <param name="name">Name of the window.</param>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Window.ElementFactory">
+            <summary>
+            Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
+            </summary>
+            <value>Element factory.</value>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Forms.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
+            <summary>
+            Finds element relative to current window.
+            </summary>
+            <typeparam name="T">Type of the target element.</typeparam>
+            <param name="childLocator">Locator of the element relative to current window.</param>
+            <param name="childName">Name of the element.</param>
+            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <param name="elementState">Element existance state</param>
+            <returns>Instance of element.</returns>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Window.IsDisplayed">
+            <summary>
+            Return window state for window locator
+            </summary>
+            <value>True - window is opened,
+            False - window is not opened.</value>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Window.Size">
+            <summary>
+            Gets size of window element defined by its locator.
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Utilities.IProcessManager">
             <summary>
             Provides ability to detect running processes and to stop them.
@@ -1000,47 +1041,6 @@
         <member name="T:Aquality.WinAppDriver.Utilities.ProcessManager">
             <summary>
             Implementation of <see cref="T:Aquality.WinAppDriver.Utilities.IProcessManager"/>
-            </summary>
-        </member>
-        <member name="T:Aquality.WinAppDriver.Windows.Window">
-            <summary>
-            Defines base class for any application's window.
-            </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Windows.Window.#ctor(OpenQA.Selenium.By,System.String)">
-            <summary>
-            Constructor with parameters.
-            </summary>
-            <param name="locator">Unique locator of the window.</param>
-            <param name="name">Name of the window.</param>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.ElementFactory">
-            <summary>
-            Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
-            </summary>
-            <value>Element factory.</value>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Windows.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
-            <summary>
-            Finds element relative to current window.
-            </summary>
-            <typeparam name="T">Type of the target element.</typeparam>
-            <param name="childLocator">Locator of the element relative to current window.</param>
-            <param name="childName">Name of the element.</param>
-            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
-            <param name="elementState">Element existance state</param>
-            <returns>Instance of element.</returns>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.IsDisplayed">
-            <summary>
-            Return window state for window locator
-            </summary>
-            <value>True - window is opened,
-            False - window is not opened.</value>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Windows.Window.Size">
-            <summary>
-            Gets size of window element defined by its locator.
             </summary>
         </member>
     </members>

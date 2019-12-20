@@ -1,5 +1,5 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 
 namespace Aquality.WinAppDriver.Tests.Elements

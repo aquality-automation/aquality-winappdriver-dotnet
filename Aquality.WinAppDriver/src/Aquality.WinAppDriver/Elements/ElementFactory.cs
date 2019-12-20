@@ -6,7 +6,7 @@ using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Waitings;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
-using Aquality.WinAppDriver.Windows;
+using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using CoreFactory = Aquality.Selenium.Core.Elements.ElementFactory;
