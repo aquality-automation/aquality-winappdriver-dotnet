@@ -1,7 +1,7 @@
-﻿using Aquality.WinAppDriver.Windows;
+﻿using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
 
-namespace Aquality.WinAppDriver.Tests.Windows
+namespace Aquality.WinAppDriver.Tests.Forms
 {
     public class TestWindow : Window
     {

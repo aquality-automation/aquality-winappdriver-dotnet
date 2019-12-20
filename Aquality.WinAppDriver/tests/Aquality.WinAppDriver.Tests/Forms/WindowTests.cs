@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace Aquality.WinAppDriver.Tests.Windows
+namespace Aquality.WinAppDriver.Tests.Forms
 {
     public class WindowTests : TestWithApplication
     {

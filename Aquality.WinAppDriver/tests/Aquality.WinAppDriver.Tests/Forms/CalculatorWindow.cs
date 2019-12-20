@@ -1,9 +1,9 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Windows;
+using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 
-namespace Aquality.WinAppDriver.Tests.Windows
+namespace Aquality.WinAppDriver.Tests.Forms
 {
     public class CalculatorWindow : Window
     {

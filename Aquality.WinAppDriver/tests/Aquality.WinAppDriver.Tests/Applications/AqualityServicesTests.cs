@@ -1,7 +1,7 @@
 ﻿using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Elements.Interfaces;
 using Aquality.WinAppDriver.Applications;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;

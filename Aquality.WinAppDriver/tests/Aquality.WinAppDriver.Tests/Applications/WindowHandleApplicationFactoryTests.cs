@@ -1,6 +1,6 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Configurations;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using Aquality.WinAppDriver.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium.Appium.Windows;

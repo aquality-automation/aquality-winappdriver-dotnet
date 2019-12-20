@@ -6,7 +6,7 @@ using System.Drawing;
 using Element = Aquality.WinAppDriver.Elements.Element;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 
-namespace Aquality.WinAppDriver.Windows
+namespace Aquality.WinAppDriver.Forms
 {
     /// <summary>
     /// Defines base class for any application's window.

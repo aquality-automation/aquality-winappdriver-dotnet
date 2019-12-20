@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using IElementStateProvider = Aquality.Selenium.Core.Elements.Interfaces.IElementStateProvider;
