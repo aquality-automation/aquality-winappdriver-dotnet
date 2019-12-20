@@ -1,7 +1,7 @@
-﻿using Aquality.Selenium.Core.Applications;
-using Aquality.Selenium.Core.Localization;
+﻿using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
 using Aquality.WinAppDriver.Actions;
+using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using System;
 
@@ -20,7 +20,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="applicationSupplier">Method to get current application session.</param>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public KeyboardActions(IElement element, string elementType, Func<IApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
+        public KeyboardActions(IElement element, string elementType, Func<IWindowsApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
             : base(element, elementType, applicationSupplier, localizedLogger, elementActionsRetrier)
         {
         }
@@ -58,11 +58,19 @@ namespace Aquality.WinAppDriver.Elements.Actions
             PerformAction((actions, element) => actions.SendKeys(key.GetKeysString(times)));
         }
 
-        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold)
+        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
         {
             var keyToHoldString = keyToHold.GetKeysString();
             LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
-            PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence).KeyUp(element, keyToHoldString));
+            if (mayDisappear)
+            {
+                PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence));
+                PerformInRootSession(actions => actions.KeyUp(keyToHoldString));
+            }
+            else
+            {
+                PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence).KeyUp(element, keyToHoldString));
+            }
         }
     }
 }

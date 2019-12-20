@@ -47,11 +47,19 @@ namespace Aquality.WinAppDriver.Actions
             PerformAction(actions => actions.SendKeys(key.GetKeysString(times)));
         }
 
-        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold)
+        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
         {
             var keyToHoldString = keyToHold.GetKeysString();
             LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
-            PerformAction(actions => actions.KeyDown(keyToHoldString).SendKeys(keySequence).KeyUp(keyToHoldString));
+            if (mayDisappear)
+            {
+                PerformAction(actions => actions.KeyDown(keyToHoldString).SendKeys(keySequence));
+                PerformInRootSession(actions => actions.KeyUp(keyToHoldString));
+            }
+            else
+            {
+                PerformAction(actions => actions.KeyDown(keyToHoldString).SendKeys(keySequence).KeyUp(keyToHoldString));
+            }
         }
     }
 }

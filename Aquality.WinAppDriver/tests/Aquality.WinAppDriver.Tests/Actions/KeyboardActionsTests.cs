@@ -3,6 +3,7 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Tests.Windows;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 
 namespace Aquality.WinAppDriver.Tests.Actions
@@ -25,6 +26,12 @@ namespace Aquality.WinAppDriver.Tests.Actions
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend);
             Assert.AreEqual(ValueToSend, RightArgumentTextBox.Value);
+        }
+
+        [Test]
+        public void Should_SendClosingKeys_ViaKeyboardActions()
+        {
+            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: true));
         }
 
         [Test]

@@ -1,6 +1,6 @@
-﻿using Aquality.Selenium.Core.Applications;
-using Aquality.Selenium.Core.Localization;
+﻿using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
+using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
 using System;
@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
     {
         private readonly IElement element;
         private readonly string elementType;
-        private readonly Func<IApplication> applicationSupplier;
+        private readonly Func<IWindowsApplication> applicationSupplier;
         private readonly ILocalizedLogger localizedLogger;
         private readonly ElementActionRetrier elementActionsRetrier;
 
@@ -27,7 +27,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="applicationSupplier">Method to get current application session.</param>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        protected ElementActions(IElement element, string elementType, Func<IApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
+        protected ElementActions(IElement element, string elementType, Func<IWindowsApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
         {
             this.element = element;
             this.elementType = elementType;
@@ -37,7 +37,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         }
 
         /// <summary>
-        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action against new <see cref="SeleniumActions"/> object on current element.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformAction(Func<SeleniumActions, IWebElement, SeleniumActions> action)
@@ -45,6 +45,18 @@ namespace Aquality.WinAppDriver.Elements.Actions
             elementActionsRetrier.DoWithRetry(() =>
             {
                 action(new SeleniumActions(applicationSupplier().Driver), element.GetElement()).Build().Perform();
+            });
+        }
+
+        /// <summary>
+        /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
+        /// </summary>
+        /// <param name="action">Action to be performed.</param>
+        protected virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
+        {
+            elementActionsRetrier.DoWithRetry(() =>
+            {
+                action(new SeleniumActions(applicationSupplier().RootSession)).Build().Perform();
             });
         }
 

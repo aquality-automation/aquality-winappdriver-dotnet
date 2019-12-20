@@ -344,6 +344,12 @@
             </summary>
             <param name="action">Action to be performed.</param>
         </member>
+        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.PerformInRootSession(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
+            <summary>
+            Performs submitted action against the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/>.
+            </summary>
+            <param name="action">Action to be performed.</param>
+        </member>
         <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.LogAction(System.String,System.Object[])">
             <summary>
             Logs keyboard action in specific format.
@@ -382,13 +388,14 @@
             <param name="key">The <see cref="T:Aquality.WinAppDriver.Actions.ActionKey"/> value representing the keystroke to send.</param>
             <param name="times">Number of times for the keystroke to send.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,Aquality.WinAppDriver.Actions.ModifierKey)">
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,Aquality.WinAppDriver.Actions.ModifierKey,System.Boolean)">
             <summary>
             Sends a sequence of keystrokes to the application, holding a specified key.
             After the action, holded key is released.
             </summary>
             <param name="keySequence">A string representing the keystrokes to send.</param>
             <param name="keyToHold">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to hold.</param>
+            <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="keySequence"/>.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Actions.IMouseActions">
             <summary>
@@ -685,7 +692,7 @@
             Abstract class for any actions agains element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Element actions for a specific element.
             </summary>
@@ -697,7 +704,13 @@
         </member>
         <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.PerformAction(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.IWebElement,OpenQA.Selenium.Interactions.Actions})">
             <summary>
-            Performs submitted action against new <see cref="T:OpenQA.Selenium.Interactions.Actions"/> object.
+            Performs submitted action against new <see cref="T:OpenQA.Selenium.Interactions.Actions"/> object on current element.
+            </summary>
+            <param name="action">Action to be performed.</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.PerformInRootSession(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
+            <summary>
+            Performs submitted action against the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/>.
             </summary>
             <param name="action">Action to be performed.</param>
         </member>
@@ -771,7 +784,7 @@
             Implements Keyboard actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Keyboard actions for a specific element.
             </summary>
@@ -786,7 +799,7 @@
             Implements Mouse actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.Selenium.Core.Applications.IApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{Aquality.WinAppDriver.Applications.IWindowsApplication},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
             <summary>
             Instantiates Mouse actions for a specific element.
             </summary>

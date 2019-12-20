@@ -1,4 +1,5 @@
 ﻿using Aquality.Selenium.Core.Localization;
+using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
@@ -32,6 +33,15 @@ namespace Aquality.WinAppDriver.Actions
         protected virtual void PerformAction(Func<SeleniumActions, SeleniumActions> action)
         {
             action(new SeleniumActions(windowsDriverSupplier())).Build().Perform();
+        }
+
+        /// <summary>
+        /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
+        /// </summary>
+        /// <param name="action">Action to be performed.</param>
+        protected virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
+        {
+            action(new SeleniumActions(ApplicationManager.Application.RootSession)).Build().Perform();
         }
 
         /// <summary>

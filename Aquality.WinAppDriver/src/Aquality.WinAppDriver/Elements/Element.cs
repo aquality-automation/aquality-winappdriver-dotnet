@@ -22,17 +22,19 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
 
-        protected override IApplication Application => AqualityServices.Application;
+        protected override IApplication Application => WindowsApplication;
 
-        protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
+        protected virtual IWindowsApplication WindowsApplication => ApplicationManager.Application;
+
+        protected override ConditionalWait ConditionalWait => ApplicationManager.GetRequiredService<ConditionalWait>();
 
         protected override CoreElementFactory Factory => CustomFactory;
 
         protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => WindowsApplication, LocalizedLogger, ActionRetrier);
 
-        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsApplication, LocalizedLogger, ActionRetrier);
 
         protected override CoreElementFinder Finder => AqualityServices.Get<CoreElementFinder>();
 
