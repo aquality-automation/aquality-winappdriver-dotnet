@@ -819,6 +819,14 @@
             Factory that creates elements.
             </summary>
         </member>
+        <member name="M:Aquality.WinAppDriver.Elements.ElementFactory.ResolveSupplier``1(Aquality.Selenium.Core.Elements.ElementSupplier{``0})">
+            <summary>
+            Resolves element supplier or return itself if it is not null
+            </summary>
+            <typeparam name="T">type of target element</typeparam>
+            <param name="supplier">target element supplier</param>
+            <returns>non-null element supplier</returns>
+        </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.IButton">
             <summary>
             Describes behavior of Button UI element.
@@ -871,12 +879,12 @@
             <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements ITextBox interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Forms.Window,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Forms.Form,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Finds element relative to parent window.
             </summary>
             <typeparam name="T">Type of the target element.</typeparam>
-            <param name="parentWindow">Parent window for the element.</param>
+            <param name="parentForm">Parent form for the element.</param>
             <param name="childLocator">Locator of the element relative to parent window.</param>
             <param name="childName">Name of the element.</param>
             <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
@@ -937,6 +945,43 @@
             <param name="element"></param>
             <returns></returns>
         </member>
+        <member name="T:Aquality.WinAppDriver.Forms.Form">
+            <summary>
+            Defines base class for any form on any application's window.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Forms.Form.#ctor(OpenQA.Selenium.By,System.String,Aquality.WinAppDriver.Forms.Form,Aquality.Selenium.Core.Elements.ElementState)">
+            <summary>
+            Constructor with parameters.
+            </summary>
+            <param name="locator">Unique locator of the window.</param>
+            <param name="name">Name of the window.</param>
+            <param name="parentForm">Parent form. If set to null, search context of <see cref="P:Aquality.WinAppDriver.Applications.AqualityServices.Application"/> is used.</param>
+            <param name="elementState">Element presence state.</param>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.ElementFactory">
+            <summary>
+            Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
+            </summary>
+            <value>Element factory.</value>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.RelativeElementFactory">
+            <summary>
+            Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/> to search from the context of the current form.
+            </summary>
+            <value>Relative element factory.</value>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Forms.Form.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
+            <summary>
+            Finds element relative to current window.
+            </summary>
+            <typeparam name="T">Type of the target element.</typeparam>
+            <param name="childLocator">Locator of the element relative to current window.</param>
+            <param name="childName">Name of the element.</param>
+            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
+            <param name="elementState">Element existance state</param>
+            <returns>Instance of element.</returns>
+        </member>
         <member name="T:Aquality.WinAppDriver.Forms.Window">
             <summary>
             Defines base class for any application's window.
@@ -948,23 +993,6 @@
             </summary>
             <param name="locator">Unique locator of the window.</param>
             <param name="name">Name of the window.</param>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Forms.Window.ElementFactory">
-            <summary>
-            Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
-            </summary>
-            <value>Element factory.</value>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Forms.Window.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
-            <summary>
-            Finds element relative to current window.
-            </summary>
-            <typeparam name="T">Type of the target element.</typeparam>
-            <param name="childLocator">Locator of the element relative to current window.</param>
-            <param name="childName">Name of the element.</param>
-            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
-            <param name="elementState">Element existance state</param>
-            <returns>Instance of element.</returns>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.Window.IsDisplayed">
             <summary>

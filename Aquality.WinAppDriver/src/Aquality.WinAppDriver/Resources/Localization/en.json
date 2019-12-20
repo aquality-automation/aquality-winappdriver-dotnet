@@ -16,6 +16,7 @@
   "loc.button": "Button",
   "loc.label": "Label",
   "loc.window": "Window",
+  "loc.form": "Form",
   "loc.text.field": "Text Field",
   "loc.text.clearing": "Clearing",
   "loc.text.typing": "Typing '{0}'",

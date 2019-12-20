@@ -41,12 +41,17 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// Finds element relative to parent window.
         /// </summary>
         /// <typeparam name="T">Type of the target element.</typeparam>
-        /// <param name="parentWindow">Parent window for the element.</param>
+        /// <param name="parentForm">Parent form for the element.</param>
         /// <param name="childLocator">Locator of the element relative to parent window.</param>
         /// <param name="childName">Name of the element.</param>
         /// <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
         /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element.</returns>
-        T FindChildElement<T>(Window parentWindow, By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement;
+        T FindChildElement<T>(
+            Form parentForm, 
+            By childLocator, 
+            string childName, 
+            ElementSupplier<T> supplier = null, 
+            ElementState elementState = ElementState.Displayed) where T : IElement;
     }
 }

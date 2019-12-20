@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using System;
 using ElementState = Aquality.Selenium.Core.Elements.ElementState;
 
 namespace Aquality.WinAppDriver.Elements
@@ -9,7 +10,13 @@ namespace Aquality.WinAppDriver.Elements
     /// </summary>
     public class Label : Element, ILabel
     {
-        protected internal Label(By locator, string name, ElementState elementState = ElementState.Displayed) : base(locator, name, elementState)
+        protected internal Label(
+            By locator,
+            string name,
+            Func<ISearchContext> searchContextSupplier = null,
+            bool isRootSession = false,
+            ElementState elementState = ElementState.ExistsInAnyState)
+            : base(locator, name, searchContextSupplier, isRootSession, elementState)
         {
         }
 
