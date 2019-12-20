@@ -9,16 +9,16 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class WindowHandleApplicationFactoryTests : TestWithApplication
     {
-        private IProcessManager ProcessManager => ApplicationManager.GetRequiredService<IProcessManager>();
-        private string ApplicationPath => ApplicationManager.GetRequiredService<IDriverSettings>().ApplicationPath;
+        private IProcessManager ProcessManager => AqualityServices.ProcessManager;
+        private string ApplicationPath => AqualityServices.Get<IDriverSettings>().ApplicationPath;
 
         [Test]
         public void Should_BePossibleTo_SetWindowHandleApplicationFactory()
         {
             const string appName = "Day Maxi Calc  v.1.5 Freeware";
             ProcessManager.Start(ApplicationPath);
-            ApplicationManager.SetWindowHandleApplicationFactory(
-                rootSession => GetWindowHandle(rootSession.FindElementByName(appName)));
+
+            AqualityServices.SetWindowHandleApplicationFactory(rootSession => GetWindowHandle(rootSession, appName));
             Assert.IsTrue(new CalculatorWindow().IsDisplayed);
         }
 
@@ -26,7 +26,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public new void CleanUp()
         {
             base.CleanUp();
-            ApplicationManager.SetDefaultFactory();
+            AqualityServices.SetDefaultFactory();
             var executableName = ApplicationPath.Contains('\\') ? ApplicationPath.Substring(ApplicationPath.LastIndexOf('\\') + 1) : ApplicationPath;
             ProcessManager.TryToStopExecutables(executableName);
         }
@@ -35,9 +35,21 @@ namespace Aquality.WinAppDriver.Tests.Applications
         /// returns window handle attribute, converted to HEX format
         /// </summary>
         /// <returns></returns>
-        public string GetWindowHandle(WindowsElement element)
+        private string GetWindowHandle(WindowsDriver<WindowsElement> webDriver, string appName)
         {
-            var nativeWindowHandle = element.GetAttribute("NativeWindowHandle");
+            AqualityServices.ConditionalWait.WaitForTrue(() =>
+            {
+                try
+                {
+                    return webDriver.FindElementByName(appName) != null;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
+
+            var nativeWindowHandle = webDriver.FindElementByName(appName).GetAttribute("NativeWindowHandle");
             return int.Parse(nativeWindowHandle).ToString("x");
         }
     }

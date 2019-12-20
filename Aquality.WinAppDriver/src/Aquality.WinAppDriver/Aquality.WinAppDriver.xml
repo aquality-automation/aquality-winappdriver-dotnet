@@ -333,7 +333,7 @@
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.#ctor(Aquality.Selenium.Core.Localization.ILocalizedLogger,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
             <summary>
-            Instantiates Aplication actions.
+            Instantiates Application actions.
             </summary>
             <param name="localizedLogger">Logger for localized values.</param>
             <param name="windowsDriverSupplier">Method to get current application session.</param>
@@ -495,13 +495,12 @@
             Provides functionality to work with Windows application via WinAppDriver.  
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.IServiceProvider)">
+        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
             <summary>
             Instantiate application.
             </summary>
             <param name="createApplicationSession">Function to create an instance of WinAppDriver for current application</param>
             <param name="createRootSession">Function to create an instance of WinAppDriver for desktop session</param>
-            <param name="serviceProvider">Service provider to resolve all dependencies from DI container</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Applications.Application.SetImplicitWaitTimeout(System.TimeSpan)">
             <summary>
@@ -515,62 +514,98 @@
             Quit application.
             </summary>
         </member>
-        <member name="T:Aquality.WinAppDriver.Applications.ApplicationManager">
+        <member name="T:Aquality.WinAppDriver.Applications.ApplicationStartup">
+            <summary>
+            Provides functionality to  register services
+            </summary>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Applications.AqualityServices">
             <summary>
             Controls application and Aquality services
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.TryToStopAppiumLocalService">
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.IsApplicationStarted">
+            <summary>
+            Check if application already started.
+            </summary>
+            <value>true if application started and false otherwise.</value>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.LocalizedLogger">
+            <summary>
+            Gets registered instance of localized logger
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.Logger">
+            <summary>
+            Gets registered instance of Logger
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ConditionalWait">
+            <summary>
+            Gets ConditionalWait object
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.KeyboardActions">
+            <summary>
+            Gets KeyboardActions object
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.MouseActions">
+            <summary>
+            Gets MouseActions object
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.WinAppDriverLauncher">
+            <summary>
+            Gets WinAppDriverLauncher object
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ProcessManager">
+            <summary>
+            Gets ProcessManager object
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.TryToStopAppiumLocalService">
             <summary>
             Stops appium local service.
             </summary>
             <returns>True if service was running, false otherwise</returns>
         </member>
-        <member name="P:Aquality.WinAppDriver.Applications.ApplicationManager.Application">
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.Application">
             <summary>
             Provides current instance of application
             </summary>
         </member>
-        <member name="P:Aquality.WinAppDriver.Applications.ApplicationManager.ServiceProvider">
-            <summary>
-            Provides access to Aquality services, registered in DI container.
-            </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetStartup(Aquality.WinAppDriver.Applications.ApplicationStartup)">
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.SetStartup(Aquality.WinAppDriver.Applications.ApplicationStartup)">
             <summary>
             Method which allow user to override or add custom services.
             </summary>
             <param name="startup"><see cref="T:Aquality.WinAppDriver.Applications.ApplicationStartup"/>> object with custom or overriden services.</param>
         </member>
-        <member name="P:Aquality.WinAppDriver.Applications.ApplicationManager.ApplicationFactory">
+        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ApplicationFactory">
             <summary>
             Factory for application creation.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.GetRequiredService``1">
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.Get``1">
             <summary>
-            Resolves required service from <see cref="P:Aquality.WinAppDriver.Applications.ApplicationManager.ServiceProvider"/>
+            Resolves required service from <see cref="P:Aquality.WinAppDriver.Applications.AqualityServices.ServiceProvider"/>
             </summary>
             <typeparam name="T">type of required service</typeparam>
             <exception cref="T:System.InvalidOperationException">Thrown if there is no service of the required type.</exception> 
             <returns></returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetDefaultFactory">
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.SetDefaultFactory">
             <summary>
             Sets default factory responsible for application creation.
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.ApplicationManager.SetWindowHandleApplicationFactory(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.String})">
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.SetWindowHandleApplicationFactory(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.String})">
             <summary>
             Sets window handle factory, which attaches to already running application by it's window handle
             </summary>
             <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
-        </member>
-        <member name="T:Aquality.WinAppDriver.Applications.ApplicationStartup">
-            <summary>
-            Provides functionality to  register services
-            </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver">
             <summary>

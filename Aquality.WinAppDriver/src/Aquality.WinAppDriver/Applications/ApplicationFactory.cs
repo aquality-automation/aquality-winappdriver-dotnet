@@ -1,7 +1,6 @@
 ﻿using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Configurations;
-using Microsoft.Extensions.DependencyInjection;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
@@ -14,21 +13,19 @@ namespace Aquality.WinAppDriver.Applications
 
         protected ILocalizedLogger LocalizedLogger { get; }
         protected IDriverSettings DriverSettings { get; }
-        protected IServiceProvider ServiceProvider { get; }
 
-        protected ApplicationFactory(IServiceProvider serviceProvider)
+        protected ApplicationFactory()
         {
-            LocalizedLogger = serviceProvider.GetRequiredService<ILocalizedLogger>();
-            DriverSettings = serviceProvider.GetRequiredService<IDriverSettings>();
-            timeoutConfiguration = serviceProvider.GetRequiredService<ITimeoutConfiguration>();
-            ServiceProvider = serviceProvider;
+            LocalizedLogger = AqualityServices.LocalizedLogger;
+            DriverSettings = AqualityServices.Get<IDriverSettings>();
+            timeoutConfiguration = AqualityServices.Get<ITimeoutConfiguration>();
         }
 
         public abstract Application Application { get; }
 
         protected virtual Application GetApplication(Uri driverServerUri)
         {
-            return new Application(() => GetApplicationSession(driverServerUri), () => GetRootSession(driverServerUri), ServiceProvider);
+            return new Application(() => GetApplicationSession(driverServerUri), () => GetRootSession(driverServerUri));
         }
 
         protected virtual WindowsDriver<WindowsElement> GetApplicationSession(Uri driverServerUri)

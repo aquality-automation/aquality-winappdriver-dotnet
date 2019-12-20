@@ -1,30 +1,67 @@
-﻿using Aquality.Selenium.Core.Configurations;
-using System;
+﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Aquality.Selenium.Core.Localization;
-using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
-using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Elements;
 using Aquality.Selenium.Core.Applications;
 using System.Threading;
 using Aquality.WinAppDriver.Configurations;
 using OpenQA.Selenium.Appium.Service;
 using Aquality.Selenium.Core.Logging;
-using System.Reflection;
-using Aquality.WinAppDriver.Actions;
-using Aquality.WinAppDriver.Utilities;
 using OpenQA.Selenium.Appium.Windows;
+using Aquality.Selenium.Core.Waitings;
+using Aquality.WinAppDriver.Utilities;
+using Aquality.WinAppDriver.Actions;
 
 namespace Aquality.WinAppDriver.Applications
 {
     /// <summary>
     /// Controls application and Aquality services
     /// </summary>
-    public class ApplicationManager : ApplicationManager<Application>
+    public class AqualityServices : AqualityServices<Application>
     {
         private static readonly ThreadLocal<ApplicationStartup> ApplicationStartupContainer = new ThreadLocal<ApplicationStartup>(() => new ApplicationStartup());
         private static readonly ThreadLocal<IApplicationFactory> ApplicationFactoryContainer = new ThreadLocal<IApplicationFactory>();
         private static readonly ThreadLocal<AppiumLocalService> AppiumLocalServiceContainer = new ThreadLocal<AppiumLocalService>(AppiumLocalService.BuildDefaultService);
+
+        /// <summary>
+        /// Check if application already started.
+        /// </summary>
+        /// <value>true if application started and false otherwise.</value>
+        public new static bool IsApplicationStarted => IsApplicationStarted();
+
+        /// <summary>
+        /// Gets registered instance of localized logger
+        /// </summary>
+        public static ILocalizedLogger LocalizedLogger => Get<ILocalizedLogger>();
+
+        /// <summary>
+        /// Gets registered instance of Logger
+        /// </summary>
+        public static Logger Logger => Get<Logger>();
+
+        /// <summary>
+        /// Gets ConditionalWait object
+        /// </summary>
+        public static ConditionalWait ConditionalWait => Get<ConditionalWait>();
+
+        /// <summary>
+        /// Gets KeyboardActions object
+        /// </summary>
+        public static IKeyboardActions KeyboardActions => Get<IKeyboardActions>();
+
+        /// <summary>
+        /// Gets MouseActions object
+        /// </summary>
+        public static IMouseActions MouseActions => Get<IMouseActions>();
+
+        /// <summary>
+        /// Gets WinAppDriverLauncher object
+        /// </summary>
+        public static IWinAppDriverLauncher WinAppDriverLauncher => Get<IWinAppDriverLauncher>();
+
+        /// <summary>
+        /// Gets ProcessManager object
+        /// </summary>
+        public static IProcessManager ProcessManager => Get<IProcessManager>();
 
         /// <summary>
         /// Stops appium local service.
@@ -34,7 +71,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             if(AppiumLocalServiceContainer.IsValueCreated && AppiumLocalServiceContainer.Value.IsRunning)
             {
-                GetRequiredService<ILocalizedLogger>().Info("loc.application.driver.service.local.stop");
+                Get<ILocalizedLogger>().Info("loc.application.driver.service.local.stop");
                 AppiumLocalServiceContainer.Value.Dispose();
                 return true;
             }
@@ -49,16 +86,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             get => GetApplication(StartApplicationFunction, ConfigureServices);
             set => SetApplication(value);
-        }
-
-        /// <summary>
-        /// Provides access to Aquality services, registered in DI container.
-        /// </summary>
-        public static IServiceProvider ServiceProvider
-        {
-            get => GetServiceProvider(services => Application, ConfigureServices);
-            set => SetServiceProvider(value);
-        }
+        }        
 
         /// <summary>
         /// Method which allow user to override or add custom services.
@@ -95,7 +123,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <typeparam name="T">type of required service</typeparam>
         /// <exception cref="InvalidOperationException">Thrown if there is no service of the required type.</exception> 
         /// <returns></returns>
-        public static T GetRequiredService<T>()
+        public static T Get<T>()
         {
             return ServiceProvider.GetRequiredService<T>();
         }
@@ -106,15 +134,15 @@ namespace Aquality.WinAppDriver.Applications
         /// </summary>
         public static void SetDefaultFactory()
         {
-            var appProfile = GetRequiredService<IApplicationProfile>();
+            var appProfile = Get<IApplicationProfile>();
             IApplicationFactory applicationFactory;
             if (appProfile.IsRemote)
             {
-                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl, ServiceProvider);
+                applicationFactory = new RemoteApplicationFactory(appProfile.RemoteConnectionUrl);
             }
             else
             {
-                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value, ServiceProvider);
+                applicationFactory = new LocalApplicationFactory(AppiumLocalServiceContainer.Value);
             }
 
             ApplicationFactory = applicationFactory;
@@ -126,10 +154,12 @@ namespace Aquality.WinAppDriver.Applications
         /// <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
         public static void SetWindowHandleApplicationFactory(Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
         {
-            var appProfile = GetRequiredService<IApplicationProfile>();
+            var appProfile = Get<IApplicationProfile>();
             var serviceUri = appProfile.IsRemote ? appProfile.RemoteConnectionUrl : AppiumLocalServiceContainer.Value.ServiceUrl;
-            ApplicationFactory = new WindowHandleApplicationFactory(serviceUri, ServiceProvider, getWindowHandleFunction);
+            ApplicationFactory = new WindowHandleApplicationFactory(serviceUri, getWindowHandleFunction);
         }
+
+        private static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, ConfigureServices);
 
         private static Func<IServiceProvider, Application> StartApplicationFunction
         {

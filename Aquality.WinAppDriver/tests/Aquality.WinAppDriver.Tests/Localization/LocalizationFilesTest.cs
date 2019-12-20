@@ -15,14 +15,14 @@ namespace Aquality.WinAppDriver.Tests.Localization
     {
         private const string EnglishLanguageCode = "en";
         private static readonly string[] SupportedLanguages = { "be", EnglishLanguageCode, "ru" };
-        private static readonly Assembly LibraryAssembly = Assembly.GetAssembly(typeof(ApplicationManager));
+        private static readonly Assembly LibraryAssembly = Assembly.GetAssembly(typeof(AqualityServices));
         private static readonly IList<KeyValuePair<string, string>> LocalizationFileEnglishDictionary = GetLocalizationDictionaryAsList(EnglishLanguageCode);
         private static readonly IEnumerable<string> KeysWithoutParams = LocalizationFileEnglishDictionary.Where(pair => !pair.Value.Contains("{0}")).Select(pair => pair.Key);
         private static readonly IEnumerable<string> KeysWithOneParameter = LocalizationFileEnglishDictionary.Where(pair => pair.Value.Contains("{0}") && !pair.Value.Contains("{1}")).Select(pair => pair.Key);
         private static readonly IEnumerable<string> KeysWithTwoAndMoreParameters = LocalizationFileEnglishDictionary.Where(pair => pair.Value.Contains("{1}")).Select(pair => pair.Key);
         private static readonly IEnumerable<string> KeysWithParameters = LocalizationFileEnglishDictionary.Where(pair => pair.Value.Contains("{0}")).Select(pair => pair.Key);
 
-        private ILocalizationManager LocalizationManager => ApplicationManager.GetRequiredService<ILocalizationManager>();
+        private ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
 
         [Test]
         public void Should_BePossibleTo_UseLocalizationManager_OnCustomLanguage_ForClicking()

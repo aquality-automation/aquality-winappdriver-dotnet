@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
-        private readonly IElement notPresentLabel = ApplicationManager.GetRequiredService<IElementFactory>()
+        private readonly IElement notPresentLabel = AqualityServices.Get<IElementFactory>()
             .GetLabel(By.XPath("//*[@id='111111']"), "Not present element");
 
         private static Stopwatch StartedStopwatch
