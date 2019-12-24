@@ -27,7 +27,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected virtual WindowsDriver<WindowsElement> WindowsDriver => AqualityServices.Application.Driver;
 
-        protected override ConditionalWait ConditionalWait => AqualityServices.Get<ConditionalWait>();
+        protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 
