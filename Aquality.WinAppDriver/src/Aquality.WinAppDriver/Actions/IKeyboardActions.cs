@@ -37,6 +37,7 @@
         /// </summary>
         /// <param name="keySequence">A string representing the keystrokes to send.</param>
         /// <param name="keyToHold">The <see cref="ModifierKey"/> value representing the key to hold.</param>
-        void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold);
+        /// <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="keySequence"/>.</param>
+        void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false);
     }
 }

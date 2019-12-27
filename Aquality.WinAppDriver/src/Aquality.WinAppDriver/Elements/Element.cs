@@ -11,6 +11,7 @@ using IKeyboardActions = Aquality.WinAppDriver.Actions.IKeyboardActions;
 using CoreElement = Aquality.Selenium.Core.Elements.Element;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
 using CoreElementFinder = Aquality.Selenium.Core.Elements.Interfaces.IElementFinder;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -24,15 +25,17 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override IApplication Application => AqualityServices.Application;
 
+        protected virtual WindowsDriver<WindowsElement> WindowsDriver => AqualityServices.Application.Driver;
+
         protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 
         protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
 
-        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => Application, LocalizedLogger, ActionRetrier);
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
 
         protected override CoreElementFinder Finder => AqualityServices.Get<CoreElementFinder>();
 

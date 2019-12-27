@@ -1,8 +1,9 @@
-﻿using Aquality.Selenium.Core.Applications;
-using Aquality.Selenium.Core.Localization;
+﻿using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
+using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.Windows;
 using System;
 using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
 
@@ -15,7 +16,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
     {
         private readonly IElement element;
         private readonly string elementType;
-        private readonly Func<IApplication> applicationSupplier;
+        private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
         private readonly ILocalizedLogger localizedLogger;
         private readonly ElementActionRetrier elementActionsRetrier;
 
@@ -24,27 +25,39 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// </summary>
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
-        /// <param name="applicationSupplier">Method to get current application session.</param>
+        /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        protected ElementActions(IElement element, string elementType, Func<IApplication> applicationSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
+        protected ElementActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
         {
             this.element = element;
             this.elementType = elementType;
-            this.applicationSupplier = applicationSupplier;
+            this.windowsDriverSupplier = windowsDriverSupplier;
             this.localizedLogger = localizedLogger;
             this.elementActionsRetrier = elementActionsRetrier;
         }
 
         /// <summary>
-        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action against new <see cref="SeleniumActions"/> object on current element.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
         protected virtual void PerformAction(Func<SeleniumActions, IWebElement, SeleniumActions> action)
         {
             elementActionsRetrier.DoWithRetry(() =>
             {
-                action(new SeleniumActions(applicationSupplier().Driver), element.GetElement()).Build().Perform();
+                action(new SeleniumActions(windowsDriverSupplier()), element.GetElement()).Build().Perform();
+            });
+        }
+
+        /// <summary>
+        /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
+        /// </summary>
+        /// <param name="action">Action to be performed.</param>
+        protected virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
+        {
+            elementActionsRetrier.DoWithRetry(() =>
+            {
+                action(new SeleniumActions(AqualityServices.Application.RootSession)).Build().Perform();
             });
         }
 
