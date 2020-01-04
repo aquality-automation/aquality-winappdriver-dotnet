@@ -17,12 +17,6 @@ namespace Aquality.WinAppDriver.Forms
         /// <value>True - form is opened,
         /// False - form is not opened.</value>
         bool IsDisplayed { get; }
-
-        /// <summary>
-        /// Determines whether the search of the current form would be performed from the <see cref="IWindowsApplication.RootSession"/> or not.
-        /// If is set to false, search is performed from the application session <see cref="IWindowsApplication.Driver"/>;
-        /// </summary>
-        bool IsRootSession { get; }
         
         /// <summary>
         /// Gets size of the form element defined by its locator.

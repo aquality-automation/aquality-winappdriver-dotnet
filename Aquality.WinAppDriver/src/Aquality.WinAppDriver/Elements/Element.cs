@@ -18,6 +18,8 @@ namespace Aquality.WinAppDriver.Elements
 {
     public abstract class Element : CoreElement, IElement
     {
+        private readonly Func<ISearchContext> searchContextSupplier;
+
         protected Element(
             By locator, 
             string name, 
@@ -26,15 +28,15 @@ namespace Aquality.WinAppDriver.Elements
             ElementState elementState = ElementState.ExistsInAnyState) 
             : base(locator, name, elementState)
         {
-            WindowsDriver = isRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
-            Finder = new WindowsElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? (() => WindowsDriver));
+            this.searchContextSupplier = searchContextSupplier;
+            IsRootSession = isRootSession;
         }
 
         protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
 
         protected override IApplication Application => AqualityServices.Application;
 
-        protected virtual WindowsDriver<WindowsElement> WindowsDriver { get; }
+        protected virtual WindowsDriver<WindowsElement> WindowsDriver => IsRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
 
         protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
@@ -46,10 +48,17 @@ namespace Aquality.WinAppDriver.Elements
 
         public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
 
-        protected override CoreElementFinder Finder { get; }
+        protected override CoreElementFinder Finder => new WindowsElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? (() => WindowsDriver));
 
         protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 
-        protected ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
+        protected virtual ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
+
+        /// <summary>
+        /// Determines whether the search of the current form would be performed from the <see cref="IWindowsApplication.RootSession"/> or not.
+        /// This property is set by the constructor parameter.
+        /// If is set to false, search is performed from the application session <see cref="IWindowsApplication.Driver"/>;        
+        /// </summary>
+        public bool IsRootSession { get; }
     }
 }

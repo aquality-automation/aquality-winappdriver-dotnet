@@ -814,6 +814,13 @@
             Defines Button UI element.
             </summary>
         </member>
+        <member name="P:Aquality.WinAppDriver.Elements.Element.IsRootSession">
+            <summary>
+            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
+            This property is set by the constructor parameter.
+            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;        
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Elements.ElementFactory">
             <summary>
             Factory that creates elements.
@@ -836,6 +843,12 @@
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.IElement">
             <summary>
             Descibes behavior of any application element.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.IsRootSession">
+            <summary>
+            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
+            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.KeyboardActions">
@@ -962,13 +975,6 @@
             If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>.</param>
             <param name="elementState">Element presence state.</param>
         </member>
-        <member name="P:Aquality.WinAppDriver.Forms.Form.IsRootSession">
-            <summary>
-            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
-            This property is set by the constructor parameter.
-            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;        
-            </summary>
-        </member>
         <member name="P:Aquality.WinAppDriver.Forms.Form.IsDisplayed">
             <summary>
             Return window state for form locator
@@ -1015,12 +1021,6 @@
             </summary>
             <value>True - form is opened,
             False - form is not opened.</value>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Forms.IForm.IsRootSession">
-            <summary>
-            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
-            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;
-            </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.IForm.Size">
             <summary>

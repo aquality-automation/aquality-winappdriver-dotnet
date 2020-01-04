@@ -39,11 +39,11 @@ namespace Aquality.WinAppDriver.Applications
 
         RemoteWebDriver IApplication.Driver => Driver;
 
-        public WindowsDriver<WindowsElement> Driver
+        public virtual WindowsDriver<WindowsElement> Driver
         {
             get
             {
-                if (applicationSession == null)
+                if (!IsSessionStarted(applicationSession))
                 {
                     applicationSession = createApplicationSession();
                     Logger.Info("loc.application.ready");
@@ -53,15 +53,15 @@ namespace Aquality.WinAppDriver.Applications
             }
         }
 
-        public IKeyboardActions KeyboardActions { get; }
+        public virtual IKeyboardActions KeyboardActions { get; }
 
-        public IMouseActions MouseActions { get; }
+        public virtual IMouseActions MouseActions { get; }
 
-        public WindowsDriver<WindowsElement> RootSession
+        public virtual WindowsDriver<WindowsElement> RootSession
         {
             get
             {
-                if (rootSession == null)
+                if (!IsSessionStarted(rootSession))
                 {
                     rootSession = createDesktopSession();
                     rootSession.Manage().Timeouts().ImplicitWait = implicitWait;
@@ -70,12 +70,16 @@ namespace Aquality.WinAppDriver.Applications
             }
         }
 
+        public virtual bool IsStarted => IsSessionStarted(applicationSession) || IsSessionStarted(rootSession);
+
+        private bool IsSessionStarted(WindowsDriver<WindowsElement> session) => session != null && session.SessionId != null;
+
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
         /// Default value: <see cref="ITimeoutConfiguration.Implicit"/>.
         /// </summary>
         /// <param name="timeout">Desired Implicit wait timeout.</param>
-        public void SetImplicitWaitTimeout(TimeSpan timeout)
+        public virtual void SetImplicitWaitTimeout(TimeSpan timeout)
         {
             if (timeout != implicitWait)
             {
@@ -94,7 +98,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Quit application.
         /// </summary>
-        public void Quit()
+        public virtual void Quit()
         {
             Logger.Info("loc.application.quit");
             Driver?.Quit();
