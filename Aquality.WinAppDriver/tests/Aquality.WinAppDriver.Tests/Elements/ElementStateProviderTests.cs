@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementStateProviderTests : TestWithApplication
     {
-        private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
+        private static readonly CalculatorForm CalculatorWindow = new CalculatorForm();
         private static readonly ITextBox RightArgumentTextBox = CalculatorWindow.RightArgumentTextBox;
         private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);

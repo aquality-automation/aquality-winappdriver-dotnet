@@ -27,7 +27,7 @@ namespace Aquality.WinAppDriver.Elements
             : base(locator, name, elementState)
         {
             WindowsDriver = isRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
-            Finder = new RelativeElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? (() => WindowsDriver));
+            Finder = new WindowsElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? (() => WindowsDriver));
         }
 
         protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();

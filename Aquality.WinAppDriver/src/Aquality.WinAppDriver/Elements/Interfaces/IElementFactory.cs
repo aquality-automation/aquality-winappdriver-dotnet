@@ -48,7 +48,7 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element.</returns>
         T FindChildElement<T>(
-            Form parentForm, 
+            IForm parentForm, 
             By childLocator, 
             string childName, 
             ElementSupplier<T> supplier = null, 

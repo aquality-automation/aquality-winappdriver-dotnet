@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
     public class MouseActionsTests : Tests.Actions.MouseActionsTests
     {
         protected override IMouseActions MouseActions => RightArgumentTextBox.MouseActions;
-        private ITextBox LeftArgumentTextBox => new CalculatorWindow().LeftArgumentTextBox;
+        private ITextBox LeftArgumentTextBox => new CalculatorForm().LeftArgumentTextBox;
 
         [Test]
         public void Should_PerformElementSpecificMouseActions()

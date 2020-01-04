@@ -14,7 +14,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
 
         protected virtual IKeyboardActions KeyboardActions => AqualityServices.KeyboardActions;
 
-        protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
+        protected ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
 
         protected static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 

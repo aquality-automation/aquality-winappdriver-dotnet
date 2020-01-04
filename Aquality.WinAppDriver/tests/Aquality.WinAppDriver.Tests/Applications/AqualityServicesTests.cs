@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class AqualityServicesTests : TestWithApplication
     {
-        private readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
+        private readonly CalculatorForm calculatorWindow = new CalculatorForm();
 
         [Test]
         public void Should_WorkWithCalculator()

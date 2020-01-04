@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
     {
         protected virtual IMouseActions MouseActions => AqualityServices.MouseActions;
 
-        protected ITextBox RightArgumentTextBox => new CalculatorWindow().RightArgumentTextBox;
+        protected ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
 
         [Test]
         public void Should_PerformMouseActions()

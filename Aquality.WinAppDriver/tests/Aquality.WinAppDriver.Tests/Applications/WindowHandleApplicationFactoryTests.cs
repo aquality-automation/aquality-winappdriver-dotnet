@@ -19,7 +19,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             ProcessManager.Start(ApplicationPath);
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => GetWindowHandle(rootSession, appName));
-            Assert.IsTrue(new CalculatorWindow().IsDisplayed);
+            Assert.IsTrue(new CalculatorForm().IsDisplayed);
         }
 
         [TearDown]
