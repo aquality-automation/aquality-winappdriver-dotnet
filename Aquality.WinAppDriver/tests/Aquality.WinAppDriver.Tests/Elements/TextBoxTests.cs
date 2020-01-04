@@ -7,7 +7,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
     public class TextBoxTests : TestWithApplication
     {
         private const string ExpectedValue = "1";
-        private readonly ITextBox rightArgumentTextBox = new CalculatorWindow().RightArgumentTextBox;
+        private readonly ITextBox rightArgumentTextBox = new CalculatorForm().RightArgumentTextBox;
 
         [Test]
         public void Should_EnterValues()

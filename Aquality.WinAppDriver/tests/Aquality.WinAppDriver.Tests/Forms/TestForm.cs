@@ -3,9 +3,9 @@ using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class TestWindow : Window, ITestForm
+    public class TestForm : Form, ITestForm
     {
-        public TestWindow(By locator, string name) : base(locator, name)
+        public TestForm(By locator, string name) : base(locator, name)
         {
         }
 

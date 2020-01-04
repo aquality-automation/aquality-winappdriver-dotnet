@@ -8,8 +8,8 @@ using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
 using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 using CoreFactory = Aquality.Selenium.Core.Elements.ElementFactory;
+using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using IElement = Aquality.WinAppDriver.Elements.Interfaces.IElement;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 using System.Reflection;
@@ -36,25 +36,31 @@ namespace Aquality.WinAppDriver.Elements
             this.isRootSession = isRootSession;
         }
 
-        public IButton GetButton(By locator, string name, ElementState elementState = ElementState.Displayed)
+        public virtual IButton GetButton(By locator, string name, ElementState elementState = ElementState.Displayed)
         {
             return GetCustomElement(ResolveSupplier<IButton>(null), locator, name, elementState);
         }
 
-        public ILabel GetLabel(By locator, string name, ElementState elementState = ElementState.Displayed)
+        public virtual ILabel GetLabel(By locator, string name, ElementState elementState = ElementState.Displayed)
         {
             return GetCustomElement(ResolveSupplier<ILabel>(null), locator, name, elementState);
         }
 
-        public ITextBox GetTextBox(By locator, string name, ElementState elementState = ElementState.Displayed)
+        public virtual ITextBox GetTextBox(By locator, string name, ElementState elementState = ElementState.Displayed)
         {
             return GetCustomElement(ResolveSupplier<ITextBox>(null), locator, name, elementState);
         }
 
-        public T FindChildElement<T>(Form parentForm, By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement
+        public virtual T FindChildElement<T>(IForm parentForm, By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement
         {
-            var elementSupplier = ResolveSupplier(supplier);
-            return elementSupplier(new ByChained(parentForm.Locator, childLocator), $"{childName}' - {parentForm.GetElementType()} '{parentForm.Name}", elementState);
+            var elementSupplier = ResolveSupplier(supplier, () => parentForm.GetElement());
+            return elementSupplier(childLocator, $"{childName}' - {parentForm.GetElementType()} '{parentForm.Name}", elementState);
+        }
+
+        public override T FindChildElement<T>(CoreElement parentElement, By childLocator, ElementSupplier<T> supplier = null, ElementState state = ElementState.Displayed)
+        {
+            var elementSupplier = ResolveSupplier(supplier, () => parentElement.GetElement());
+            return elementSupplier(childLocator, $"Child element of {parentElement.Name}", state);
         }
 
         protected override IDictionary<Type, Type> ElementTypesMap 
@@ -70,13 +76,20 @@ namespace Aquality.WinAppDriver.Elements
             }
         }
 
-        /// <summary>
-        /// Resolves element supplier or return itself if it is not null
-        /// </summary>
-        /// <typeparam name="T">type of target element</typeparam>
-        /// <param name="supplier">target element supplier</param>
-        /// <returns>non-null element supplier</returns>
         protected override ElementSupplier<T> ResolveSupplier<T>(ElementSupplier<T> supplier)
+        {
+            return ResolveSupplier(supplier, searchContextSupplier);
+        }
+
+        /// <summary>
+        /// Resolves element supplier or return itself if it is not null.
+        /// </summary>
+        /// <typeparam name="T">type of target element.</typeparam>
+        /// <param name="supplier">target element supplier.</param>
+        /// <param name="customSearchContextSupplier">Custom search context supplier to perform relative search for element.</param>
+        /// <returns>non-null element supplier</returns>
+        protected virtual ElementSupplier<T> ResolveSupplier<T>(ElementSupplier<T> supplier, Func<ISearchContext> customSearchContextSupplier)
+            where T : CoreElement
         {
             if (supplier != null)
             {
@@ -95,7 +108,7 @@ namespace Aquality.WinAppDriver.Elements
                 {
                     return base.ResolveSupplier(supplier);
                 }
-                return (locator, name, state) => (T) elementCntr.Invoke(new object[] { locator, name, searchContextSupplier, isRootSession, state });
+                return (locator, name, state) => (T)elementCntr.Invoke(new object[] { locator, name, customSearchContextSupplier, isRootSession, state });
             }
         }
     }

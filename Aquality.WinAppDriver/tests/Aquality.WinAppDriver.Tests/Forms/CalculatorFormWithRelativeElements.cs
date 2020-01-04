@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class CalculatorWindowWithRelativeElements : CalculatorWindow
+    public class CalculatorFormWithRelativeElements : CalculatorForm
     {
         public new IButton OneButton => FindChildElement<IButton>(base.OneButton.Locator, base.OneButton.Name);
 

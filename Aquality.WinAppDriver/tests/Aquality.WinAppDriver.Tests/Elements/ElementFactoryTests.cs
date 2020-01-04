@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementFactoryTests : TestWithApplication
     {
-        private static readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
+        private static readonly CalculatorForm calculatorWindow = new CalculatorForm();
         private IElementFactory Factory => AqualityServices.Get<IElementFactory>();
 
         [Test]

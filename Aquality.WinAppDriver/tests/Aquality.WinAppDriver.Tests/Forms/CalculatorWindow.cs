@@ -5,29 +5,27 @@ using OpenQA.Selenium.Appium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class CalculatorWindow : Window
+    public class CalculatorWindow : Window, ICalculatorForm
     {
-        private static By WindowLocator => By.TagName("Window");
+        private static By WindowLocator => By.Name("Day Maxi Calc  v.1.5 Freeware");
 
-        public ITextBox LeftArgumentTextBox => ElementFactory.GetTextBox(MobileBy.AccessibilityId("50"), "Left Argument");
+        public ITextBox LeftArgumentTextBox => RelativeElementFactory.GetTextBox(MobileBy.AccessibilityId("50"), "Left Argument");
 
-        public ITextBox RightArgumentTextBox => ElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
+        public ITextBox RightArgumentTextBox => RelativeElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
 
-        public IButton OneButton => ElementFactory.GetButton(By.Name("1"), "1");
+        public IButton OneButton => RelativeElementFactory.GetButton(By.Name("1"), "1");
 
-        public IButton TwoButton => ElementFactory.GetButton(By.Name("2"), "2");
+        public IButton TwoButton => RelativeElementFactory.GetButton(By.Name("2"), "2");
 
-        public IButton PlusButton => ElementFactory.GetButton(By.Name("+"), "+");
+        public IButton PlusButton => RelativeElementFactory.GetButton(By.Name("+"), "+");
 
-        public IButton EqualsButton => ElementFactory.GetButton(By.Name("="), "=");
+        public IButton EqualsButton => RelativeElementFactory.GetButton(By.Name("="), "=");
 
-        public IButton EmptyButton => ElementFactory.GetButton(By.XPath("//*[@AutomationId='7']"), "Empty Button");
+        public IButton EmptyButton => RelativeElementFactory.GetButton(By.XPath("//*[@AutomationId='7']"), "Empty Button");
 
-        public IButton MaximizeButton => ElementFactory.GetButton(By.Name("Maximize"), "Maximize");
+        public IButton MaximizeButton => RelativeElementFactory.GetButton(By.Name("Maximize"), "Maximize");
 
-        public ILabel ResultsLabel => ElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
-
-        public IElement NumberPad => ElementFactory.GetButton(WindowLocator, "Number pad");
+        public ILabel ResultsLabel => RelativeElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
 
         public CalculatorWindow() : base(WindowLocator, "Calculator")
         {
