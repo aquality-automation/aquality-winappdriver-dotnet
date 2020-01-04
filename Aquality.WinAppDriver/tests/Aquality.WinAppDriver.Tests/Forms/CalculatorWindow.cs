@@ -1,33 +1,29 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
     public class CalculatorWindow : Window, ICalculatorForm
     {
-        private static By WindowLocator => By.Name("Day Maxi Calc  v.1.5 Freeware");
+        public ITextBox LeftArgumentTextBox => RelativeElementFactory.GetTextBox(CalculatorLocators.LeftArgumentTextBox, "Left Argument");
 
-        public ITextBox LeftArgumentTextBox => RelativeElementFactory.GetTextBox(MobileBy.AccessibilityId("50"), "Left Argument");
+        public ITextBox RightArgumentTextBox => RelativeElementFactory.GetTextBox(CalculatorLocators.RightArgumentTextBox, "Right Argument");
 
-        public ITextBox RightArgumentTextBox => RelativeElementFactory.GetTextBox(By.XPath("//*[@AutomationId='49']"), "Right Argument");
+        public IButton OneButton => RelativeElementFactory.GetButton(CalculatorLocators.OneButton, "1");
 
-        public IButton OneButton => RelativeElementFactory.GetButton(By.Name("1"), "1");
+        public IButton TwoButton => RelativeElementFactory.GetButton(CalculatorLocators.TwoButton, "2");
 
-        public IButton TwoButton => RelativeElementFactory.GetButton(By.Name("2"), "2");
+        public IButton PlusButton => RelativeElementFactory.GetButton(CalculatorLocators.PlusButton, "+");
 
-        public IButton PlusButton => RelativeElementFactory.GetButton(By.Name("+"), "+");
+        public IButton EqualsButton => RelativeElementFactory.GetButton(CalculatorLocators.EqualsButton, "=");
 
-        public IButton EqualsButton => RelativeElementFactory.GetButton(By.Name("="), "=");
+        public IButton EmptyButton => RelativeElementFactory.GetButton(CalculatorLocators.EmptyButton, "Empty Button");
 
-        public IButton EmptyButton => RelativeElementFactory.GetButton(By.XPath("//*[@AutomationId='7']"), "Empty Button");
+        public IButton MaximizeButton => RelativeElementFactory.GetButton(CalculatorLocators.MaximizeButton, "Maximize");
 
-        public IButton MaximizeButton => RelativeElementFactory.GetButton(By.Name("Maximize"), "Maximize");
+        public ILabel ResultsLabel => RelativeElementFactory.GetLabel(CalculatorLocators.ResultsLabel, "Results bar");
 
-        public ILabel ResultsLabel => RelativeElementFactory.GetLabel(MobileBy.AccessibilityId("48"), "Results bar");
-
-        public CalculatorWindow() : base(WindowLocator, "Calculator")
+        public CalculatorWindow() : base(CalculatorLocators.WindowLocator, "Calculator")
         {
         }
     }
