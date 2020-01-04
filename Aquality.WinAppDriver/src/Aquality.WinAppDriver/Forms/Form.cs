@@ -30,7 +30,6 @@ namespace Aquality.WinAppDriver.Forms
             ParentForm = parentForm;
             var relativeFinderFromForm = new WindowsElementFinder(LocalizedLogger, ConditionalWait, () => GetElement());
             RelativeElementFactory = new ElementFactory(ConditionalWait, relativeFinderFromForm, LocalizationManager);
-            IsRootSession = parentForm == null ? isRootSession : parentForm.IsRootSession;
         }
 
         private static Func<ISearchContext> ResolveSearchContextSupplier(IForm parentForm)
@@ -39,14 +38,7 @@ namespace Aquality.WinAppDriver.Forms
                 ? null
                 : (Func<ISearchContext>)(() => parentForm.GetElement());
         }
-
-        /// <summary>
-        /// Determines whether the search of the current form would be performed from the <see cref="IWindowsApplication.RootSession"/> or not.
-        /// This property is set by the constructor parameter.
-        /// If is set to false, search is performed from the application session <see cref="IWindowsApplication.Driver"/>;        
-        /// </summary>
-        public bool IsRootSession { get; }
-
+        
         /// <summary>
         /// Return window state for form locator
         /// </summary>
