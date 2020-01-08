@@ -51,16 +51,10 @@ namespace Aquality.WinAppDriver.Elements
             return GetCustomElement(ResolveSupplier<ITextBox>(null), locator, name, elementState);
         }
 
-        public virtual T FindChildElement<T>(IForm parentForm, By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed) where T : IElement
-        {
-            var elementSupplier = ResolveSupplier(supplier, () => parentForm.GetElement());
-            return elementSupplier(childLocator, $"{childName}' - {parentForm.GetElementType()} '{parentForm.Name}", elementState);
-        }
-
-        public override T FindChildElement<T>(CoreElement parentElement, By childLocator, ElementSupplier<T> supplier = null, ElementState state = ElementState.Displayed)
+        public override T FindChildElement<T>(CoreElement parentElement, By childLocator, string name = null, ElementSupplier<T> supplier = null, ElementState state = ElementState.Displayed)
         {
             var elementSupplier = ResolveSupplier(supplier, () => parentElement.GetElement());
-            return elementSupplier(childLocator, $"Child element of {parentElement.Name}", state);
+            return elementSupplier(childLocator, name ?? $"Child element of {parentElement.Name}", state);
         }
 
         protected override IDictionary<Type, Type> ElementTypesMap 
