@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using System;
 using System.Drawing;
 using Element = Aquality.WinAppDriver.Elements.Element;
+using IElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using ElementFactory = Aquality.WinAppDriver.Elements.ElementFactory;
 
 namespace Aquality.WinAppDriver.Forms
@@ -44,7 +45,7 @@ namespace Aquality.WinAppDriver.Forms
         /// </summary>
         /// <value>True - form is opened,
         /// False - form is not opened.</value>
-        public bool IsDisplayed => State.WaitForDisplayed();
+        public virtual bool IsDisplayed => State.WaitForDisplayed();
 
         /// <summary>
         /// Element factory <see cref="IElementFactory"/>
@@ -55,7 +56,7 @@ namespace Aquality.WinAppDriver.Forms
         /// <summary>
         /// Windows Application <see cref="IWindowsApplication"/>.  
         /// </summary>
-        protected new IWindowsApplication Application => AqualityServices.Application;
+        protected virtual new IWindowsApplication Application => AqualityServices.Application;
 
         /// <summary>
         /// Element factory <see cref="IElementFactory"/> to search from the context of the current form.
@@ -72,16 +73,18 @@ namespace Aquality.WinAppDriver.Forms
         /// <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
         /// <param name="elementState">Element existance state</param>
         /// <returns>Instance of element.</returns>
-        public T FindChildElement<T>(By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed)
+        protected virtual new T FindChildElement<T>(By childLocator, string childName, ElementSupplier<T> supplier = null, ElementState elementState = ElementState.Displayed)
             where T : IElement
         {
-            return RelativeElementFactory.FindChildElement(this, childLocator, childName, supplier, elementState);
+            return RelativeElementFactory.FindChildElement(this, childLocator, GetChildElementName(childName), supplier, elementState);
         }
+
+        protected virtual string GetChildElementName(string pureName) => $"{pureName}' - {ElementType} '{Name}";
 
         /// <summary>
         /// Gets size of the form element defined by its locator.
         /// </summary>
-        public Size Size => GetElement().Size;
+        public virtual Size Size => GetElement().Size;
 
         protected IForm ParentForm { get; }
 
