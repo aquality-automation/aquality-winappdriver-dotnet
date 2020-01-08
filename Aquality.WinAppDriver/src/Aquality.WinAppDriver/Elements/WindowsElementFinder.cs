@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Aquality.Selenium.Core.Elements;
 using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Waitings;
@@ -50,6 +53,26 @@ namespace Aquality.WinAppDriver.Elements
             }
 
             return element;
+        }
+
+        public override ReadOnlyCollection<IWebElement> FindElements(By locator, DesiredState desiredState, TimeSpan? timeout = null)
+        {
+            var foundElements = new List<IWebElement>();
+            var resultElements = new List<IWebElement>();
+            try
+            {
+                ConditionalWait.WaitForTrue(() =>
+                {
+                    foundElements = SearchContextSupplier().FindElements(locator).ToList();
+                    resultElements = foundElements.Where(desiredState.ElementStateCondition).ToList();
+                    return resultElements.Any();
+                }, timeout);
+            }
+            catch (TimeoutException ex)
+            {
+                HandleTimeoutException(new WebDriverTimeoutException(ex.Message, ex), desiredState, locator, foundElements);
+            }
+            return resultElements.AsReadOnly();
         }
     }
 }
