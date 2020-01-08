@@ -36,7 +36,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override IApplication Application => AqualityServices.Application;
 
-        protected virtual WindowsDriver<WindowsElement> WindowsDriver => IsRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
+        protected virtual Func<WindowsDriver<WindowsElement>> WindowsDriverSupplier => () => IsRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
 
         protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
@@ -44,11 +44,11 @@ namespace Aquality.WinAppDriver.Elements
 
         protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
 
-        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
+        public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, WindowsDriverSupplier, LocalizedLogger, ActionRetrier);
 
-        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, () => WindowsDriver, LocalizedLogger, ActionRetrier);
+        public virtual IMouseActions MouseActions => new MouseActions(this, ElementType, WindowsDriverSupplier, LocalizedLogger, ActionRetrier);
 
-        protected override CoreElementFinder Finder => new WindowsElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? (() => WindowsDriver));
+        protected override CoreElementFinder Finder => new WindowsElementFinder(LocalizedLogger, ConditionalWait, searchContextSupplier ?? WindowsDriverSupplier);
 
         protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 

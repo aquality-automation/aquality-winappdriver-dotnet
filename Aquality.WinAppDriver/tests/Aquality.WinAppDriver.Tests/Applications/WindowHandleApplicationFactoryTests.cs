@@ -1,16 +1,14 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Configurations;
 using Aquality.WinAppDriver.Tests.Forms;
-using Aquality.WinAppDriver.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Tests.Applications
 {
-    public class WindowHandleApplicationFactoryTests : TestWithApplication
+    public class WindowHandleApplicationFactoryTests : TestWithCustomApplication
     {
-        private IProcessManager ProcessManager => AqualityServices.ProcessManager;
-        private string ApplicationPath => AqualityServices.Get<IDriverSettings>().ApplicationPath;
+        protected override string ApplicationPath => AqualityServices.Get<IDriverSettings>().ApplicationPath;
 
         [Test]
         public void Should_BePossibleTo_SetWindowHandleApplicationFactory()
@@ -20,15 +18,6 @@ namespace Aquality.WinAppDriver.Tests.Applications
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => GetWindowHandle(rootSession, appName));
             Assert.IsTrue(new CalculatorForm().IsDisplayed);
-        }
-
-        [TearDown]
-        public new void CleanUp()
-        {
-            base.CleanUp();
-            AqualityServices.SetDefaultFactory();
-            var executableName = ApplicationPath.Contains('\\') ? ApplicationPath.Substring(ApplicationPath.LastIndexOf('\\') + 1) : ApplicationPath;
-            ProcessManager.TryToStopExecutables(executableName);
         }
 
         /// <summary>
