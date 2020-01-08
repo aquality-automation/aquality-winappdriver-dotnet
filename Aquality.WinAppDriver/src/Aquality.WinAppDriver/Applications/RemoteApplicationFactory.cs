@@ -14,7 +14,7 @@ namespace Aquality.WinAppDriver.Applications
             this.driverServerUri = driverServerUri;
         }
 
-        public override Application Application
+        public override IWindowsApplication Application
         {
             get
             {

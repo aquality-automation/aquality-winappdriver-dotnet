@@ -53,6 +53,11 @@ namespace Aquality.WinAppDriver.Forms
         protected virtual IElementFactory ElementFactory => AqualityServices.Get<IElementFactory>();
 
         /// <summary>
+        /// Windows Application <see cref="IWindowsApplication"/>.  
+        /// </summary>
+        protected new IWindowsApplication Application => AqualityServices.Application;
+
+        /// <summary>
         /// Element factory <see cref="IElementFactory"/> to search from the context of the current form.
         /// </summary>
         /// <value>Relative element factory.</value>

@@ -614,14 +614,40 @@
             </summary>
             <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
         </member>
+        <member name="T:Aquality.WinAppDriver.Applications.IWindowsApplication">
+            <summary>
+            Provides functionality to work with Windows application via WinAppDriver.  
+            </summary>
+        </member>
         <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver">
             <summary>
-            Provides instance of Windows Driver for current application
+            Provides instance of Windows Driver for current application.
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession">
             <summary>
-            Provides instance of Windows Driver for desktop session
+            Provides instance of Windows Driver for desktop session.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.KeyboardActions">
+            <summary>
+            Provides methods representing basic keyboard actions.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Applications.IWindowsApplication.MouseActions">
+            <summary>
+            Provides methods representing basic mouse actions.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Applications.IWindowsApplication.Launch">
+            <summary>
+            Launches an instance of the current application.
+            </summary>
+            <returns>Current application instance.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Applications.IWindowsApplication.Quit">
+            <summary>
+            Closes current application and desktop sessions.
             </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Configurations.ApplicationProfile">
@@ -987,6 +1013,11 @@
             Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
             </summary>
             <value>Element factory.</value>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.Application">
+            <summary>
+            Windows Application <see cref="T:Aquality.WinAppDriver.Applications.IWindowsApplication"/>.  
+            </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.Form.RelativeElementFactory">
             <summary>

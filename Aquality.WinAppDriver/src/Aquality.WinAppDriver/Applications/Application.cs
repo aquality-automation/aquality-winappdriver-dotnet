@@ -3,8 +3,8 @@ using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Actions;
-using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver<OpenQA.Selenium.Appium.Windows.WindowsElement>;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -14,17 +14,17 @@ namespace Aquality.WinAppDriver.Applications
     public class Application : IWindowsApplication
     {
         private TimeSpan implicitWait;
-        private WindowsDriver<WindowsElement> applicationSession;
-        private WindowsDriver<WindowsElement> rootSession;
-        private readonly Func<WindowsDriver<WindowsElement>> createApplicationSession;
-        private readonly Func<WindowsDriver<WindowsElement>> createDesktopSession;
+        private WindowsDriver applicationSession;
+        private WindowsDriver rootSession;
+        private readonly Func<WindowsDriver> createApplicationSession;
+        private readonly Func<WindowsDriver> createDesktopSession;
 
         /// <summary>
         /// Instantiate application.
         /// </summary>
         /// <param name="createApplicationSession">Function to create an instance of WinAppDriver for current application</param>
         /// <param name="createRootSession">Function to create an instance of WinAppDriver for desktop session</param>
-        public Application(Func<WindowsDriver<WindowsElement>> createApplicationSession, Func<WindowsDriver<WindowsElement>> createRootSession)
+        public Application(Func<WindowsDriver> createApplicationSession, Func<WindowsDriver> createRootSession)
         {
             this.createApplicationSession = createApplicationSession;
             this.createDesktopSession = createRootSession;
@@ -39,7 +39,7 @@ namespace Aquality.WinAppDriver.Applications
 
         RemoteWebDriver IApplication.Driver => Driver;
 
-        public virtual WindowsDriver<WindowsElement> Driver
+        public virtual WindowsDriver Driver
         {
             get
             {
@@ -57,7 +57,7 @@ namespace Aquality.WinAppDriver.Applications
 
         public virtual IMouseActions MouseActions { get; }
 
-        public virtual WindowsDriver<WindowsElement> RootSession
+        public virtual WindowsDriver RootSession
         {
             get
             {
@@ -72,7 +72,7 @@ namespace Aquality.WinAppDriver.Applications
 
         public virtual bool IsStarted => IsSessionStarted(applicationSession) || IsSessionStarted(rootSession);
 
-        private bool IsSessionStarted(WindowsDriver<WindowsElement> session) => session != null && session.SessionId != null;
+        private bool IsSessionStarted(WindowsDriver session) => session != null && session.SessionId != null;
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
@@ -101,7 +101,15 @@ namespace Aquality.WinAppDriver.Applications
         public virtual void Quit()
         {
             Logger.Info("loc.application.quit");
-            Driver?.Quit();
+            applicationSession?.Quit();
+            rootSession?.Quit();
+        }
+
+        public virtual IWindowsApplication Launch()
+        {
+            var launchedAppTitle = Driver.Title;
+            AqualityServices.Logger.Debug(launchedAppTitle);
+            return this;
         }
     }
 }

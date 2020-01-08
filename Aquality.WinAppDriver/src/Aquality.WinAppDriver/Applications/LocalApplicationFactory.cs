@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Applications
             this.driverService = driverService;
         }
 
-        public override Application Application
+        public override IWindowsApplication Application
         {
             get
             {

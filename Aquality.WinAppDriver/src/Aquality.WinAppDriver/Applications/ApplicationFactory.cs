@@ -21,9 +21,9 @@ namespace Aquality.WinAppDriver.Applications
             timeoutConfiguration = AqualityServices.Get<ITimeoutConfiguration>();
         }
 
-        public abstract Application Application { get; }
+        public abstract IWindowsApplication Application { get; }
 
-        protected virtual Application GetApplication(Uri driverServerUri)
+        protected virtual IWindowsApplication GetApplication(Uri driverServerUri)
         {
             return new Application(() => GetApplicationSession(driverServerUri), () => GetRootSession(driverServerUri));
         }
