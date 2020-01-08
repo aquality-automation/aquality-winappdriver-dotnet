@@ -28,7 +28,6 @@ namespace Aquality.WinAppDriver.Forms
         protected Form(By locator, string name, IForm parentForm = null, bool isRootSession = false, ElementState elementState = ElementState.Displayed)
             : base(locator, name, ResolveSearchContextSupplier(parentForm), parentForm == null ? isRootSession : parentForm.IsRootSession, elementState)
         {
-            ParentForm = parentForm;
             var relativeFinderFromForm = new WindowsElementFinder(LocalizedLogger, ConditionalWait, () => GetElement());
             RelativeElementFactory = new ElementFactory(ConditionalWait, relativeFinderFromForm, LocalizationManager);
         }
@@ -85,8 +84,6 @@ namespace Aquality.WinAppDriver.Forms
         /// Gets size of the form element defined by its locator.
         /// </summary>
         public virtual Size Size => GetElement().Size;
-
-        protected IForm ParentForm { get; }
 
         protected override string ElementType => LocalizationManager.GetLocalizedMessage("loc.form");
     }

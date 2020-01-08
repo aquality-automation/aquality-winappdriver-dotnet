@@ -72,7 +72,7 @@ namespace Aquality.WinAppDriver.Applications
 
         public virtual bool IsStarted => IsSessionStarted(applicationSession) || IsSessionStarted(rootSession);
 
-        private bool IsSessionStarted(WindowsDriver session) => session != null && session.SessionId != null;
+        private bool IsSessionStarted(WindowsDriver session) => session?.SessionId != null;
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 

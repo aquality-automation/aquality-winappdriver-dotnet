@@ -10,27 +10,27 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class AqualityServicesTests : TestWithApplication
     {
-        private readonly CalculatorForm calculatorWindow = new CalculatorForm();
+        private readonly CalculatorForm calculatorForm = new CalculatorForm();
 
         [Test]
         public void Should_WorkWithCalculator()
         {
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.OneButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.PlusButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.TwoButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.EqualsButton.Locator).Click();
-            var result = AqualityServices.Application.Driver.FindElement(calculatorWindow.ResultsLabel.Locator).Text;
+            AqualityServices.Application.Driver.FindElement(calculatorForm.OneButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.PlusButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.TwoButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.EqualsButton.Locator).Click();
+            var result = AqualityServices.Application.Driver.FindElement(calculatorForm.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFinder()
         {
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.OneButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.PlusButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.TwoButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.EqualsButton.Locator).Click();
-            var result = AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.ResultsLabel.Locator).Text;
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.OneButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.PlusButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.TwoButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.EqualsButton.Locator).Click();
+            var result = AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
 
