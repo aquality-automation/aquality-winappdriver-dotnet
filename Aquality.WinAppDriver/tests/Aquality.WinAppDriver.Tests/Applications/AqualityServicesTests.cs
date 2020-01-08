@@ -52,7 +52,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             IApplication firstApplication;
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                firstApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
+                firstApplication = scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch();
             }
 
             // Creating a second instance of Application
@@ -60,7 +60,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                var secondApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
+                var secondApplication = scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch();
                 Assert.AreNotSame(firstApplication, secondApplication);
                 secondApplication.Driver.Quit();
             }
@@ -70,7 +70,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IApplication>());
+                Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch());
             }
         }
 
