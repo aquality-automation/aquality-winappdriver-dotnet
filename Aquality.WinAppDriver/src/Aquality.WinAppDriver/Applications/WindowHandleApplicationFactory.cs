@@ -22,7 +22,7 @@ namespace Aquality.WinAppDriver.Applications
             isRemote = AqualityServices.Get<IApplicationProfile>().IsRemote;
         }
 
-        public override Application Application
+        public override IWindowsApplication Application
         {
             get
             {

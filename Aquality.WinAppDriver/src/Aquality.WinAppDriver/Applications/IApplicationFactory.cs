@@ -2,6 +2,6 @@
 {
     public interface IApplicationFactory
     {
-        Application Application { get; }
+        IWindowsApplication Application { get; }
     }
 }

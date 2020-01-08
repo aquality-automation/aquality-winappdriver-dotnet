@@ -66,7 +66,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             }
 
             // Switching back to a first instance of Application
-            AqualityServices.Application = firstApplication as Application;
+            AqualityServices.Application = firstApplication as IWindowsApplication;
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
@@ -78,8 +78,8 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public void Should_GetCurrentApplication_AfterQuit()
         {
             var firstApplication = AqualityServices.Application;
-            firstApplication.Quit();
-            var secondApplication = AqualityServices.Application;
+            firstApplication.Launch().Quit();
+            var secondApplication = AqualityServices.Application.Launch();
             Assert.AreNotSame(firstApplication, secondApplication);
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {

@@ -34,6 +34,7 @@ namespace Aquality.WinAppDriver.Applications
             services.AddTransient(serviceProvider => AqualityServices.ApplicationFactory);
             services.AddTransient<IProcessManager, ProcessManager>();
             services.AddTransient<IWinAppDriverLauncher, WinAppDriverLauncher>();
+            services.AddScoped(serviceProvider => applicationProvider(serviceProvider) as IWindowsApplication);
             return services;
         }
     }
