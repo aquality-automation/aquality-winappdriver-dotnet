@@ -919,18 +919,6 @@
             <param name="elementState">Element existance state</param>
             <returns>Instance of element that implements ITextBox interface</returns>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory.FindChildElement``1(Aquality.WinAppDriver.Forms.IForm,OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
-            <summary>
-            Finds element relative to parent window.
-            </summary>
-            <typeparam name="T">Type of the target element.</typeparam>
-            <param name="parentForm">Parent form for the element.</param>
-            <param name="childLocator">Locator of the element relative to parent window.</param>
-            <param name="childName">Name of the element.</param>
-            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
-            <param name="elementState">Element existance state</param>
-            <returns>Instance of element.</returns>
-        </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.ILabel">
             <summary>
             Describes behavior of Label UI element.
@@ -1057,17 +1045,6 @@
             <summary>
             Gets size of the form element defined by its locator.
             </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Forms.IForm.FindChildElement``1(OpenQA.Selenium.By,System.String,Aquality.Selenium.Core.Elements.ElementSupplier{``0},Aquality.Selenium.Core.Elements.ElementState)">
-            <summary>
-            Finds element relative to current form.
-            </summary>
-            <typeparam name="T">Type of the target element.</typeparam>
-            <param name="childLocator">Locator of the element relative to current form.</param>
-            <param name="childName">Name of the element.</param>
-            <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
-            <param name="elementState">Element existance state</param>
-            <returns>Instance of element.</returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Forms.Window">
             <summary>
