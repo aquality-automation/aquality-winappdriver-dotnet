@@ -7,8 +7,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class ChromeWindow : Window
     {
-        private const string NamePostfix = " - Google Chrome";
-        public ChromeWindow(string title) : base(By.Name($"{title}{NamePostfix}"), $"[{title}]{NamePostfix}")
+        public ChromeWindow(string name) : base(By.Name(name), name)
         {
         }
 

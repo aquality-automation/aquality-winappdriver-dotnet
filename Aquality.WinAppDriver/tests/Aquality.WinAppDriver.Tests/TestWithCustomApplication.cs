@@ -11,7 +11,7 @@ namespace Aquality.WinAppDriver.Tests
         protected IProcessManager ProcessManager => AqualityServices.ProcessManager;
 
         [TearDown]
-        public new void CleanUp()
+        public virtual void CleanUp()
         {
             base.CleanUp();
             AqualityServices.SetDefaultFactory();
