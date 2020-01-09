@@ -5,12 +5,9 @@ using Aquality.Selenium.Core.Elements.Interfaces;
 using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Waitings;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Extensions;
-using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
 using CoreFactory = Aquality.Selenium.Core.Elements.ElementFactory;
 using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
-using IElement = Aquality.WinAppDriver.Elements.Interfaces.IElement;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 using System.Reflection;
 
