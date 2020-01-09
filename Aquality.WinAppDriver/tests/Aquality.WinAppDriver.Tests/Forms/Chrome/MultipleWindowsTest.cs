@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             var screenName = "screen.png";
             AqualityServices.Application.RootSession.GetScreenshot().SaveAsFile(screenName);
             TestContext.AddTestAttachment(screenName);
-            //base.CleanUp();
+            base.CleanUp();
         }
     }
 }
