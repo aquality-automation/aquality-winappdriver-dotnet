@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Aquality.WinAppDriver.Applications;
+using Aquality.WinAppDriver.Forms;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
@@ -70,6 +72,13 @@ namespace Aquality.WinAppDriver.Tests.Forms
         public void Should_SetCorrectPageNameInConstructor()
         {
             Assert.AreEqual(PageName, TestForm.Name, "Name");
+        }
+
+        [Test]
+        public void Should_SetCorrectSession_WhenConstructorParameterIsNull()
+        {
+            var expectedSession = TestForm is Window ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
+            Assert.AreEqual(expectedSession, TestForm.WindowsDriverSupplier(), "WindowsDriverSupplier");
         }
 
         [Test]

@@ -1,5 +1,7 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
+using OpenQA.Selenium.Appium.Windows;
+using System;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
@@ -23,7 +25,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
 
         public ILabel ResultsLabel => RelativeElementFactory.GetLabel(CalculatorLocators.ResultsLabel, "Results bar");
 
-        public CalculatorWindow() : base(CalculatorLocators.WindowLocator, "Calculator")
+        public CalculatorWindow(Func<WindowsDriver<WindowsElement>> customSessionSupplier = null) : base(CalculatorLocators.WindowLocator, "Calculator", customSessionSupplier)
         {
         }
     }
