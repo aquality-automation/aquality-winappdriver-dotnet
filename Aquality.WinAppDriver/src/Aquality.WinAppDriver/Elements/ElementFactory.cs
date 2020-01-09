@@ -10,6 +10,7 @@ using CoreFactory = Aquality.Selenium.Core.Elements.ElementFactory;
 using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 using System.Reflection;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -19,18 +20,18 @@ namespace Aquality.WinAppDriver.Elements
     public class ElementFactory : CoreFactory, IElementFactory
     {
         private readonly Func<ISearchContext> searchContextSupplier;
-        private readonly bool isRootSession;
+        private readonly Func<WindowsDriver<WindowsElement>> driverSessionSupplier;
 
         public ElementFactory(
             ConditionalWait conditionalWait, 
             IElementFinder elementFinder, 
             ILocalizationManager localizationManager, 
-            Func<ISearchContext> searchContextSupplier = null, 
-            bool isRootSession = false) 
+            Func<ISearchContext> searchContextSupplier = null,
+            Func<WindowsDriver<WindowsElement>> driverSessionSupplier = null) 
             : base(conditionalWait, elementFinder, localizationManager)
         {
             this.searchContextSupplier = searchContextSupplier;
-            this.isRootSession = isRootSession;
+            this.driverSessionSupplier = driverSessionSupplier;
         }
 
         public virtual IButton GetButton(By locator, string name, ElementState elementState = ElementState.Displayed)
@@ -93,13 +94,13 @@ namespace Aquality.WinAppDriver.Elements
                 var elementCntr = elementType.GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.Instance,
                         null,
-                        new[] { typeof(By), typeof(string), typeof(Func<ISearchContext>), typeof(bool), typeof(ElementState) },
+                        new[] { typeof(By), typeof(string), typeof(Func<ISearchContext>), typeof(Func<WindowsDriver<WindowsElement>>), typeof(ElementState) },
                         null);
                 if (elementCntr == null)
                 {
                     return base.ResolveSupplier(supplier);
                 }
-                return (locator, name, state) => (T)elementCntr.Invoke(new object[] { locator, name, customSearchContextSupplier, isRootSession, state });
+                return (locator, name, state) => (T)elementCntr.Invoke(new object[] { locator, name, customSearchContextSupplier, driverSessionSupplier, state });
             }
         }
     }

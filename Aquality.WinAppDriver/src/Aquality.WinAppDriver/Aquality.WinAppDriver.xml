@@ -840,13 +840,6 @@
             Defines Button UI element.
             </summary>
         </member>
-        <member name="P:Aquality.WinAppDriver.Elements.Element.IsRootSession">
-            <summary>
-            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
-            This property is set by the constructor parameter.
-            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;        
-            </summary>
-        </member>
         <member name="T:Aquality.WinAppDriver.Elements.ElementFactory">
             <summary>
             Factory that creates elements.
@@ -871,10 +864,9 @@
             Descibes behavior of any application element.
             </summary>
         </member>
-        <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.IsRootSession">
+        <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.WindowsDriverSupplier">
             <summary>
-            Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
-            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>;
+            Provides access to WinAppDriver session used for the search and interaction with the current element.
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.KeyboardActions">
@@ -978,15 +970,14 @@
             Defines base class for any form on any application's window.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Forms.Form.#ctor(OpenQA.Selenium.By,System.String,Aquality.WinAppDriver.Forms.IForm,System.Boolean,Aquality.Selenium.Core.Elements.ElementState)">
+        <member name="M:Aquality.WinAppDriver.Forms.Form.#ctor(OpenQA.Selenium.By,System.String,Aquality.WinAppDriver.Forms.IForm,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Constructor with parameters.
             </summary>
             <param name="locator">Unique locator of the window.</param>
             <param name="name">Name of the window.</param>
             <param name="parentForm">Parent form. If set to null, search context of <see cref="P:Aquality.WinAppDriver.Applications.AqualityServices.Application"/> is used.</param>
-            <param name="isRootSession">Determines whether the search of the current form would be performed from the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or not.
-            If is set to false, search is performed from the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/>.</param>
+            <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
             <param name="elementState">Element presence state.</param>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.Form.IsDisplayed">
@@ -1051,12 +1042,13 @@
             Defines base class for a separate window of any application.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Forms.Window.#ctor(OpenQA.Selenium.By,System.String)">
+        <member name="M:Aquality.WinAppDriver.Forms.Window.#ctor(OpenQA.Selenium.By,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
             <summary>
             Constructor with parameters.
             </summary>
             <param name="locator">Unique locator of the window.</param>
             <param name="name">Name of the window.</param>
+            <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Utilities.IProcessManager">
             <summary>

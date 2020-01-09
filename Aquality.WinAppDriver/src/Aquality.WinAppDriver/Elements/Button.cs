@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.Windows;
 using System;
 using ElementState = Aquality.Selenium.Core.Elements.ElementState;
 
@@ -14,9 +15,9 @@ namespace Aquality.WinAppDriver.Elements
             By locator,
             string name,
             Func<ISearchContext> searchContextSupplier = null,
-            bool isRootSession = false,
+            Func<WindowsDriver<WindowsElement>> customSessionSupplier = null,
             ElementState elementState = ElementState.ExistsInAnyState) 
-            : base(locator, name, searchContextSupplier, isRootSession, elementState)
+            : base(locator, name, searchContextSupplier, customSessionSupplier, elementState)
         {
         }
 

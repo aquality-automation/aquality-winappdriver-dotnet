@@ -20,8 +20,8 @@ namespace Aquality.WinAppDriver.Tests.Forms
                 AqualityServices.LocalizedLogger,
                 AqualityServices.ConditionalWait,
                 () => AqualityServices.Application.RootSession),
-            AqualityServices.Get<ILocalizationManager>(),
-            isRootSession: true
+            AqualityServices.Get<ILocalizationManager>(), 
+            driverSessionSupplier: () => AqualityServices.Application.RootSession
             );
 
         [SetUp]

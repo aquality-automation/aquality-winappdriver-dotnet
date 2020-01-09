@@ -8,6 +8,7 @@ using System.Drawing;
 using Element = Aquality.WinAppDriver.Elements.Element;
 using IElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using ElementFactory = Aquality.WinAppDriver.Elements.ElementFactory;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Forms
 {
@@ -22,11 +23,10 @@ namespace Aquality.WinAppDriver.Forms
         /// <param name="locator">Unique locator of the window.</param>
         /// <param name="name">Name of the window.</param>
         /// <param name="parentForm">Parent form. If set to null, search context of <see cref="AqualityServices.Application"/> is used.</param>
-        /// <param name="isRootSession">Determines whether the search of the current form would be performed from the <see cref="IWindowsApplication.RootSession"/> or not.
-        /// If is set to false, search is performed from the application session <see cref="IWindowsApplication.Driver"/>.</param>
+        /// <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
         /// <param name="elementState">Element presence state.</param>
-        protected Form(By locator, string name, IForm parentForm = null, bool isRootSession = false, ElementState elementState = ElementState.Displayed)
-            : base(locator, name, ResolveSearchContextSupplier(parentForm), parentForm == null ? isRootSession : parentForm.IsRootSession, elementState)
+        protected Form(By locator, string name, IForm parentForm = null, Func<WindowsDriver<WindowsElement>> customSessionSupplier = null, ElementState elementState = ElementState.Displayed)
+            : base(locator, name, ResolveSearchContextSupplier(parentForm), customSessionSupplier ?? parentForm?.WindowsDriverSupplier, elementState)
         {
             var relativeFinderFromForm = new WindowsElementFinder(LocalizedLogger, ConditionalWait, () => GetElement());
             RelativeElementFactory = new ElementFactory(ConditionalWait, relativeFinderFromForm, LocalizationManager);

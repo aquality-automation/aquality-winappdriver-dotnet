@@ -23,26 +23,26 @@ namespace Aquality.WinAppDriver.Elements
         protected Element(
             By locator, 
             string name, 
-            Func<ISearchContext> searchContextSupplier = null, 
-            bool isRootSession = false,
+            Func<ISearchContext> searchContextSupplier = null,
+            Func<WindowsDriver<WindowsElement>> customSessionSupplier = null,
             ElementState elementState = ElementState.ExistsInAnyState) 
             : base(locator, name, elementState)
         {
             this.searchContextSupplier = searchContextSupplier;
-            IsRootSession = isRootSession;
+            WindowsDriverSupplier = customSessionSupplier ?? (() => AqualityServices.Application.Driver);
         }
 
         protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
 
         protected override IApplication Application => AqualityServices.Application;
 
-        protected virtual Func<WindowsDriver<WindowsElement>> WindowsDriverSupplier => () => IsRootSession ? AqualityServices.Application.RootSession : AqualityServices.Application.Driver;
-
         protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 
-        protected virtual IElementFactory CustomFactory => new ElementFactory(ConditionalWait, Finder, LocalizationManager, isRootSession: IsRootSession);
+        protected virtual IElementFactory CustomFactory => new ElementFactory(ConditionalWait, Finder, LocalizationManager, driverSessionSupplier: WindowsDriverSupplier);
+
+        public virtual Func<WindowsDriver<WindowsElement>> WindowsDriverSupplier { get; }
 
         public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, WindowsDriverSupplier, LocalizedLogger, ActionRetrier);
 
@@ -53,12 +53,5 @@ namespace Aquality.WinAppDriver.Elements
         protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 
         protected virtual ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
-
-        /// <summary>
-        /// Determines whether the search of the current form would be performed from the <see cref="IWindowsApplication.RootSession"/> or not.
-        /// This property is set by the constructor parameter.
-        /// If is set to false, search is performed from the application session <see cref="IWindowsApplication.Driver"/>;        
-        /// </summary>
-        public bool IsRootSession { get; }
     }
 }
