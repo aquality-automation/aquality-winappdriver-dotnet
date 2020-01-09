@@ -42,7 +42,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override CoreElementFactory Factory => CustomFactory;
 
-        protected virtual IElementFactory CustomFactory => AqualityServices.Get<IElementFactory>();
+        protected virtual IElementFactory CustomFactory => new ElementFactory(ConditionalWait, Finder, LocalizationManager, isRootSession: IsRootSession);
 
         public virtual IKeyboardActions KeyboardActions => new KeyboardActions(this, ElementType, WindowsDriverSupplier, LocalizedLogger, ActionRetrier);
 
