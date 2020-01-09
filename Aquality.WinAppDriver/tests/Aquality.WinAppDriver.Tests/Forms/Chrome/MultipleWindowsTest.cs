@@ -6,8 +6,9 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
     public class MultipleWindowsTest : TestWithCustomApplication
     {
         protected override string ApplicationPath => @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
-        
-        private string DownloadsTabName => "Downloads";
+
+        private string NewTabName => $"New Tab{TabNamePostfix}";
+        private string DownloadsTabName => $"Downloads{TabNamePostfix}";
 
         private const string TabNamePostfix = " - Google Chrome";
 
@@ -19,16 +20,17 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
             var navigationPanel = new ChromeNavigationPanel();
             Assert.IsTrue(navigationPanel.IsDisplayed);
-            var newTabName = AqualityServices.Application.Driver.Title;
-            var firstWindow = new ChromeWindow(newTabName);
+            var firstTabName = AqualityServices.Application.Driver.Title;
+            var firstWindow = new ChromeWindow(firstTabName);
             Assert.IsTrue(firstWindow.IsDisplayed, $"{firstWindow.Name} window is not displayed");
-            firstWindow.ClickOnDocument();
+            firstWindow.Click();
             navigationPanel.OpenDownloads();
-            firstWindow = new ChromeWindow(DownloadsTabName + TabNamePostfix);
+            firstWindow = new ChromeWindow(DownloadsTabName);
             Assert.IsTrue(firstWindow.IsDisplayed, $"First window is not displayed with the new name {firstWindow.Name}");
             navigationPanel.OpenNewTab();
-            var secondWindow = new ChromeWindow(newTabName);
+            var secondWindow = new ChromeWindow(NewTabName);
             Assert.IsTrue(secondWindow.IsDisplayed, $"Second window with the name {secondWindow.Name} is not displayed");
+            secondWindow.Click();
             secondWindow.Close();
             Assert.IsTrue(firstWindow.IsDisplayed);
         }
@@ -39,7 +41,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             var screenName = "screen.png";
             AqualityServices.Application.RootSession.GetScreenshot().SaveAsFile(screenName);
             TestContext.AddTestAttachment(screenName);
-            base.CleanUp();
+            //base.CleanUp();
         }
     }
 }
