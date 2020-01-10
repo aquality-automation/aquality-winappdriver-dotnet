@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Applications
     /// <summary>
     /// Controls application and Aquality services
     /// </summary>
-    public class AqualityServices : AqualityServices<Application>
+    public class AqualityServices : AqualityServices<IWindowsApplication>
     {
         private static readonly ThreadLocal<ApplicationStartup> ApplicationStartupContainer = new ThreadLocal<ApplicationStartup>(() => new ApplicationStartup());
         private static readonly ThreadLocal<IApplicationFactory> ApplicationFactoryContainer = new ThreadLocal<IApplicationFactory>();
@@ -82,7 +82,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Provides current instance of application
         /// </summary>
-        public static Application Application
+        public static IWindowsApplication Application
         {
             get => GetApplication(StartApplicationFunction, ConfigureServices);
             set => SetApplication(value);
@@ -161,7 +161,7 @@ namespace Aquality.WinAppDriver.Applications
 
         private static IServiceProvider ServiceProvider => GetServiceProvider(services => Application, ConfigureServices);
 
-        private static Func<IServiceProvider, Application> StartApplicationFunction
+        private static Func<IServiceProvider, IWindowsApplication> StartApplicationFunction
         {
             get
             {

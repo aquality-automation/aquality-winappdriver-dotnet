@@ -1,7 +1,7 @@
 ﻿using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Elements.Interfaces;
 using Aquality.WinAppDriver.Applications;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using System;
@@ -10,27 +10,27 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class AqualityServicesTests : TestWithApplication
     {
-        private readonly CalculatorWindow calculatorWindow = new CalculatorWindow();
+        private readonly CalculatorForm calculatorForm = new CalculatorForm();
 
         [Test]
         public void Should_WorkWithCalculator()
         {
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.OneButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.PlusButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.TwoButton.Locator).Click();
-            AqualityServices.Application.Driver.FindElement(calculatorWindow.EqualsButton.Locator).Click();
-            var result = AqualityServices.Application.Driver.FindElement(calculatorWindow.ResultsLabel.Locator).Text;
+            AqualityServices.Application.Driver.FindElement(calculatorForm.OneButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.PlusButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.TwoButton.Locator).Click();
+            AqualityServices.Application.Driver.FindElement(calculatorForm.EqualsButton.Locator).Click();
+            var result = AqualityServices.Application.Driver.FindElement(calculatorForm.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFinder()
         {
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.OneButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.PlusButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.TwoButton.Locator).Click();
-            AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.EqualsButton.Locator).Click();
-            var result = AqualityServices.Get<IElementFinder>().FindElement(calculatorWindow.ResultsLabel.Locator).Text;
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.OneButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.PlusButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.TwoButton.Locator).Click();
+            AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.EqualsButton.Locator).Click();
+            var result = AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.ResultsLabel.Locator).Text;
             StringAssert.Contains("3", result);
         }
 
@@ -52,7 +52,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             IApplication firstApplication;
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                firstApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
+                firstApplication = scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch();
             }
 
             // Creating a second instance of Application
@@ -60,17 +60,17 @@ namespace Aquality.WinAppDriver.Tests.Applications
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                var secondApplication = scope.ServiceProvider.GetRequiredService<IApplication>();
+                var secondApplication = scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch();
                 Assert.AreNotSame(firstApplication, secondApplication);
                 secondApplication.Driver.Quit();
             }
 
             // Switching back to a first instance of Application
-            AqualityServices.Application = firstApplication as Application;
+            AqualityServices.Application = firstApplication as IWindowsApplication;
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IApplication>());
+                Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch());
             }
         }
 
@@ -78,8 +78,8 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public void Should_GetCurrentApplication_AfterQuit()
         {
             var firstApplication = AqualityServices.Application;
-            firstApplication.Quit();
-            var secondApplication = AqualityServices.Application;
+            firstApplication.Launch().Quit();
+            var secondApplication = AqualityServices.Application.Launch();
             Assert.AreNotSame(firstApplication, secondApplication);
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {

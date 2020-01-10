@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using IElementStateProvider = Aquality.Selenium.Core.Elements.Interfaces.IElementStateProvider;
@@ -11,9 +11,9 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementStateProviderTests : TestWithApplication
     {
-        private static readonly CalculatorWindow CalculatorWindow = new CalculatorWindow();
-        private static readonly ITextBox RightArgumentTextBox = CalculatorWindow.RightArgumentTextBox;
-        private static readonly IButton EmptyButton = CalculatorWindow.EmptyButton;
+        private static readonly CalculatorForm CalculatorForm = new CalculatorForm();
+        private static readonly ITextBox RightArgumentTextBox = CalculatorForm.RightArgumentTextBox;
+        private static readonly IButton EmptyButton = CalculatorForm.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
         private readonly IElement notPresentLabel = AqualityServices.Get<IElementFactory>()

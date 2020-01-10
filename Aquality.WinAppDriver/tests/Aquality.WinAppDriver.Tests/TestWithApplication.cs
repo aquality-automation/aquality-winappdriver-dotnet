@@ -7,7 +7,7 @@ namespace Aquality.WinAppDriver.Tests
     public class TestWithApplication
     {
         [TearDown]
-        public void CleanUp()
+        public virtual void CleanUp()
         {
             if (AqualityServices.IsApplicationStarted)
             {

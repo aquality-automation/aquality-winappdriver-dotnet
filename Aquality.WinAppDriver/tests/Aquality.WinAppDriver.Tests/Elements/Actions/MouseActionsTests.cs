@@ -1,6 +1,6 @@
 ﻿using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium.Interactions;
 
@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
     public class MouseActionsTests : Tests.Actions.MouseActionsTests
     {
         protected override IMouseActions MouseActions => RightArgumentTextBox.MouseActions;
-        private ITextBox LeftArgumentTextBox => new CalculatorWindow().LeftArgumentTextBox;
+        private ITextBox LeftArgumentTextBox => new CalculatorForm().LeftArgumentTextBox;
 
         [Test]
         public void Should_PerformElementSpecificMouseActions()

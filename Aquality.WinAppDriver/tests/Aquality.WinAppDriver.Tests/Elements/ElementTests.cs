@@ -1,7 +1,7 @@
 ﻿using System;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
-using Aquality.WinAppDriver.Tests.Windows;
+using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementTests : TestWithApplication
     {
-        private readonly ITextBox rightArgumentTextBox = new CalculatorWindow().RightArgumentTextBox;
+        private readonly ITextBox rightArgumentTextBox = new CalculatorForm().RightArgumentTextBox;
         private const string ExpectedValue = "2";
         private static readonly By ElementLocator = By.XPath("//*[@id='111111']");
         private const string ElementDescription = "Not present element";
@@ -52,7 +52,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_GetCorrectText_FromEmptyField()
         {
-            Assert.AreEqual(new CalculatorWindow().ResultsLabel.Text, string.Empty);
+            Assert.AreEqual(new CalculatorForm().ResultsLabel.Text, string.Empty);
         }
 
         [Test]
