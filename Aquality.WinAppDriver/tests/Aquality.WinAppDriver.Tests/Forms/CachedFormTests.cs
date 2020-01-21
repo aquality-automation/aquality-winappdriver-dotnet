@@ -1,6 +1,6 @@
 ﻿namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class FormTests : AbstractFormTests
+    public class CachedFormTests : AbstractFormTests
     {
         protected override string ExpectedElementType => "Форма";
 
@@ -8,9 +8,9 @@
 
         protected override ITestForm TestForm { get; }
 
-        public FormTests()
+        public CachedFormTests()
         {
-            CalculatorForm = new CalculatorForm();
+            CalculatorForm = new CalculatorFormWithCachedElements();
             TestForm = new TestForm(Locator, PageName);
         }
     }

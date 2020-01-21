@@ -15,24 +15,36 @@ namespace Aquality.WinAppDriver.Tests.Forms
 
         protected abstract string ExpectedElementType { get;}
 
-        protected abstract ICalculatorForm CalculatorFormWithRelativeElements { get; }
+        protected abstract ICalculatorForm CalculatorForm { get; }
 
         protected abstract ITestForm TestForm { get; }
 
         [Test]
         public void Should_WorkWithCalculator_ViaRelativeElements()
         {
-            CalculatorFormWithRelativeElements.OneButton.Click();
-            CalculatorFormWithRelativeElements.PlusButton.Click();
-            CalculatorFormWithRelativeElements.TwoButton.Click();
-            CalculatorFormWithRelativeElements.EqualsButton.Click();
-            StringAssert.Contains("3", CalculatorFormWithRelativeElements.ResultsLabel.Text);
+            CalculatorForm.OneButton.Click();
+            CalculatorForm.PlusButton.Click();
+            CalculatorForm.TwoButton.Click();
+            CalculatorForm.EqualsButton.Click();
+            StringAssert.Contains("3", CalculatorForm.ResultsLabel.Text);
+        }
+
+        [Test]
+        public void Should_WorkWithCalculator_WithCachedElement()
+        {
+            var oneButton = CalculatorForm.OneButton;
+            oneButton.Click();
+            CalculatorForm.PlusButton.Click();
+            oneButton.Click();
+            CalculatorForm.EqualsButton.Click();
+            var result = CalculatorForm.ResultsLabel.Text;
+            StringAssert.Contains("2", result);
         }
 
         [Test]
         public void Should_GetSizeCorrectly_WhenFormIsPresent()
         {
-            var formSize = CalculatorFormWithRelativeElements.Size;
+            var formSize = CalculatorForm.Size;
             Assert.Multiple(() =>
             {
                 Assert.IsFalse(formSize.IsEmpty, "Form is not empty");
@@ -53,7 +65,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
         [Test]
         public void Should_ReturnTrue_IfFormIsDisplayed()
         {
-            Assert.IsTrue(CalculatorFormWithRelativeElements.IsDisplayed);
+            Assert.IsTrue(CalculatorForm.IsDisplayed);
         }
 
         [Test]

@@ -1,9 +1,8 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
-using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class CalculatorFormWithRelativeElements : CalculatorForm
+    public class CalculatorFormWithRelativeElements : CalculatorForm, ICalculatorForm
     {
         public new IButton OneButton => FindChildElement<IButton>(CalculatorLocators.OneButton, base.OneButton.Name);
 

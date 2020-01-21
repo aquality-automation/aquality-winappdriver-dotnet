@@ -1,7 +1,5 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {

@@ -18,7 +18,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         private readonly string elementType;
         private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
         private readonly ILocalizedLogger localizedLogger;
-        private readonly ElementActionRetrier elementActionsRetrier;
+        private readonly IElementActionRetrier elementActionsRetrier;
 
         /// <summary>
         /// Instantiates Element actions for a specific element.
@@ -28,7 +28,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        protected ElementActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizedLogger, ElementActionRetrier elementActionsRetrier)
+        protected ElementActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
         {
             this.element = element;
             this.elementType = elementType;

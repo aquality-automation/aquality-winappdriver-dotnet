@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
     {
         protected override string ExpectedElementType => "Акно";
 
-        protected override ICalculatorForm CalculatorFormWithRelativeElements => new CalculatorWindow();
+        protected override ICalculatorForm CalculatorForm => new CalculatorWindow();
 
         protected override ITestForm TestForm => new TestWindow(Locator, PageName);
 
