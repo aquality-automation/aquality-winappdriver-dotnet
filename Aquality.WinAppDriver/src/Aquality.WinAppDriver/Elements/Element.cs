@@ -39,7 +39,7 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override IElementCacheConfiguration CacheConfiguration => AqualityServices.Get<IElementCacheConfiguration>();
 
-        protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
+        protected override IConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 

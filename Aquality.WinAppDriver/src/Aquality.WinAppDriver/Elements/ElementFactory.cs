@@ -23,7 +23,7 @@ namespace Aquality.WinAppDriver.Elements
         private readonly Func<WindowsDriver<WindowsElement>> driverSessionSupplier;
 
         public ElementFactory(
-            ConditionalWait conditionalWait, 
+            IConditionalWait conditionalWait, 
             IElementFinder elementFinder, 
             ILocalizationManager localizationManager, 
             Func<ISearchContext> searchContextSupplier = null,

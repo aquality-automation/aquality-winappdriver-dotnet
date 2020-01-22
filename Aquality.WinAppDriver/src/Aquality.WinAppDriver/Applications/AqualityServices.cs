@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Gets ConditionalWait object
         /// </summary>
-        public static ConditionalWait ConditionalWait => Get<ConditionalWait>();
+        public static IConditionalWait ConditionalWait => Get<IConditionalWait>();
 
         /// <summary>
         /// Gets KeyboardActions object
