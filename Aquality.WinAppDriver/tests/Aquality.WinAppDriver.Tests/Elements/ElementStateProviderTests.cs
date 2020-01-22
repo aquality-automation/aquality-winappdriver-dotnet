@@ -12,11 +12,11 @@ namespace Aquality.WinAppDriver.Tests.Elements
     public class ElementStateProviderTests : TestWithApplication
     {
         private static readonly CalculatorForm CalculatorForm = new CalculatorForm();
-        private static readonly ITextBox RightArgumentTextBox = CalculatorForm.RightArgumentTextBox;
-        private static readonly IButton EmptyButton = CalculatorForm.EmptyButton;
+        private ITextBox RightArgumentTextBox => CalculatorForm.RightArgumentTextBox;
+        private IButton EmptyButton => CalculatorForm.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
-        private readonly IElement notPresentLabel = AqualityServices.Get<IElementFactory>()
+        private IElement notPresentLabel => AqualityServices.Get<IElementFactory>()
             .GetLabel(By.XPath("//*[@id='111111']"), "Not present element");
 
         private static Stopwatch StartedStopwatch
@@ -80,7 +80,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ThrowException_IfWaitForClickableEnded()
         {
-            Assert.Throws<WebDriverTimeoutException>(() => EmptyButton.State.WaitForClickable(TimeSpan.Zero));
+            Assert.Throws<TimeoutException>(() => EmptyButton.State.WaitForClickable(TimeSpan.Zero));
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
                 {
                     EmptyButton.State.WaitForClickable(FromSeconds);
                 }
-                catch (WebDriverTimeoutException)
+                catch (TimeoutException)
                 {
                 }
             });
