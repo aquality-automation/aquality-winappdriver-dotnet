@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private IButton EmptyButton => CalculatorForm.EmptyButton;
         private static readonly TimeSpan FromSeconds = TimeSpan.FromSeconds(5);
 
-        private IElement notPresentLabel => AqualityServices.Get<IElementFactory>()
+        private IElement NotPresentLabel => AqualityServices.Get<IElementFactory>()
             .GetLabel(By.XPath("//*[@id='111111']"), "Not present element");
 
         private static Stopwatch StartedStopwatch
@@ -38,13 +38,13 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnFalse_IfElementIsNotDisplayed()
         {
-            Assert.IsFalse(notPresentLabel.State.IsDisplayed);
+            Assert.IsFalse(NotPresentLabel.State.IsDisplayed);
         }
 
         [Test]
         public void Should_ReturnFalse_IfElementDoesNotExist()
         {
-            Assert.IsFalse(notPresentLabel.State.IsExist);
+            Assert.IsFalse(NotPresentLabel.State.IsExist);
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnFalse_InWaitForDisplayed_WhenElementIsNotDisplayed()
         {
-            Assert.IsFalse(notPresentLabel.State.WaitForDisplayed(TimeSpan.Zero));
+            Assert.IsFalse(NotPresentLabel.State.WaitForDisplayed(TimeSpan.Zero));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnTrue_InWaitForNotDisplayed_WhenElementIsNotDisplayed()
         {
-            Assert.IsTrue(notPresentLabel.State.WaitForNotDisplayed(TimeSpan.Zero));
+            Assert.IsTrue(NotPresentLabel.State.WaitForNotDisplayed(TimeSpan.Zero));
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnFalse_InWaitForExist_WhenElementDoesNotExist()
         {
-            Assert.IsFalse(notPresentLabel.State.WaitForExist(TimeSpan.Zero));
+            Assert.IsFalse(NotPresentLabel.State.WaitForExist(TimeSpan.Zero));
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ReturnTrue_InWaitForNotExist_WhenElementDoesNotExist()
         {
-            Assert.IsTrue(notPresentLabel.State.WaitForNotExist(TimeSpan.Zero));
+            Assert.IsTrue(NotPresentLabel.State.WaitForNotExist(TimeSpan.Zero));
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_WaitForDisplayed_CorrectAmountOfTime()
         {
-            AssertIfWaitTimeIsCorrect(notPresentLabel.State, (state, time) => state.WaitForDisplayed(time));
+            AssertIfWaitTimeIsCorrect(NotPresentLabel.State, (state, time) => state.WaitForDisplayed(time));
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_WaitForExist_CorrectAmountOfTime()
         {
-            AssertIfWaitTimeIsCorrect(notPresentLabel.State, (state, time) => state.WaitForExist(time));
+            AssertIfWaitTimeIsCorrect(NotPresentLabel.State, (state, time) => state.WaitForExist(time));
         }
 
         [Test]
