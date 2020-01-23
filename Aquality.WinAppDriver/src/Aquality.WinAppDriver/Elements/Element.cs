@@ -13,6 +13,7 @@ using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFa
 using CoreElementFinder = Aquality.Selenium.Core.Elements.Interfaces.IElementFinder;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using Aquality.Selenium.Core.Configurations;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -32,11 +33,13 @@ namespace Aquality.WinAppDriver.Elements
             WindowsDriverSupplier = customSessionSupplier ?? (() => AqualityServices.Application.Driver);
         }
 
-        protected override ElementActionRetrier ActionRetrier => AqualityServices.Get<ElementActionRetrier>();
+        protected override IElementActionRetrier ActionRetrier => AqualityServices.Get<IElementActionRetrier>();
 
         protected override IApplication Application => AqualityServices.Application;
 
-        protected override ConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
+        protected override IElementCacheConfiguration CacheConfiguration => AqualityServices.Get<IElementCacheConfiguration>();
+
+        protected override IConditionalWait ConditionalWait => AqualityServices.ConditionalWait;
 
         protected override CoreElementFactory Factory => CustomFactory;
 

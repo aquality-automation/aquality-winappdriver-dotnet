@@ -8,7 +8,7 @@ namespace Aquality.WinAppDriver.Elements
 {
     public class WindowsElementFinder : RelativeElementFinder
     {
-        public WindowsElementFinder(ILocalizedLogger logger, ConditionalWait conditionalWait, Func<ISearchContext> searchContextSupplier) 
+        public WindowsElementFinder(ILocalizedLogger logger, IConditionalWait conditionalWait, Func<ISearchContext> searchContextSupplier) 
             : base(logger, conditionalWait, searchContextSupplier)
         {
             Logger = logger;
@@ -18,7 +18,7 @@ namespace Aquality.WinAppDriver.Elements
 
         private ILocalizedLogger Logger { get; }
 
-        private ConditionalWait ConditionalWait { get; }
+        private IConditionalWait ConditionalWait { get; }
 
         private Func<ISearchContext> SearchContextSupplier { get; }
 

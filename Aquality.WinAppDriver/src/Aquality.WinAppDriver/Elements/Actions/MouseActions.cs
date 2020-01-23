@@ -25,7 +25,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizationLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public MouseActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizationLogger, ElementActionRetrier elementActionsRetrier)
+        public MouseActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizationLogger, IElementActionRetrier elementActionsRetrier)
             : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
         {
             this.element = element;

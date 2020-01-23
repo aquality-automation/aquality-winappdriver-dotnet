@@ -12,7 +12,7 @@
   },
   "timeouts": {
     "timeoutImplicit": 0,
-    "timeoutCondition": 30,
+    "timeoutCondition": 15,
     "timeoutPollingInterval": 300,
     "timeoutCommand": 60
   },
@@ -22,5 +22,8 @@
   },
   "logger": {
     "language": "be"
+  },
+  "elementCache": {
+    "isEnabled": true
   }
 }

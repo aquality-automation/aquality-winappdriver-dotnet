@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Gets ConditionalWait object
         /// </summary>
-        public static ConditionalWait ConditionalWait => Get<ConditionalWait>();
+        public static IConditionalWait ConditionalWait => Get<IConditionalWait>();
 
         /// <summary>
         /// Gets KeyboardActions object
@@ -91,7 +91,7 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Method which allow user to override or add custom services.
         /// </summary>
-        /// <param name="startup"><see cref="ApplicationStartup"/>> object with custom or overriden services.</param>
+        /// <param name="startup"><see cref="ApplicationStartup"/> object with custom or overriden services.</param>
         public static void SetStartup(ApplicationStartup startup)
         {
             if (startup != null)

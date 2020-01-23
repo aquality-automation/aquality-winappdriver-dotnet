@@ -587,7 +587,7 @@
             <summary>
             Method which allow user to override or add custom services.
             </summary>
-            <param name="startup"><see cref="T:Aquality.WinAppDriver.Applications.ApplicationStartup"/>> object with custom or overriden services.</param>
+            <param name="startup"><see cref="T:Aquality.WinAppDriver.Applications.ApplicationStartup"/> object with custom or overriden services.</param>
         </member>
         <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ApplicationFactory">
             <summary>
@@ -718,7 +718,7 @@
             Abstract class for any actions agains element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
             <summary>
             Instantiates Element actions for a specific element.
             </summary>
@@ -810,7 +810,7 @@
             Implements Keyboard actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
             <summary>
             Instantiates Keyboard actions for a specific element.
             </summary>
@@ -825,7 +825,7 @@
             Implements Mouse actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.ElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
             <summary>
             Instantiates Mouse actions for a specific element.
             </summary>
