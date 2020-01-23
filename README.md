@@ -26,14 +26,14 @@ We use interfaces where is possible, so you can implement your own version of ta
 
 4. Start WinAppDriver service before your code execution. There are several options to do this:
  - Start WinAppDriver.exe via external tool or command (e.g. manually with cmd/PS from the installation directory; via [task for you CI](https://marketplace.visualstudio.com/items?itemName=WinAppDriver.winappdriver-pipelines-task) )
- - Start WinAppDriver automatically via AppiumLocalService - this option is integrated in our package, just set `"isRemote"` to `false` at your settings.json. This option requires node.js to be preinstalled on your machine.
+ - Start WinAppDriver automatically via AppiumLocalService - this option is integrated in our package, just set `"isRemote"` to `false` at your settings.json. This option requires specific version of node.js to be preinstalled on your machine (Please read more [here](http://appium.io/docs/en/contributing-to-appium/appium-from-source/#nodejs) and [here](https://github.com/appium/appium-dotnet-driver/wiki/How-to-start-an-AppiumDriver-locally)).
  - Start WinAppDriver.exe manually calling the method `AqualityServices.WinAppDriverLauncher.StartWinAppDriverIfRequired();` from your code.
  
 5. (optional) Launch an application directly by calling `AqualityServices.Application.Launch();`. 
 
-Note: If you don't start an Application directly, it would be started with the first call of any Aquality service or class requiring to interact with the Application.
+> Note: If you don't start an Application directly, it would be started with the first call of any Aquality service or class requiring to interact with the Application.
 
-6. That's it! Now you can work with Application via AqualityServices or via element services.
+6. That's it! Now you are able work with Application via AqualityServices or via element services.
 ```csharp
 
  AqualityServices.Application.MouseActions.Click();
@@ -41,15 +41,18 @@ Note: If you don't start an Application directly, it would be started with the f
 ```
 
 7. To interact with Application's windows, forms and elements, we recommend to follow the PageObjects pattern. This approach is fully integrated into our package.
-To start with that, you will need to create a separate class for each window/form of your application, and inherit this class from the [Window]() or [Form](https://github.com/aquality-automation/aquality-winappdriver-dotnet/blob/master/Aquality.WinAppDriver/src/Aquality.WinAppDriver/Forms/Form.cs) respectively. 
+To start with that, you will need to create a separate class for each window/form of your application, and inherit this class from the [Window](Aquality.WinAppDriver/src/Aquality.WinAppDriver/Forms/Window.cs) or [Form](Aquality.WinAppDriver/src/Aquality.WinAppDriver/Forms/Form.cs) respectively. 
 
 
-Notice: 
- - By "Form" we mean part of the main window of your application (by default) or part of the any other window (specified as a constuctor parameter). An example of form is a MenuBar or some section.
- - By "Window" we mean the separate window of your application (would be searched from the [RootSession](https://github.com/microsoft/WinAppDriver/wiki/Frequently-Asked-Questions#when-and-how-to-create-a-desktop-session) by default). In other words, the "Window" is a form which is separate from the main application window.
+>Notice: 
+> - By "Form" we mean part of the main window of your application (by default) or part of the any other window (specified as a constuctor parameter). An example of form is a MenuBar or some section.
+> - By "Window" we mean the separate window of your application (would be searched from the [RootSession](https://github.com/microsoft/WinAppDriver/wiki/Frequently-Asked-Questions#when-and-how-to-create-a-desktop-session) by default). In other words, the "Window" is a form which is separate from the main application window. There are several cases where you should use Window class instead of Form:
+>   - Your application consists of several Windows;
+>   - You need to interact with more than one application;
+>   - You need to perform actions before/after the main application run (e.g. reinstall, update).
 
 8. From the PageObject perspective, each Form consists of elements on it (e.g. Buttons, TextBox, Labels and so on). 
-To interact with elements, on your form class create fields of type IButton, ITextBox, ILabel, and initialize them using the ElementFactory. Created elements has a various methods to interact with them. We recommend to combine actions into a business-level methods:
+To interact with elements, on your form class create fields of type IButton, ITextBox, ILabel, and initialize them using the ElementFactory. Created elements have a various methods to interact with them. We recommend to combine actions into a business-level methods:
 
 ```csharp
 
