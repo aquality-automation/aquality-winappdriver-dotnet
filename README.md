@@ -31,7 +31,8 @@ We use interfaces where is possible, so you can implement your own version of ta
  
 5. (optional) Launch an application directly by calling `AqualityServices.Application.Launch();`. 
 
-> Note: If you don't start an Application directly, it would be started with the first call of any Aquality service or class requiring to interact with the Application.
+> Note: 
+If you don't start an Application directly, it would be started with the first call of any Aquality service or class requiring interacting with the Application.
 
 6. That's it! Now you are able work with Application via AqualityServices or via element services.
 ```csharp
@@ -40,19 +41,19 @@ We use interfaces where is possible, so you can implement your own version of ta
  AqualityServices.Application.KeyboardActions.SendKeysWithKeyHold("n", ModifierKey.Control);
 ```
 
-7. To interact with Application's windows, forms and elements, we recommend to follow the PageObjects pattern. This approach is fully integrated into our package.
+7. To interact with Application's windows, forms and elements, we recommend following the PageObjects pattern. This approach is fully integrated into our package.
 To start with that, you will need to create a separate class for each window/form of your application, and inherit this class from the [Window](Aquality.WinAppDriver/src/Aquality.WinAppDriver/Forms/Window.cs) or [Form](Aquality.WinAppDriver/src/Aquality.WinAppDriver/Forms/Form.cs) respectively. 
 
 
->Notice: 
-> - By "Form" we mean part of the main window of your application (by default) or part of the any other window (specified as a constuctor parameter). An example of form is a MenuBar or some section.
+> Note: 
+> - By "Form" we mean part of the main window of your application (by default) or part of the any other window (specified as a constructor parameter). An example of form is a MenuBar or some section.
 > - By "Window" we mean the separate window of your application (would be searched from the [RootSession](https://github.com/microsoft/WinAppDriver/wiki/Frequently-Asked-Questions#when-and-how-to-create-a-desktop-session) by default). In other words, the "Window" is a form which is separate from the main application window. There are several cases where you should use Window class instead of Form:
 >   - Your application consists of several Windows;
 >   - You need to interact with more than one application;
 >   - You need to perform actions before/after the main application run (e.g. reinstall, update).
 
 8. From the PageObject perspective, each Form consists of elements on it (e.g. Buttons, TextBox, Labels and so on). 
-To interact with elements, on your form class create fields of type IButton, ITextBox, ILabel, and initialize them using the ElementFactory. Created elements have a various methods to interact with them. We recommend to combine actions into a business-level methods:
+To interact with elements, on your form class create fields of type IButton, ITextBox, ILabel, and initialize them using the ElementFactory. Created elements have a various methods to interact with them. We recommend combining actions into a business-level methods:
 
 ```csharp
 
