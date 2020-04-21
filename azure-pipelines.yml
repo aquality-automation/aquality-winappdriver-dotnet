@@ -40,11 +40,6 @@ steps:
   displayName: 'Publish SonarCloud quality gate results'
   continueOnError: true
 
-- task: ScreenResolutionUtility@1
-  displayName: 'Set up optimal screen resolution'
-  inputs:
-    displaySettings: 'optimal'
-
 - task: Windows Application Driver@0
   displayName: 'Start WinAppDriver'
   inputs:

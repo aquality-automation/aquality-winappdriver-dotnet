@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace Aquality.WinAppDriver.Tests
 {
@@ -11,6 +12,11 @@ namespace Aquality.WinAppDriver.Tests
         {
             if (AqualityServices.IsApplicationStarted)
             {
+                if (TestContext.CurrentContext.Result.Outcome.Status != TestStatus.Passed)
+                {
+                    TestContext.AddTestAttachment(new ScreenshotProvider(AqualityServices.Application).TakeScreenshot());
+                }
+                
                 AqualityServices.Application.Quit();
             }
             AqualityServices.TryToStopAppiumLocalService();
