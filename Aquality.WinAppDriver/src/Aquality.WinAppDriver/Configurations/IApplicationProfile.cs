@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenQA.Selenium.Appium.Service;
 
 namespace Aquality.WinAppDriver.Configurations
 {
@@ -9,7 +8,8 @@ namespace Aquality.WinAppDriver.Configurations
     public interface IApplicationProfile
     {
         /// <summary>
-        /// Is remote WinAppDriver service or not: true to use <see cref="RemoteConnectionUrl"/> and false to create default <see cref="AppiumLocalService"/>.
+        /// Is remote WinAppDriver service or not: true to use <see cref="RemoteConnectionUrl"/> 
+        /// and false to create default <see cref="OpenQA.Selenium.Appium.Service.AppiumLocalService"/>.
         /// </summary>
         bool IsRemote { get; }
         

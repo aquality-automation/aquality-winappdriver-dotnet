@@ -1,11 +1,9 @@
-﻿using OpenQA.Selenium;
-
-namespace Aquality.WinAppDriver.Actions
+﻿namespace Aquality.WinAppDriver.Actions
 {
     /// <summary>
     /// Represents action keys which could be used in <see cref="IKeyboardActions"/>.
     /// Used to enhance logging of SendKeys actions
-    /// Directly related to <see cref="Keys"/>
+    /// Directly related to <see cref="OpenQA.Selenium.Keys"/>
     /// </summary>
     public enum ActionKey
     {

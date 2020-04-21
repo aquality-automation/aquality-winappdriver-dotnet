@@ -14,7 +14,6 @@ namespace Aquality.WinAppDriver.Actions
         private readonly ILocalizedLogger localizedLogger;
         private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
 
-
         /// <summary>
         /// Instantiates Application actions.
         /// </summary>

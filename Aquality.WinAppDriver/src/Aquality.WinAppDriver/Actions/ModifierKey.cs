@@ -1,10 +1,8 @@
-﻿using OpenQA.Selenium;
-
-namespace Aquality.WinAppDriver.Actions
+﻿namespace Aquality.WinAppDriver.Actions
 {
     /// <summary>
     /// Represents modifier keys which could be used in <see cref="IKeyboardActions"/>.
-    /// Directly related to <see cref="Keys"/>
+    /// Directly related to <see cref="OpenQA.Selenium.Keys"/>
     /// </summary>
     public enum ModifierKey
     {
@@ -32,10 +30,6 @@ namespace Aquality.WinAppDriver.Actions
         /// Represents the Left Shift key.
         /// </summary>
         LeftShift,
-        /// <summary>
-        /// Represents the function key META.
-        /// </summary>
-        Meta,
         /// <summary>
         /// Represents the Shift key.
         /// </summary>

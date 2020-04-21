@@ -685,7 +685,8 @@
         </member>
         <member name="P:Aquality.WinAppDriver.Configurations.IApplicationProfile.IsRemote">
             <summary>
-            Is remote WinAppDriver service or not: true to use <see cref="P:Aquality.WinAppDriver.Configurations.IApplicationProfile.RemoteConnectionUrl"/> and false to create default <see cref="T:OpenQA.Selenium.Appium.Service.AppiumLocalService"/>.
+            Is remote WinAppDriver service or not: true to use <see cref="P:Aquality.WinAppDriver.Configurations.IApplicationProfile.RemoteConnectionUrl"/> 
+            and false to create default <see cref="T:OpenQA.Selenium.Appium.Service.AppiumLocalService"/>.
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Configurations.IApplicationProfile.RemoteConnectionUrl">

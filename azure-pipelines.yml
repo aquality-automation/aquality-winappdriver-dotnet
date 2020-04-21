@@ -25,8 +25,12 @@ steps:
     extraProperties: |
       sonar.coverage.exclusions=**/**
 
-- script: dotnet build Aquality.WinAppDriver/Aquality.WinAppDriver.sln -c $(buildConfiguration)
-  displayName: 'Build solution - $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution'
+  inputs:
+    command: 'build'
+    projects: Aquality.WinAppDriver/Aquality.WinAppDriver.sln
+    arguments: -c $(buildConfiguration)
 
 - task: SonarCloudAnalyze@1
   displayName: 'Run SonarCloud code analysis'
@@ -35,6 +39,13 @@ steps:
 - task: SonarCloudPublish@1
   displayName: 'Publish SonarCloud quality gate results'
   continueOnError: true
+
+- task: ScreenResolutionUtility@1
+  displayName: 'Set up screen resolution 1920x1080'
+  inputs:
+    displaySettings: 'specific'
+    width: '1920'
+    height: '1080'
 
 - task: Windows Application Driver@0
   displayName: 'Start WinAppDriver'
@@ -50,21 +61,12 @@ steps:
     publishTestResults: true
 
 - task: Windows Application Driver@0
-  displayName: stop WinAppDriver
+  displayName: Stop WinAppDriver
   inputs:
     OperationType: 'Stop'
 
 - script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) --no-build -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
-  displayName: 'Create NuGet package'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-  
-- task: NuGetCommand@2
-  displayName: 'Push NuGet package'
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.nupkg;!$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.symbols.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet'
+  displayName: 'Pack to NuGet package'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: GitHubRelease@0
@@ -76,4 +78,10 @@ steps:
     tag: 'v$(GitVersion.NuGetVersion)'
     tagSource: 'manual'
     isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: '_aquality-automation.aquality-winappdriver-dotnet'
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
