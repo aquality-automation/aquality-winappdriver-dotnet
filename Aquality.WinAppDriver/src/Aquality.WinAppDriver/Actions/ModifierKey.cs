@@ -31,10 +31,6 @@
         /// </summary>
         LeftShift,
         /// <summary>
-        /// Represents the function key META.
-        /// </summary>
-        Meta,
-        /// <summary>
         /// Represents the Shift key.
         /// </summary>
         Shift
