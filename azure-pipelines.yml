@@ -27,8 +27,6 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
-  env: 
-    MSBUILDSINGLELOADCONTEXT: 1  # https://github.com/SpecFlowOSS/SpecFlow/issues/1912
   inputs:
     command: 'build'
     projects: Aquality.WinAppDriver/Aquality.WinAppDriver.sln
@@ -41,6 +39,11 @@ steps:
 - task: SonarCloudPublish@1
   displayName: 'Publish SonarCloud quality gate results'
   continueOnError: true
+
+- task: ScreenResolutionUtility@1
+  displayName: 'Set up optimal screen resolution'
+  inputs:
+    displaySettings: 'optimal'
 
 - task: Windows Application Driver@0
   displayName: 'Start WinAppDriver'

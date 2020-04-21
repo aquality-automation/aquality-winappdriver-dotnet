@@ -93,7 +93,6 @@ namespace Aquality.WinAppDriver.Tests.Actions
         [Test]
         public void Should_NotThrow_WhenHoldModifierKeys_ViaKeyboardActions([ValueSource(nameof(modifierKeys))] ModifierKey modifierKey)
         {
-            RightArgumentTextBox.State.WaitForClickable();
             RightArgumentTextBox.Click();
             Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey));
         }
