@@ -41,11 +41,11 @@ steps:
   continueOnError: true
 
 - task: ScreenResolutionUtility@1
-    displayName: 'Set up screen resolution 1920x1080'
-    inputs:
-      displaySettings: 'specific'
-      width: '1920'
-      height: '1080'
+  displayName: 'Set up screen resolution 1920x1080'
+  inputs:
+    displaySettings: 'specific'
+    width: '1920'
+    height: '1080'
 
 - task: Windows Application Driver@0
   displayName: 'Start WinAppDriver'
