@@ -65,13 +65,13 @@ namespace Aquality.WinAppDriver.Tests.Forms
         [Test]
         public void Should_ReturnTrue_IfFormIsDisplayed()
         {
-            Assert.IsTrue(CalculatorForm.IsDisplayed);
+            Assert.IsTrue(CalculatorForm.State.IsDisplayed);
         }
 
         [Test]
         public void Should_ReturnFalse_IfFormIsNotDisplayed()
         {
-            Assert.IsFalse(TestForm.IsDisplayed);
+            Assert.IsFalse(TestForm.State.IsDisplayed);
         }
 
         [Test]

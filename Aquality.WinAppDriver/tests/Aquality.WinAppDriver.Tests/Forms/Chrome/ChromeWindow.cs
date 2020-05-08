@@ -22,7 +22,5 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         {
             KeyboardActions.SendKeysWithKeyHold("w", ModifierKey.Control, mayDisappear: true);
         }
-
-        public override bool IsDisplayed => State.IsDisplayed;
     }
 }
