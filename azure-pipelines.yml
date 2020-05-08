@@ -64,7 +64,7 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*Tests*/*.csproj'
-        arguments: -c $(buildConfiguration) --no-build
+        arguments: -c $(buildConfiguration)
         publishTestResults: true
 
     - task: Windows Application Driver@0
