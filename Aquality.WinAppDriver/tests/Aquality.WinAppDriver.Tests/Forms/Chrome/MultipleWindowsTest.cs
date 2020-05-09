@@ -22,7 +22,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
             var firstTabName = AqualityServices.Application.Driver.Title;
             var firstWindow = new ChromeWindow(firstTabName);
-            Assert.IsTrue(firstWindow.State.IsDisplayed, $"{firstWindow.Name} window is not displayed");
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
             firstWindow.Click();
             navigationPanel.OpenDownloads();
             firstWindow = new ChromeWindow(DownloadsTabName);
