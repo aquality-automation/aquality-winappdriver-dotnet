@@ -95,6 +95,7 @@ stages:
         repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
         action: 'create'
         tag: 'v$(GitVersion.NuGetVersion)'
+        title: 'v$(GitVersion.NuGetVersion)'
         tagSource: 'manual'
         isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
 
