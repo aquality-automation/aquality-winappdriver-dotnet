@@ -19,17 +19,17 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
             var navigationPanel = new ChromeNavigationPanel();
-            Assert.IsTrue(navigationPanel.State.IsDisplayed);
+            Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
             var firstTabName = AqualityServices.Application.Driver.Title;
             var firstWindow = new ChromeWindow(firstTabName);
             Assert.IsTrue(firstWindow.State.IsDisplayed, $"{firstWindow.Name} window is not displayed");
             firstWindow.Click();
             navigationPanel.OpenDownloads();
             firstWindow = new ChromeWindow(DownloadsTabName);
-            Assert.IsTrue(firstWindow.State.IsDisplayed, $"First window is not displayed with the new name {firstWindow.Name}");
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"First window is not displayed with the new name {firstWindow.Name}");
             navigationPanel.OpenNewTab();
             var secondWindow = new ChromeWindow(NewTabName);
-            Assert.IsTrue(secondWindow.State.IsDisplayed, $"Second window with the name {secondWindow.Name} is not displayed");
+            Assert.IsTrue(secondWindow.State.WaitForDisplayed(), $"Second window with the name {secondWindow.Name} is not displayed");
             secondWindow.Click();
             secondWindow.Close();
             Assert.IsFalse(secondWindow.State.IsDisplayed, "Second window is not closed");

@@ -65,6 +65,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
         [Test]
         public void Should_ReturnTrue_IfFormIsDisplayed()
         {
+            CalculatorForm.State.WaitForDisplayed();
             Assert.IsTrue(CalculatorForm.State.IsDisplayed);
         }
 
