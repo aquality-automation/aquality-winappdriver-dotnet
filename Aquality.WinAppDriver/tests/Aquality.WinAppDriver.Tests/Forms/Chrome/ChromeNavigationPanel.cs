@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             KeyboardActions.SendKeysWithKeyHold("j", ModifierKey.Control);
         }
 
-        public void OpenNewTab()
+        public void OpenNewWindow()
         {
             KeyboardActions.SendKeysWithKeyHold("n", ModifierKey.Control);
         }
