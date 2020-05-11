@@ -35,8 +35,9 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             
             secondWindow.Click();
             secondWindow.Close();
-            Assert.IsFalse(secondWindow.State.WaitForNotDisplayed(), "Second window is not closed");
-            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), "First window is closed but should not");
+            secondWindow.State.WaitForNotDisplayed();
+            Assert.IsFalse(secondWindow.State.IsDisplayed, "Second window is not closed");
+            Assert.IsTrue(firstWindow.State.IsDisplayed, "First window is closed but should not");
         }
 
         [TearDown]
