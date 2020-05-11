@@ -482,11 +482,6 @@
             Represents the Left Shift key.
             </summary>
         </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Meta">
-            <summary>
-            Represents the function key META.
-            </summary>
-        </member>
         <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Shift">
             <summary>
             Represents the Shift key.
@@ -981,13 +976,6 @@
             <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
             <param name="elementState">Element presence state.</param>
         </member>
-        <member name="P:Aquality.WinAppDriver.Forms.Form.IsDisplayed">
-            <summary>
-            Return window state for form locator
-            </summary>
-            <value>True - form is opened,
-            False - form is not opened.</value>
-        </member>
         <member name="P:Aquality.WinAppDriver.Forms.Form.ElementFactory">
             <summary>
             Element factory <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory"/>
@@ -1025,13 +1013,6 @@
             <summary>
             Defines an interface for any form on any application's window.
             </summary>
-        </member>
-        <member name="P:Aquality.WinAppDriver.Forms.IForm.IsDisplayed">
-            <summary>
-            Return window state for form locator
-            </summary>
-            <value>True - form is opened,
-            False - form is not opened.</value>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.IForm.Size">
             <summary>

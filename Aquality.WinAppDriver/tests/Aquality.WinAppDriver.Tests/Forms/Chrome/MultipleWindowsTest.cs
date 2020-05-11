@@ -19,21 +19,25 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
             var navigationPanel = new ChromeNavigationPanel();
-            Assert.IsTrue(navigationPanel.IsDisplayed);
-            var firstTabName = AqualityServices.Application.Driver.Title;
-            var firstWindow = new ChromeWindow(firstTabName);
-            Assert.IsTrue(firstWindow.IsDisplayed, $"{firstWindow.Name} window is not displayed");
+            Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
+            var firstWindowName = AqualityServices.Application.Driver.Title;
+            var firstWindow = new ChromeWindow(firstWindowName);
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
+            
             firstWindow.Click();
             navigationPanel.OpenDownloads();
             firstWindow = new ChromeWindow(DownloadsTabName);
-            Assert.IsTrue(firstWindow.IsDisplayed, $"First window is not displayed with the new name {firstWindow.Name}");
-            navigationPanel.OpenNewTab();
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"First window is not displayed with the new name {firstWindow.Name}");
+            
+            navigationPanel.OpenNewWindow();
             var secondWindow = new ChromeWindow(NewTabName);
-            Assert.IsTrue(secondWindow.IsDisplayed, $"Second window with the name {secondWindow.Name} is not displayed");
+            Assert.IsTrue(secondWindow.State.WaitForDisplayed(), $"Second window with the name {secondWindow.Name} is not displayed");
+            
             secondWindow.Click();
             secondWindow.Close();
-            Assert.IsFalse(secondWindow.IsDisplayed, "Second window is not closed");
-            Assert.IsTrue(firstWindow.IsDisplayed, "First window is closed but should not");
+            secondWindow.State.WaitForNotDisplayed();
+            Assert.IsFalse(secondWindow.State.IsDisplayed, "Second window is not closed");
+            Assert.IsTrue(firstWindow.State.IsDisplayed, "First window is closed but should not");
         }
 
         [TearDown]

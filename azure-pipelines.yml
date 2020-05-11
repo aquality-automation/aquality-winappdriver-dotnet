@@ -1,87 +1,108 @@
-variables:
-  buildConfiguration: 'Release'
-  isRemote: true
-
 trigger:
 - master
 
 pool:
   vmImage: 'windows-latest'
 
-steps:
-- task: GitVersion@5
-  displayName: 'Run GitVersion'
-  inputs:
-    runtime: 'core'
+variables:
+  buildConfiguration: 'Release'
 
-- task: SonarCloudPrepare@1
-  displayName: 'Prepare SonarCloud analysis'
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'aqualityautomation'
-    projectKey: 'aquality-automation_aquality-winappdriver-dotnet'
-    projectName: 'aquality-winappdriver-dotnet'
-    projectVersion: '$(Build.BuildNumber)'
-    extraProperties: |
-      sonar.coverage.exclusions=**/**
+stages:
+- stage: test
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build solution'
-  inputs:
-    command: 'build'
-    projects: Aquality.WinAppDriver/Aquality.WinAppDriver.sln
-    arguments: -c $(buildConfiguration)
+  jobs:
+  - job: sonar
+    displayName: Analyse code with SonarQube
 
-- task: SonarCloudAnalyze@1
-  displayName: 'Run SonarCloud code analysis'
-  continueOnError: true
+    steps:
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare SonarCloud analysis'
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: 'aqualityautomation'
+        projectKey: 'aquality-automation_aquality-winappdriver-dotnet'
+        projectName: 'aquality-winappdriver-dotnet'
+        projectVersion: '$(Build.BuildNumber)'
+        extraProperties: |
+          sonar.coverage.exclusions=**/**
 
-- task: SonarCloudPublish@1
-  displayName: 'Publish SonarCloud quality gate results'
-  continueOnError: true
+    - task: DotNetCoreCLI@2
+      displayName: 'Build solution'
+      inputs:
+        command: 'build'
+        projects: Aquality.WinAppDriver/Aquality.WinAppDriver.sln
+        arguments: -c $(buildConfiguration)
 
-- task: ScreenResolutionUtility@1
-  displayName: 'Set up screen resolution 1920x1080'
-  inputs:
-    displaySettings: 'specific'
-    width: '1920'
-    height: '1080'
+    - task: SonarCloudAnalyze@1
+      displayName: 'Run SonarCloud code analysis'
+      continueOnError: true
 
-- task: Windows Application Driver@0
-  displayName: 'Start WinAppDriver'
-  inputs:
-    OperationType: 'Start'
+    - task: SonarCloudPublish@1
+      displayName: 'Publish SonarCloud quality gate results'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Run tests'
-  inputs:
-    command: 'test'
-    projects: '**/*Tests*/*.csproj'
-    arguments: -c $(buildConfiguration) --no-build
-    publishTestResults: true
+  - job: tests
+    displayName: Run tests
 
-- task: Windows Application Driver@0
-  displayName: Stop WinAppDriver
-  inputs:
-    OperationType: 'Stop'
+    variables:
+      isRemote: true
 
-- script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) --no-build -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
-  displayName: 'Pack to NuGet package'
+    steps:
+    - task: ScreenResolutionUtility@1
+      displayName: 'Set up screen resolution 1920x1080'
+      inputs:
+        displaySettings: 'specific'
+        width: '1920'
+        height: '1080'
+
+    - task: Windows Application Driver@0
+      displayName: 'Start WinAppDriver'
+      inputs:
+        OperationType: 'Start'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Run tests'
+      inputs:
+        command: 'test'
+        projects: '**/*Tests*/*.csproj'
+        arguments: -c $(buildConfiguration)
+        publishTestResults: true
+
+    - task: Windows Application Driver@0
+      displayName: Stop WinAppDriver
+      inputs:
+        OperationType: 'Stop'
+
+- stage: deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-- task: GitHubRelease@0
-  displayName: 'Create tag on GitHub'
-  inputs:
-    gitHubConnection: 'GitHub'
-    repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
-    action: 'create'
-    tag: 'v$(GitVersion.NuGetVersion)'
-    tagSource: 'manual'
-    isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: release
+    displayName: 'Create tag on GitHub and publish NuGet package'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    artifactName: '_aquality-automation.aquality-winappdriver-dotnet'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    steps:
+    - task: GitVersion@5
+      displayName: 'Run GitVersion'
+      inputs:
+        runtime: 'core'
+
+    - script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
+      displayName: 'Pack to NuGet package'
+
+    - task: GitHubRelease@0
+      displayName: 'Create tag on GitHub'
+      inputs:
+        gitHubConnection: 'GitHub'
+        repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
+        action: 'create'
+        tag: 'v$(GitVersion.NuGetVersion)'
+        title: 'v$(GitVersion.NuGetVersion)'
+        tagSource: 'manual'
+        isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
+
+    - task: NuGetCommand@2
+      displayName: 'Push NuGet package'
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.nupkg;!$(Build.ArtifactStagingDirectory)/**/Aquality.WinAppDriver*.symbols.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'NuGet'

@@ -9,13 +9,6 @@ namespace Aquality.WinAppDriver.Forms
     public interface IForm : IElement
     {
         /// <summary>
-        /// Return window state for form locator
-        /// </summary>
-        /// <value>True - form is opened,
-        /// False - form is not opened.</value>
-        bool IsDisplayed { get; }
-        
-        /// <summary>
         /// Gets size of the form element defined by its locator.
         /// </summary>
         Size Size { get; }

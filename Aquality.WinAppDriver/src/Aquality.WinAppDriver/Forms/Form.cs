@@ -38,13 +38,6 @@ namespace Aquality.WinAppDriver.Forms
                 ? null
                 : (Func<ISearchContext>)(() => parentForm.GetElement());
         }
-        
-        /// <summary>
-        /// Return window state for form locator
-        /// </summary>
-        /// <value>True - form is opened,
-        /// False - form is not opened.</value>
-        public virtual bool IsDisplayed => State.WaitForDisplayed();
 
         /// <summary>
         /// Element factory <see cref="IElementFactory"/>
