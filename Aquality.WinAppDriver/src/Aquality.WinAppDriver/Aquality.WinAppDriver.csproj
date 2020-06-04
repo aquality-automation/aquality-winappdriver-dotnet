@@ -46,7 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="Appium.WebDriver" Version="4.1.1" />
-    <PackageReference Include="Aquality.Selenium.Core" Version="1.0.0" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="1.1.1" />
   </ItemGroup>
   
 </Project>

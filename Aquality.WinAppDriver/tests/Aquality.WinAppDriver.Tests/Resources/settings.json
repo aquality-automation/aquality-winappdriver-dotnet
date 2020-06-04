@@ -2,8 +2,8 @@
   "isRemote": true,
   "remoteConnectionUrl": "http://127.0.0.1:4723/",
   "driverSettings": {
-    "applicationPath": "./Resources/Applications/Day Maxi Calc.exe",
     "capabilities": {
+      "app": "./Resources/Applications/Day Maxi Calc.exe",
       "platformVersion": "10",
       "platformName": "Windows",
       "deviceName": "WindowsPC",
