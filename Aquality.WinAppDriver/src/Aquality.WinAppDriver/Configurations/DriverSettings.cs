@@ -16,31 +16,32 @@ namespace Aquality.WinAppDriver.Configurations
         private const string ApplicationPathJPath = DriverSettingsPath + ".applicationPath";
         private const string AppCapabilityKey = "app";
 
+        private readonly ISettingsFile settingsFile;
+
         /// <summary>
         /// Instantiates class using JSON file with general settings.
         /// </summary>
         /// <param name="settingsFile">JSON settings file.</param>
         public DriverSettings(ISettingsFile settingsFile)
         {
-            SettingsFile = settingsFile;
+            this.settingsFile = settingsFile;
         }
 
-        protected ISettingsFile SettingsFile { get; }
-
-        protected IDictionary<string, object> Capabilities => SettingsFile.GetValueOrNew<Dictionary<string, object>>($"{DriverSettingsPath}.capabilities");
-
+        protected virtual IDictionary<string, object> Capabilities => settingsFile.GetValueOrNew<Dictionary<string, object>>($"{DriverSettingsPath}.capabilities");
+        
         /// <summary>
         /// Defines does the current settings have the application path defined
         /// </summary>
-        protected bool HasApplicationPath => SettingsFile.IsValuePresent(ApplicationPathJPath);
+        protected virtual bool HasApplicationPath => settingsFile.IsValuePresent(ApplicationPathJPath) || Capabilities.ContainsKey(AppCapabilityKey);
 
-        public AppiumOptions AppiumOptions
+
+        public virtual AppiumOptions AppiumOptions
         {
             get
             {
                 var options = new AppiumOptions();
                 Capabilities.ToList().ForEach(capability => options.AddAdditionalCapability(capability.Key, capability.Value));
-                if (HasApplicationPath)
+                if (HasApplicationPath && ApplicationPath != null)
                 {
                     options.AddAdditionalCapability(AppCapabilityKey, ApplicationPath);
                 }
@@ -48,6 +49,14 @@ namespace Aquality.WinAppDriver.Configurations
             }
         }
 
-        public string ApplicationPath => Path.GetFullPath(SettingsFile.GetValue<string>(ApplicationPathJPath));
+        public virtual string ApplicationPath
+        {
+            get
+            {
+                var appValue = settingsFile.GetValueOrDefault(ApplicationPathJPath,
+                    defaultValue: (Capabilities.ContainsKey(AppCapabilityKey) ? Capabilities[AppCapabilityKey] : null)?.ToString());
+                return appValue?.StartsWith(".") == true ? Path.GetFullPath(appValue) : appValue;
+            }
+        }
     }
 }

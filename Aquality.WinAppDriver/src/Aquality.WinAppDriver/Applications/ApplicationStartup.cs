@@ -26,8 +26,8 @@ namespace Aquality.WinAppDriver.Applications
             base.ConfigureServices(services, applicationProvider, settings);
             services.AddTransient<IElementFactory, ElementFactory>();
             services.AddTransient<CoreElementFactory, ElementFactory>();
-            services.AddSingleton<IDriverSettings>(serviceProvider => new DriverSettings(settings));
-            services.AddSingleton<IApplicationProfile>(serviceProvider => new ApplicationProfile(settings, serviceProvider.GetRequiredService<IDriverSettings>()));
+            services.AddSingleton<IDriverSettings, DriverSettings>();
+            services.AddSingleton<IApplicationProfile, ApplicationProfile>();
             services.AddSingleton<ILocalizationManager>(serviceProvider => new LocalizationManager(serviceProvider.GetRequiredService<ILoggerConfiguration>(), serviceProvider.GetRequiredService<Logger>(), Assembly.GetExecutingAssembly()));
             services.AddSingleton<IKeyboardActions>(serviceProvider => new KeyboardActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => AqualityServices.Application.Driver));
             services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => AqualityServices.Application.Driver));
