@@ -55,6 +55,6 @@ namespace Aquality.WinAppDriver.Elements
 
         protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 
-        protected virtual ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
+        protected override ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
     }
 }

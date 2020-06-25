@@ -21,7 +21,8 @@
     "pollingInterval": 300
   },
   "logger": {
-    "language": "be"
+    "language": "be",
+    "logPageSource": false
   },
   "elementCache": {
     "isEnabled": true

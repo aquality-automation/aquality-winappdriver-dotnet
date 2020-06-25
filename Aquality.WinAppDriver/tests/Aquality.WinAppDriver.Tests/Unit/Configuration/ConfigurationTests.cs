@@ -47,6 +47,8 @@ namespace Aquality.WinAppDriver.Tests.Unit.Configuration
         private class CustomLoggerConfiguration : ILoggerConfiguration
         {
             public string Language { get; } = SpecialLoggerLanguage;
+
+            public bool LogPageSource => false;
         }
 
         private interface ICustomService
