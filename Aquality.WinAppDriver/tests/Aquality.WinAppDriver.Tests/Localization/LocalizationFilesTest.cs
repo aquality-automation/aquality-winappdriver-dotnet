@@ -107,6 +107,8 @@ namespace Aquality.WinAppDriver.Tests.Localization
         private class DynamicConfiguration : ILoggerConfiguration
         {
             public string Language { get; set; }
+
+            public bool LogPageSource => false;
         }
     }
 }
