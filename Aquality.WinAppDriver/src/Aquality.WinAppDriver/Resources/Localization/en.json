@@ -33,5 +33,6 @@
   "loc.mouse.scrollbyoffset": "Scroll mouse wheel by '{0}' vertical and '{1}' horizontal offset",
   "loc.processes.stop": "Attempting to stop all processes by name '{0}'",
   "loc.processes.notfound": "No process was found by name '{0}'",
-  "loc.processes.start": "Starting a process '{0}'"
+  "loc.processes.start": "Starting a process '{0}'",
+  "loc.process.runcommand": "Process with the name '{0}' :: Running command '{1}'"
 }
