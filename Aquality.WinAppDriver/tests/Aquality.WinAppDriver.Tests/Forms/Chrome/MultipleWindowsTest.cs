@@ -1,12 +1,19 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Extensions;
 using NUnit.Framework;
+using System;
+using System.IO;
 
 namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class MultipleWindowsTest : TestWithCustomApplication
     {
-        protected override string ApplicationPath => @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe";
+        private static readonly string ProgramFiles = Environment.ExpandEnvironmentVariables("%ProgramW6432%");
+        private static readonly string ProgramFilesX86 = Environment.ExpandEnvironmentVariables("%ProgramFiles(x86)%");
+        private const string AppPathRelativeFromProgramFiles = @"Google\Chrome\Application\chrome.exe";
+        protected override string ApplicationPath => File.Exists(Path.Combine(ProgramFilesX86, AppPathRelativeFromProgramFiles))
+            ? Path.Combine(ProgramFilesX86, AppPathRelativeFromProgramFiles)
+            : Path.Combine(ProgramFiles, AppPathRelativeFromProgramFiles);
 
         private string NewTabName => $"New Tab{TabNamePostfix}";
         private string DownloadsTabName => $"Downloads{TabNamePostfix}";
