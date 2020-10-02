@@ -19,6 +19,7 @@ namespace Aquality.WinAppDriver.Forms
             : base(locator, name, customSessionSupplier: ResolveWindowsSessionSupplier(customSessionSupplier))
         {
         }
+
         private static WindowsDriverSupplier ResolveWindowsSessionSupplier(WindowsDriverSupplier customSessionSupplier)
         {
             return customSessionSupplier ?? (() => AqualityServices.Application.RootSession);

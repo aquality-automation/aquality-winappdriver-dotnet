@@ -9,6 +9,7 @@ using Element = Aquality.WinAppDriver.Elements.Element;
 using IElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using ElementFactory = Aquality.WinAppDriver.Elements.ElementFactory;
 using OpenQA.Selenium.Appium.Windows;
+using System.Diagnostics;
 
 namespace Aquality.WinAppDriver.Forms
 {
@@ -31,6 +32,8 @@ namespace Aquality.WinAppDriver.Forms
             var relativeFinderFromForm = new WindowsElementFinder(LocalizedLogger, ConditionalWait, () => GetElement());
             RelativeElementFactory = new ElementFactory(ConditionalWait, relativeFinderFromForm, LocalizationManager);
         }
+
+        public Process Process => Process.GetProcessById(Convert.ToInt32(GetAttribute("ProcessId")));
 
         private static Func<ISearchContext> ResolveSearchContextSupplier(IForm parentForm)
         {
