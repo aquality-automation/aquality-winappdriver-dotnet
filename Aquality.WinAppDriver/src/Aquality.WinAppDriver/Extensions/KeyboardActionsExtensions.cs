@@ -9,14 +9,19 @@ namespace Aquality.WinAppDriver.Extensions
     {
         public static void SendKeyWithWindowsKeyHold(this IKeyboardActions keyboardActions, char keyToSend)
         {
-            AqualityServices.LocalizedLogger.Info("loc.keyboard.sendkeys.withkeyhold", keyToSend, "Windows");
+            LogSendKeyWithWindowsKeyHold(keyToSend);
             SendKeyInRootSession(keyboardActions, keyToSend.ToString());
         }
 
         public static void SendKeyWithWindowsKeyHold(this IKeyboardActions keyboardActions, ActionKey keyToSend)
         {
-            AqualityServices.LocalizedLogger.Info("loc.keyboard.sendkeys.withkeyhold", keyToSend, "Windows");
+            LogSendKeyWithWindowsKeyHold(keyToSend);
             SendKeyInRootSession(keyboardActions, keyToSend.GetKeysString());
+        }
+
+        private static void LogSendKeyWithWindowsKeyHold(object keyToSend)
+        {
+            AqualityServices.LocalizedLogger.Info("loc.keyboard.sendkeys.withkeyhold", keyToSend, "Windows");
         }
 
         private static void SendKeyInRootSession(this IKeyboardActions keyboardActions, string key)
