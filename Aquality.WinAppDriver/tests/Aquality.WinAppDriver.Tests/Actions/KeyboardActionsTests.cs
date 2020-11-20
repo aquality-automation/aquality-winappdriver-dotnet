@@ -1,6 +1,7 @@
 ﻿using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Extensions;
 using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -19,6 +20,12 @@ namespace Aquality.WinAppDriver.Tests.Actions
         protected static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 
         protected static readonly ActionKey[] actionKeys = Enum.GetValues(typeof(ActionKey)) as ActionKey[];
+
+        protected static readonly Action<IKeyboardActions>[] actionToMinimizeWindow = new Action<IKeyboardActions>[] 
+        { 
+            keyboardActions => keyboardActions.SendKeyWithWindowsKeyHold('d'),
+            keyboardActions => keyboardActions.SendKeyWithWindowsKeyHold(ActionKey.Down)
+        };
 
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
@@ -77,6 +84,15 @@ namespace Aquality.WinAppDriver.Tests.Actions
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeysWithKeyHold(ValueToSend, ModifierKey.Shift);
             Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
+        }
+
+        [Test]
+        public void Should_SendKeyWithWindowsKeyHold_ToMinimizeWindows([ValueSource(nameof(actionToMinimizeWindow))] Action<IKeyboardActions> minimizeAction)
+        {
+            var window = new CalculatorForm();
+            Assume.That(window.State.WaitForDisplayed(), "App window must be opened before interactions");
+            minimizeAction(KeyboardActions);
+            Assert.IsTrue(window.State.WaitForNotDisplayed(), "Window should be minimized after the minimize action");
         }
 
         [Test]
