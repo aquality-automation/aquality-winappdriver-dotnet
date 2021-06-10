@@ -1,5 +1,6 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
@@ -28,5 +29,11 @@ namespace Aquality.WinAppDriver.Tests.Forms
         public CalculatorForm() : base(CalculatorLocators.WindowLocator, "Calculator")
         {
         }
+
+        protected override IDictionary<string, IElement> ElementsForVisualization => new Dictionary<string, IElement>
+        {
+            { NumberPad.Name, NumberPad },
+            { MaximizeButton.Name, MaximizeButton }
+        };
     }
 }
