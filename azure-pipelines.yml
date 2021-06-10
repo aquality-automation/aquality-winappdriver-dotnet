@@ -91,7 +91,7 @@ stages:
     - task: GitHubRelease@0
       displayName: 'Create tag on GitHub'
       inputs:
-        gitHubConnection: 'GitHub'
+        gitHubConnection: 'github.com_aqualityautomation'
         repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
         action: 'create'
         tag: 'v$(GitVersion.NuGetVersion)'

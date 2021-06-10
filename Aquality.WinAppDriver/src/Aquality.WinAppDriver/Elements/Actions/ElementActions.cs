@@ -53,7 +53,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
         /// </summary>
         /// <param name="action">Action to be performed.</param>
-        protected virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
+        protected internal virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
         {
             elementActionsRetrier.DoWithRetry(() =>
             {
