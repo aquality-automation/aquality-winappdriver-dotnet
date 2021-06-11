@@ -19,11 +19,10 @@ namespace Aquality.WinAppDriver.Tests.Forms
         [Test]
         public void Should_SaveAndCompareDump()
         {
-            CalculatorForm.State.WaitForDisplayed();
-            Assert.DoesNotThrow(() => CalculatorForm.Dump.Save(), "Dump should be saved without errors");
-            Assert.That(() => CalculatorForm.Dump.Compare(), Is.EqualTo(0), "Dump should have no difference right after the saving");
             CalculatorForm.OneButton.Click();
             CalculatorForm.PlusButton.Click();
+            Assert.DoesNotThrow(() => CalculatorForm.Dump.Save(), "Dump should be saved without errors");
+            Assert.That(() => CalculatorForm.Dump.Compare(), Is.EqualTo(0), "Dump should have no difference right after the saving");
             CalculatorForm.TwoButton.Click();
             CalculatorForm.EqualsButton.Click();
             StringAssert.Contains("3", CalculatorForm.ResultsLabel.Text);
