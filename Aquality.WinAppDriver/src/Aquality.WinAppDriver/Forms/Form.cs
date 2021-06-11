@@ -103,7 +103,7 @@ namespace Aquality.WinAppDriver.Forms
         protected virtual IDictionary<string, IElement> ElementsForVisualization => DisplayedElements;
 
         /// <summary>
-        /// List of pairs uniqueName-element from all fields and properties of type <typeparamref name="T"/>.
+        /// List of pairs uniqueName-element from all fields and properties of type <see cref="IElement"/>.
         /// </summary>
         protected IDictionary<string, IElement> AllElements
         {
@@ -122,7 +122,7 @@ namespace Aquality.WinAppDriver.Forms
         }
 
         /// <summary>
-        /// List of pairs uniqueName-element from all fields and properties of type <typeparamref name="T"/>,
+        /// List of pairs uniqueName-element from all fields and properties of type <see cref="IElement"/>,
         /// which were initialized as <see cref="ElementState.Displayed"/>.
         /// </summary>
         protected IDictionary<string, IElement> ElementsInitializedAsDisplayed => AllElements
@@ -130,8 +130,8 @@ namespace Aquality.WinAppDriver.Forms
             .ToDictionary(el => el.Key, el => el.Value);
 
         /// <summary>
-        /// List of pairs uniqueName-element from all fields and properties of type <typeparamref name="T"/>,
-        /// which are currently displayed (using <see cref="IElementStateProvider.IsDisplayed"/>).
+        /// List of pairs uniqueName-element from all fields and properties of type <see cref="IElement"/>,
+        /// which are currently displayed (using <see cref="Selenium.Core.Elements.Interfaces.IElementStateProvider.IsDisplayed"/>).
         /// </summary>
         protected IDictionary<string, IElement> DisplayedElements => AllElements.Where(element => element.Value.State.IsDisplayed)
             .ToDictionary(el => el.Key, el => el.Value);
