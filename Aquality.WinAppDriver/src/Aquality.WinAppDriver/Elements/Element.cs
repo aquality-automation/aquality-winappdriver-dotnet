@@ -7,6 +7,7 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using IKeyboardActions = Aquality.WinAppDriver.Actions.IKeyboardActions;
 using CoreElement = Aquality.Selenium.Core.Elements.Element;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
@@ -61,5 +62,10 @@ namespace Aquality.WinAppDriver.Elements
         protected override ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
 
         protected override IImageComparator ImageComparator => AqualityServices.Get<IImageComparator>();
+
+        public new AppiumWebElement GetElement(TimeSpan? timeout = null)
+        {
+            return (AppiumWebElement) base.GetElement(timeout);
+        }
     }
 }
