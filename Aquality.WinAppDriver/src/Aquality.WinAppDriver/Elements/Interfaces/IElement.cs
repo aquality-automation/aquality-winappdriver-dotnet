@@ -1,4 +1,5 @@
 ﻿using Aquality.WinAppDriver.Elements.Actions;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
