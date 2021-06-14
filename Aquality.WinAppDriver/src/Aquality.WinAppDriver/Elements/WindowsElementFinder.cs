@@ -22,7 +22,7 @@ namespace Aquality.WinAppDriver.Elements
 
         private Func<ISearchContext> SearchContextSupplier { get; }
 
-        public override IWebElement FindElement(By locator, Func<IWebElement, bool> elementStateCondition, string stateName, TimeSpan? timeout = null)
+        public override IWebElement FindElement(By locator, Func<IWebElement, bool> elementStateCondition, string stateName, TimeSpan? timeout = null, string name = null)
         {
             IWebElement element = null;
             if (!ConditionalWait.WaitFor(() =>
@@ -44,9 +44,12 @@ namespace Aquality.WinAppDriver.Elements
                 }
                 else
                 {
-                    Logger.Debug("loc.no.elements.found.by.locator", null, locator.ToString());
+                    Logger.Debug("loc.no.elements.with.name.found.by.locator", null, name, locator.ToString());
                 }
-                throw new NoSuchElementException($"No elements with locator '{locator.ToString()}' were found in {stateName} state");
+                var message = string.IsNullOrEmpty(name)
+                    ? $"No elements with locator '{locator}' were found in {stateName} state"
+                    : $"Element [{name}] was not found by locator '{locator}' in {stateName} state";
+                throw new NoSuchElementException(message);
             }
 
             return element;

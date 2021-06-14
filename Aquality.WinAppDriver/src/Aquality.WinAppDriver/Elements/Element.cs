@@ -7,6 +7,7 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium;
 using IKeyboardActions = Aquality.WinAppDriver.Actions.IKeyboardActions;
 using CoreElement = Aquality.Selenium.Core.Elements.Element;
 using CoreElementFactory = Aquality.Selenium.Core.Elements.Interfaces.IElementFactory;
@@ -14,12 +15,14 @@ using CoreElementFinder = Aquality.Selenium.Core.Elements.Interfaces.IElementFin
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using Aquality.Selenium.Core.Configurations;
+using Aquality.Selenium.Core.Visualization;
 
 namespace Aquality.WinAppDriver.Elements
 {
     public abstract class Element : CoreElement, IElement
     {
         private readonly Func<ISearchContext> searchContextSupplier;
+        internal readonly ElementState elementState;
 
         protected Element(
             By locator, 
@@ -31,6 +34,7 @@ namespace Aquality.WinAppDriver.Elements
         {
             this.searchContextSupplier = searchContextSupplier;
             WindowsDriverSupplier = customSessionSupplier ?? (() => AqualityServices.Application.Driver);
+            this.elementState = elementState;
         }
 
         protected override IElementActionRetrier ActionRetrier => AqualityServices.Get<IElementActionRetrier>();
@@ -56,5 +60,12 @@ namespace Aquality.WinAppDriver.Elements
         protected override ILocalizedLogger LocalizedLogger => AqualityServices.LocalizedLogger;
 
         protected override ILocalizationManager LocalizationManager => AqualityServices.Get<ILocalizationManager>();
+
+        protected override IImageComparator ImageComparator => AqualityServices.Get<IImageComparator>();
+
+        public new AppiumWebElement GetElement(TimeSpan? timeout = null)
+        {
+            return (AppiumWebElement) base.GetElement(timeout);
+        }
     }
 }

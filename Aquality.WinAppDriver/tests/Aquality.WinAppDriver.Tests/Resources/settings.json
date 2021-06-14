@@ -26,5 +26,11 @@
   },
   "elementCache": {
     "isEnabled": true
+  },
+  "visualization": {
+    "defaultThreshold": 0.03,
+    "comparisonWidth": 16,
+    "comparisonHeight": 16,
+    "pathToDumps": "../../../Resources/VisualDumps/"
   }
 }

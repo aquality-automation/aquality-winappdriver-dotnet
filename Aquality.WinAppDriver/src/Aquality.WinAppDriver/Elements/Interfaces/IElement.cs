@@ -1,4 +1,5 @@
 ﻿using Aquality.WinAppDriver.Elements.Actions;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
@@ -25,5 +26,13 @@ namespace Aquality.WinAppDriver.Elements.Interfaces
         /// Provides access to <see cref="IMouseActions"/> against the current element.
         /// </summary>
         IMouseActions MouseActions { get; }
+
+        /// <summary>
+        /// Gets current mobile element by specified <see cref="CoreElement.Locator"/>
+        /// </summary>
+        /// <param name="timeout">Timeout for waiting (would use default timeout from settings by default).</param>
+        /// <returns></returns>
+        /// <exception cref="OpenQA.Selenium.NoSuchElementException">Thrown if element was not found.</exception>
+        new AppiumWebElement GetElement(TimeSpan? timeout = null);
     }
 }

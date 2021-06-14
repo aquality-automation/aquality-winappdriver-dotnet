@@ -1,14 +1,20 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using CoreForm = Aquality.Selenium.Core.Forms.IForm;
 
 namespace Aquality.WinAppDriver.Forms
 {
     /// <summary>
     /// Defines an interface for any form on any application's window.
     /// </summary>
-    public interface IForm : IElement
+    public interface IForm : IElement, CoreForm
     {
+        /// <summary>
+        /// Name of the current form.
+        /// </summary>
+        new string Name { get; }
+
         /// <summary>
         /// Gets size of the form element defined by its locator.
         /// </summary>
