@@ -152,7 +152,7 @@ namespace Aquality.WinAppDriver.Applications
         /// Sets window handle factory, which attaches to already running application by it's window handle
         /// </summary>
         /// <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
-        public static void SetWindowHandleApplicationFactory(Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
+        public static void SetWindowHandleApplicationFactory(Func<WindowsDriver, string> getWindowHandleFunction)
         {
             var appProfile = Get<IApplicationProfile>();
             var serviceUri = appProfile.IsRemote ? appProfile.RemoteConnectionUrl : AppiumLocalServiceContainer.Value.ServiceUrl;

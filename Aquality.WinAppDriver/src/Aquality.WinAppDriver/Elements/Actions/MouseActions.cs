@@ -2,9 +2,9 @@
 using Aquality.Selenium.Core.Utilities;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
+using OpenQA.Selenium.Appium.Interfaces;
+using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Remote;
 using System;
 
 namespace Aquality.WinAppDriver.Elements.Actions
@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
     public class MouseActions : ElementActions, IMouseActions
     {
         private readonly IElement element;
-        private readonly Func<RemoteTouchScreen> remoteTouchScreenSupplier;
+        private readonly Func<ITouchAction> remoteTouchScreenSupplier;
 
         /// <summary>
         /// Instantiates Mouse actions for a specific element.
@@ -25,11 +25,11 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizationLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public MouseActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizationLogger, IElementActionRetrier elementActionsRetrier)
+        public MouseActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizationLogger, IElementActionRetrier elementActionsRetrier)
             : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
         {
             this.element = element;
-            remoteTouchScreenSupplier = () => new RemoteTouchScreen(windowsDriverSupplier());
+            remoteTouchScreenSupplier = () => new TouchAction(windowsDriverSupplier());
         }
 
         public void Click()
@@ -99,16 +99,11 @@ namespace Aquality.WinAppDriver.Elements.Actions
             PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY));
         }
 
-        public void MoveToElement(int offsetX, int offsetY, MoveToElementOffsetOrigin offsetOrigin)
-        {
-            LogAction("loc.mouse.movetoelement.byoffset.withorigin", offsetX, offsetY, offsetOrigin);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY, offsetOrigin));
-        }
-
         public void Scroll(int offsetX, int offsetY)
         {
             LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);
-            remoteTouchScreenSupplier().Scroll(element.GetElement().Coordinates, offsetX, offsetY);
+            throw new NotImplementedException();
+            //remoteTouchScreenSupplier().Scroll(element.GetElement().Coordinates, offsetX, offsetY);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Aquality.WinAppDriver.Applications
             }
         }
 
-        protected override WindowsDriver<WindowsElement> CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
+        protected override WindowsDriver CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
         {
             var session = base.CreateSession(driverServerUri, appliumOptions);
             session.FileDetector = new LocalFileDetector();

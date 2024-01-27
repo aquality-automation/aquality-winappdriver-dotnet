@@ -22,10 +22,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
                 RightArgumentTextBox.MouseActions.MoveByOffset(10, 10);
                 RightArgumentTextBox.MouseActions.MoveFromElement();
                 RightArgumentTextBox.MouseActions.MoveToElement();
-                RightArgumentTextBox.MouseActions.MoveToElement(10, 10);
-                RightArgumentTextBox.MouseActions.MoveToElement(10, 10, MoveToElementOffsetOrigin.Center);
-                RightArgumentTextBox.MouseActions.MoveToElement(10, 10, MoveToElementOffsetOrigin.TopLeft);
-                RightArgumentTextBox.MouseActions.Scroll(10, 10);
+                RightArgumentTextBox.MouseActions.MoveToElement(10, 10);RightArgumentTextBox.MouseActions.Scroll(10, 10);
             });
         }
     }

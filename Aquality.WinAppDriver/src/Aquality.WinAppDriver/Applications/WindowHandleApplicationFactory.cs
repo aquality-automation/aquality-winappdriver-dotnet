@@ -11,10 +11,10 @@ namespace Aquality.WinAppDriver.Applications
         private const string WindowHandleCapability = "appTopLevelWindow";
         private const string AppNameCapability = "app";
         private readonly Uri driverServerUri;
-        private readonly Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction;
+        private readonly Func<WindowsDriver, string> getWindowHandleFunction;
         private readonly bool isRemote;
 
-        public WindowHandleApplicationFactory(Uri driverServerUri, Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
+        public WindowHandleApplicationFactory(Uri driverServerUri, Func<WindowsDriver, string> getWindowHandleFunction)
             : base()
         {
             this.driverServerUri = driverServerUri;
@@ -32,15 +32,15 @@ namespace Aquality.WinAppDriver.Applications
             }
         }
 
-        protected override WindowsDriver<WindowsElement> GetApplicationSession(Uri driverServerUri)
+        protected override WindowsDriver GetApplicationSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions;
-            options.AddAdditionalCapability(AppNameCapability, null);
-            options.AddAdditionalCapability(WindowHandleCapability, getWindowHandleFunction(GetRootSession(driverServerUri)));
+            options.AddAdditionalAppiumOption(AppNameCapability, null);
+            options.AddAdditionalAppiumOption(WindowHandleCapability, getWindowHandleFunction(GetRootSession(driverServerUri)));
             return CreateSession(driverServerUri, options);
         }
 
-        protected override WindowsDriver<WindowsElement> CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
+        protected override WindowsDriver CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
         {
             var session = base.CreateSession(driverServerUri, appliumOptions);
             if (isRemote)

@@ -30,7 +30,7 @@ namespace Aquality.WinAppDriver.Forms
         /// <param name="parentForm">Parent form. If set to null, search context of <see cref="AqualityServices.Application"/> is used.</param>
         /// <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
         /// <param name="elementState">Element presence state.</param>
-        protected Form(By locator, string name, IForm parentForm = null, Func<WindowsDriver<WindowsElement>> customSessionSupplier = null, ElementState elementState = ElementState.Displayed)
+        protected Form(By locator, string name, IForm parentForm = null, Func<WindowsDriver> customSessionSupplier = null, ElementState elementState = ElementState.Displayed)
             : base(locator, name, ResolveSearchContextSupplier(parentForm), customSessionSupplier ?? parentForm?.WindowsDriverSupplier, elementState)
         {
             var relativeFinderFromForm = new WindowsElementFinder(LocalizedLogger, ConditionalWait, () => GetElement());

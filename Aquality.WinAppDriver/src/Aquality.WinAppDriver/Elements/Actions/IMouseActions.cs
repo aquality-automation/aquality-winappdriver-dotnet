@@ -1,5 +1,4 @@
 ﻿using Aquality.WinAppDriver.Elements.Interfaces;
-using OpenQA.Selenium.Interactions;
 
 namespace Aquality.WinAppDriver.Elements.Actions
 {
@@ -45,14 +44,6 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
         void MoveToElement(int offsetX, int offsetY);
-
-        /// <summary>
-        /// Moves the mouse to the specified offset of specified offset origin of the current element.
-        /// </summary>
-        /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
-        /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
-        /// <param name="offsetOrigin">The <see cref="MoveToElementOffsetOrigin"/> value from which to calculate the offset.</param>
-        void MoveToElement(int offsetX, int offsetY, MoveToElementOffsetOrigin offsetOrigin);
 
         /// <summary>
         /// Scrolls the current screen by specified offset, starting from the current element.

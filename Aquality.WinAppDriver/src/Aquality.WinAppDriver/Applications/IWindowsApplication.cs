@@ -12,12 +12,12 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Provides instance of Windows Driver for current application.
         /// </summary>
-        new WindowsDriver<WindowsElement> Driver { get; }
+        new WindowsDriver Driver { get; }
 
         /// <summary>
         /// Provides instance of Windows Driver for desktop session.
         /// </summary>
-        WindowsDriver<WindowsElement> RootSession { get; }
+        WindowsDriver RootSession { get; }
 
         /// <summary>
         /// Provides methods representing basic keyboard actions.

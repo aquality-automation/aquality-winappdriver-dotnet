@@ -1,4 +1,6 @@
 ﻿using Aquality.Selenium.Core.Localization;
+using OpenQA.Selenium.Appium.Interfaces;
+using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
@@ -10,12 +12,12 @@ namespace Aquality.WinAppDriver.Actions
     /// </summary>
     public class MouseActions : ApplicationActions, IMouseActions
     {
-        private readonly Func<RemoteTouchScreen> remoteTouchScreenSupplier;
+        private readonly Func<ITouchAction> remoteTouchScreenSupplier;
 
-        public MouseActions(ILocalizedLogger localizedLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+        public MouseActions(ILocalizedLogger localizedLogger, Func<WindowsDriver> windowsDriverSupplier)
             : base(localizedLogger, windowsDriverSupplier)
         {
-            remoteTouchScreenSupplier = () => new RemoteTouchScreen(windowsDriverSupplier());
+            remoteTouchScreenSupplier = () => new TouchAction(windowsDriverSupplier());
         }
 
         public void Click()
@@ -57,7 +59,8 @@ namespace Aquality.WinAppDriver.Actions
         public void Scroll(int offsetX, int offsetY)
         {
             LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);     
-            remoteTouchScreenSupplier().Scroll(offsetX, offsetY);
+            throw new NotImplementedException();
+            //remoteTouchScreenSupplier().Scroll(offsetX, offsetY);
         }
     }
 }

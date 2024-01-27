@@ -20,7 +20,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public KeyboardActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
+        public KeyboardActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
             : base(element, elementType, windowsDriverSupplier, localizedLogger, elementActionsRetrier)
         {
         }

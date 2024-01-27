@@ -3,8 +3,8 @@ using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Actions;
-using OpenQA.Selenium.Remote;
-using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver<OpenQA.Selenium.Appium.Windows.WindowsElement>;
+using OpenQA.Selenium;
+using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -37,7 +37,7 @@ namespace Aquality.WinAppDriver.Applications
 
         private ILocalizedLogger Logger { get; }
 
-        RemoteWebDriver IApplication.Driver => Driver;
+        WebDriver IApplication.Driver => Driver;
 
         public virtual WindowsDriver Driver
         {

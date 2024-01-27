@@ -6,7 +6,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class CoreChromeWindow : Window
     {
-        public CoreChromeWindow(WindowsDriver<WindowsElement> rootSession) : base(By.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
+        public CoreChromeWindow(WindowsDriver rootSession) : base(By.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
         {
         }
 

@@ -12,14 +12,14 @@ namespace Aquality.WinAppDriver.Actions
     public abstract class ApplicationActions
     {
         private readonly ILocalizedLogger localizedLogger;
-        private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
+        private readonly Func<WindowsDriver> windowsDriverSupplier;
 
         /// <summary>
         /// Instantiates Application actions.
         /// </summary>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
-        protected ApplicationActions(ILocalizedLogger localizedLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+        protected ApplicationActions(ILocalizedLogger localizedLogger, Func<WindowsDriver> windowsDriverSupplier)
         {
             this.localizedLogger = localizedLogger;
             this.windowsDriverSupplier = windowsDriverSupplier;

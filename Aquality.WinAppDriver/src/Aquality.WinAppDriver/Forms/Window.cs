@@ -1,6 +1,6 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium;
-using WindowsDriverSupplier = System.Func<OpenQA.Selenium.Appium.Windows.WindowsDriver<OpenQA.Selenium.Appium.Windows.WindowsElement>>;
+using WindowsDriverSupplier = System.Func<OpenQA.Selenium.Appium.Windows.WindowsDriver>;
 
 namespace Aquality.WinAppDriver.Forms
 {

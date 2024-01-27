@@ -40,10 +40,10 @@ namespace Aquality.WinAppDriver.Configurations
             get
             {
                 var options = new AppiumOptions();
-                Capabilities.ToList().ForEach(capability => options.AddAdditionalCapability(capability.Key, capability.Value));
+                Capabilities.ToList().ForEach(capability => options.AddAdditionalAppiumOption(capability.Key, capability.Value));
                 if (HasApplicationPath && ApplicationPath != null)
                 {
-                    options.AddAdditionalCapability(AppCapabilityKey, ApplicationPath);
+                    options.AddAdditionalAppiumOption(AppCapabilityKey, ApplicationPath);
                 }
                 return options;
             }

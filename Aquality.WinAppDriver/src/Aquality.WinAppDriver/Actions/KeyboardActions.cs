@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Actions
     /// </summary>
     public class KeyboardActions : ApplicationActions, IKeyboardActions
     {
-        public KeyboardActions(ILocalizedLogger localizationLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+        public KeyboardActions(ILocalizedLogger localizationLogger, Func<WindowsDriver> windowsDriverSupplier)
             : base(localizationLogger, windowsDriverSupplier)
         {
         }

@@ -25,7 +25,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
 
         public ILabel ResultsLabel => RelativeElementFactory.GetLabel(CalculatorLocators.ResultsLabel, "Results bar");
 
-        public CalculatorWindow(Func<WindowsDriver<WindowsElement>> customSessionSupplier = null) : base(CalculatorLocators.WindowLocator, "Calculator", customSessionSupplier)
+        public CalculatorWindow(Func<WindowsDriver> customSessionSupplier = null) : base(CalculatorLocators.WindowLocator, "Calculator", customSessionSupplier)
         {
         }
     }
