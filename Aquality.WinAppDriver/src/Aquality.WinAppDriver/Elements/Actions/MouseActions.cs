@@ -18,7 +18,6 @@ namespace Aquality.WinAppDriver.Elements.Actions
     public class MouseActions : ElementActions, IMouseActions
     {
         private readonly IElement element;
-        private readonly Func<WindowsDriver> windowsDriverSupplier;
 
         /// <summary>
         /// Instantiates Mouse actions for a specific element.
@@ -32,16 +31,11 @@ namespace Aquality.WinAppDriver.Elements.Actions
             : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
         {
             this.element = element;
-            this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
-        public void Click(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
+        protected virtual Dictionary<string, object> ResolveParameters(IList<ModifierKey> modifierKeys, TimeSpan? duration = null)
         {
-            var parameters = new Dictionary<string, object>() { { "elementId", element.GetElement().Id } };
-            if (button != null)
-            {
-                parameters.Add("button", button.ToString().ToLowerInvariant());
-            }
+            var parameters = new Dictionary<string, object>();
             if (modifierKeys != null && modifierKeys.Any())
             {
                 parameters.Add("modifierKeys", modifierKeys.Select(key => key.ToString().ToLowerInvariant()).ToArray());
@@ -49,6 +43,16 @@ namespace Aquality.WinAppDriver.Elements.Actions
             if (duration != null)
             {
                 parameters.Add("durationMs", duration?.TotalMilliseconds);
+            }
+            return parameters;
+        }
+
+        public void Click(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
+        {
+            var parameters = ResolveParameters(modifierKeys);
+            if (button != null)
+            {
+                parameters.Add("button", button.ToString().ToLowerInvariant());
             }
             if (times != null)
             {
@@ -60,13 +64,13 @@ namespace Aquality.WinAppDriver.Elements.Actions
             }
             if (parameters.Count > 1)
             {
-                LogAction("loc.mouse.click.withParameters", PrepareParametersForLogging(parameters));
+                LogMouseAction("loc.mouse.click.withparameters", parameters);
             }
             else
             {
                 LogAction("loc.mouse.click");
             }
-            windowsDriverSupplier().ExecuteScript("windows: click", parameters);
+            PerformAction("windows: click", parameters);
         }
 
         public void ContextClick(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
@@ -81,52 +85,92 @@ namespace Aquality.WinAppDriver.Elements.Actions
             Click(button, modifierKeys, duration, times: 2, interClickDelay);
         }
 
-        public void MoveByOffset(int offsetX, int offsetY)
+        public void DragAndDrop(IElement target, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.draganddrop", target.GetElementType(), target.Name);
+            parameters.Add("endElementId", target.GetElement().Id);
+            PerformAction("windows: clickAndDrag", parameters, "startElementId");
+        }
+
+        public void DragAndDrop(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.draganddrop.tocoordinates", endX, endY);
+            parameters.Add("endX", endX);
+            parameters.Add("endY", endY);
+            PerformAction("windows: clickAndDrag", parameters, "startElementId");
+        }
+
+        public void DragAndDropToOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            LogAction("loc.mouse.draganddrop.tooffset", offsetX, offsetY);
+            var location = element.Visual.Location;
+            DragAndDrop(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
+        }
+
+        public void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             DragAndDropToOffset(offsetX, offsetY);
         }
 
-        public void DragAndDrop(IElement target)
+        public void Hover(IElement endElement, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            LogAction("loc.mouse.draganddrop", target.GetElementType(), target.Name);
-            PerformAction((actions, element) => actions.DragAndDrop(element, target.GetElement()));
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.hover", endElement.GetElementType(), endElement.Name);
+            parameters.Add("endElementId", endElement.GetElement().Id);
+            PerformAction("windows: hover", parameters, "startElementId");
         }
 
-        public void DragAndDropToOffset(int offsetX, int offsetY)
+        public void Hover(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            LogAction("loc.mouse.draganddrop.tooffset", offsetX, offsetY);
-            PerformAction((actions, element) => actions.DragAndDropToOffset(element, offsetX, offsetY));
+            var parameters = ResolveParameters(modifierKeys, duration);
+            parameters.Add("endX", endX);
+            parameters.Add("endY", endY);
+            LogMouseAction("loc.mouse.hover.withparameters", parameters);
+            PerformAction("windows: hover", parameters, "startElementId");
         }
 
-        public void MoveFromElement()
+        public void MoveFromElement(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            var offsetX = - element.GetElement().Size.Width / 2;
-            var offsetY = - element.GetElement().Size.Height / 2;
+            var offsetX = - element.Visual.Size.Width / 2;
+            var offsetY = - element.Visual.Size.Height / 2;
             LogAction("loc.mouse.movefromelement", offsetX, offsetY);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY));
+            var location = element.Visual.Location;
+            Hover(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
         }
 
-        public void MoveToElement()
+        public void MoveToElement(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             LogAction("loc.mouse.movetoelement");
-            PerformAction((actions, element) => actions.MoveToElement(element));
+            Hover(element, modifierKeys, duration);
         }
 
-        public void MoveToElement(int offsetX, int offsetY)
+        public void MoveToElement(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             LogAction("loc.mouse.movetoelement.byoffset", offsetX, offsetY);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY));
+            var location = element.Visual.Location;
+            Hover(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
         }
 
-        public void Scroll(int offsetX, int offsetY)
+        public void Scroll(int delta, ScrollDirection direction = ScrollDirection.Vertical, IList<ModifierKey> modifierKeys = null)
         {
-            LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);
-            
-            windowsDriverSupplier().ExecuteScript("windows: scroll", new Dictionary<string, object>() {
-                {"elementId", element.GetElement().Id},
-                {"deltaX", offsetX }
-            });
-            //remoteTouchScreenSupplier().Scroll(element.GetElement().Coordinates, offsetX, offsetY);
+            var parameters = ResolveParameters(modifierKeys);
+            if (direction == ScrollDirection.Vertical)
+            {
+                parameters.Add("deltaY", delta);
+            }
+            else
+            {
+                parameters.Add("deltaX", delta);
+            }
+            LogMouseAction("loc.mouse.scroll", parameters);
+            PerformAction("windows: scroll", parameters);
+        }
+
+        protected virtual void LogMouseAction(string localizationKey, Dictionary<string, object> parameters)
+        {
+            LogAction(localizationKey, PrepareParametersForLogging(parameters));
         }
 
         private string PrepareParametersForLogging(Dictionary<string, object> parameters)

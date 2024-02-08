@@ -41,7 +41,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
             Assert.DoesNotThrow(() => childElement.MouseActions.Click());
             Assert.DoesNotThrow(() => childElement.MouseActions.DoubleClick());
             Assert.DoesNotThrow(() => childElement.MouseActions.ContextClick(modifierKeys: [ModifierKey.Ctrl, ModifierKey.Shift], interClickDelay: TimeSpan.FromSeconds(0.2)));
-            Assert.DoesNotThrow(() => childElement.MouseActions.Scroll(100, 100));
+            Assert.DoesNotThrow(() => childElement.MouseActions.Scroll(10));
         }
     }
 }

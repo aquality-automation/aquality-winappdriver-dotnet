@@ -5,6 +5,7 @@ using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.Collections.Generic;
 using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
 
 namespace Aquality.WinAppDriver.Elements.Actions
@@ -35,6 +36,20 @@ namespace Aquality.WinAppDriver.Elements.Actions
             this.windowsDriverSupplier = windowsDriverSupplier;
             this.localizedLogger = localizedLogger;
             this.elementActionsRetrier = elementActionsRetrier;
+        }
+
+        /// <summary>
+        /// Executes script action on current element.
+        /// </summary>
+        /// <param name="script">Script to be executed.</param>
+        /// <param name="parameters">Script parameters.</param>
+        protected virtual void PerformAction(string script, Dictionary<string, object> parameters, string elementIdParameterName = "elementId")
+        {
+            elementActionsRetrier.DoWithRetry(() =>
+            {
+                parameters.Add(elementIdParameterName, element.GetElement().Id);
+                return windowsDriverSupplier().ExecuteScript(script, parameters);
+            });
         }
 
         /// <summary>
