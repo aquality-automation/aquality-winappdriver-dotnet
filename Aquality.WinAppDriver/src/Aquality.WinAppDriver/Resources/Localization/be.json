@@ -19,6 +19,7 @@
   "loc.keyboard.sendkeys": "Націскаем клавішы '{0}'",
   "loc.keyboard.sendkeys.withkeyhold": "Націскаем клавішы '{0}' з заціснутай клавішай '{1}'",
   "loc.mouse.click": "Націскаем кнопку мышы",
+  "loc.mouse.click.withParameters": "Націскаем кнопку мышы з параметрамі: {0}",
   "loc.mouse.clickandhold": "Заціскаем кнопку мышы",
   "loc.mouse.release": "Адпускаем кнопку мышы",
   "loc.mouse.contextclick": "Націскаем правую кнопку мышы",

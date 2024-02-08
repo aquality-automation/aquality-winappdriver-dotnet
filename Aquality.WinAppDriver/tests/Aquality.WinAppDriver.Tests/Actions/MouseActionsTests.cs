@@ -16,11 +16,10 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_PerformMouseActions()
         {
             RightArgumentTextBox.Click();
+            MouseActions.Scroll(10, 10);
             Assert.DoesNotThrow(() =>
             {
                 MouseActions.Click();
-                MouseActions.ClickAndHold();
-                MouseActions.Release();
                 MouseActions.ContextClick();
                 MouseActions.DoubleClick();
                 MouseActions.MoveByOffset(10, 10);

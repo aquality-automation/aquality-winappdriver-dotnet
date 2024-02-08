@@ -11,16 +11,6 @@
         void Click();
 
         /// <summary>
-        /// Clicks and holds the mouse button at the last known mouse coordinates.
-        /// </summary>
-        void ClickAndHold();
-
-        /// <summary>
-        /// Releases the mouse button at the last known mouse coordinates.
-        /// </summary>
-        void Release();
-
-        /// <summary>
         /// Right-clicks the mouse at the last known mouse coordinates.
         /// </summary>
         void ContextClick();

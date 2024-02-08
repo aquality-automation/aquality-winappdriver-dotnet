@@ -33,6 +33,14 @@
         /// <summary>
         /// Represents the Shift key.
         /// </summary>
-        Shift
+        Shift,
+        /// <summary>
+        /// Represents the Ctrl key.
+        /// </summary>
+        Ctrl,
+        /// <summary>
+        /// Represents the Win key.
+        /// </summary>
+        Win
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Aquality.Selenium.Core.Localization;
-using OpenQA.Selenium.Appium.Interfaces;
-using OpenQA.Selenium.Appium.MultiTouch;
+using Aquality.WinAppDriver.Elements;
 using OpenQA.Selenium.Appium.Windows;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Interactions;
 using System;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -12,42 +12,30 @@ namespace Aquality.WinAppDriver.Actions
     /// </summary>
     public class MouseActions : ApplicationActions, IMouseActions
     {
-        private readonly Func<ITouchAction> remoteTouchScreenSupplier;
+        private readonly Func<WindowsDriver> windowsDriverSupplier;
 
         public MouseActions(ILocalizedLogger localizedLogger, Func<WindowsDriver> windowsDriverSupplier)
             : base(localizedLogger, windowsDriverSupplier)
         {
-            remoteTouchScreenSupplier = () => new TouchAction(windowsDriverSupplier());
+            this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
         public void Click()
         {
             LogAction("loc.mouse.click");
-            PerformAction(actions => actions.Click());
-        }
-
-        public void ClickAndHold()
-        {
-            LogAction("loc.mouse.clickandhold");
-            PerformAction(actions => actions.ClickAndHold());
-        }
-
-        public void Release()
-        {
-            LogAction("loc.mouse.release");
-            PerformAction(actions => actions.Release());
+            windowsDriverSupplier().ExecuteScript("windows:click", new Dictionary<string, object>() { { "x", 0 }, {"y", 0 } } );
         }
 
         public void ContextClick()
         {
             LogAction("loc.mouse.contextclick");
-            PerformAction(actions => actions.ContextClick());
+            windowsDriverSupplier().ExecuteScript("windows:click", new Dictionary<string, object>() { { "x", 0 }, { "y", 0 }, { "button", MouseButton.Right.ToString().ToLowerInvariant() } });
         }
 
         public void DoubleClick()
         {
             LogAction("loc.mouse.doubleclick");
-            PerformAction(actions => actions.DoubleClick());
+            windowsDriverSupplier().ExecuteScript("windows:click", new Dictionary<string, object>() { { "x", 0 }, { "y", 0 }, { "times", 2 } });
         }
 
         public void MoveByOffset(int offsetX, int offsetY)
@@ -58,9 +46,13 @@ namespace Aquality.WinAppDriver.Actions
 
         public void Scroll(int offsetX, int offsetY)
         {
-            LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);     
-            throw new NotImplementedException();
-            //remoteTouchScreenSupplier().Scroll(offsetX, offsetY);
+            LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);
+            var windowSize = windowsDriverSupplier().Manage().Window.Size;
+            windowsDriverSupplier().ExecuteScript("windows: scroll", new Dictionary<string, object>() {
+                {"x", windowSize.Width},
+                {"y", windowSize.Height / 2},
+                {"deltaX", offsetX }
+            });
         }
     }
 }

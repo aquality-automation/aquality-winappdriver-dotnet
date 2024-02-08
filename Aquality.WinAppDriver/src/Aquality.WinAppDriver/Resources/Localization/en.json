@@ -19,6 +19,7 @@
   "loc.keyboard.sendkeys": "Sending keys '{0}'",
   "loc.keyboard.sendkeys.withkeyhold": "Sending keys '{0}' with holded key '{1}'",
   "loc.mouse.click": "Clicking mouse button",
+  "loc.mouse.click.withParameters": "Clicking mouse button with parameters: {0}",
   "loc.mouse.clickandhold": "Holding mouse button",
   "loc.mouse.release": "Releasing mouse button",
   "loc.mouse.contextclick": "Clicking right mouse button",
