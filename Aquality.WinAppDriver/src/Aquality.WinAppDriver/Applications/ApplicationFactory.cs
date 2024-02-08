@@ -31,7 +31,7 @@ namespace Aquality.WinAppDriver.Applications
         protected virtual WindowsDriver GetApplicationSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions;
-            options.ToDictionary().TryGetValue("app", out var appPath);
+            var appPath = options.App;
             LocalizedLogger.Info("loc.application.start", appPath);
             return CreateSession(driverServerUri, options);
         }
@@ -39,7 +39,7 @@ namespace Aquality.WinAppDriver.Applications
         protected virtual WindowsDriver GetRootSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions; 
-            options.AddAdditionalAppiumOption("app", "Root");
+            options.App = "Root";
             return CreateSession(driverServerUri, options);
         }
 
