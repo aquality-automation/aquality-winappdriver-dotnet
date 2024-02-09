@@ -14,6 +14,9 @@ namespace Aquality.WinAppDriver.Elements.Actions
 {
     /// <summary>
     /// Implements Mouse actions for a specific element.
+    /// There is an issue with absolute coordinates calculation on Application session, so better to use the root session here if possible.
+    /// Alternatively, you can move application to top left corner before doing mouse action.
+    /// This might be addressed in future when fixed in appium-windows-driver 
     /// </summary>
     public class MouseActions : ElementActions, IMouseActions
     {

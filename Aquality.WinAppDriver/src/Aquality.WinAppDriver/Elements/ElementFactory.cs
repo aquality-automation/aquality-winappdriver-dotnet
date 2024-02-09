@@ -11,6 +11,7 @@ using CoreElement = Aquality.Selenium.Core.Elements.Interfaces.IElement;
 using IElementFactory = Aquality.WinAppDriver.Elements.Interfaces.IElementFactory;
 using System.Reflection;
 using OpenQA.Selenium.Appium.Windows;
+using System.Linq;
 
 namespace Aquality.WinAppDriver.Elements
 {
@@ -19,6 +20,10 @@ namespace Aquality.WinAppDriver.Elements
     /// </summary>
     public class ElementFactory : CoreFactory, IElementFactory
     {
+        private static readonly IDictionary<string, string> LocatorToXPathTemplateMap = new Dictionary<string, string>
+        {
+            { "By.Name", "//*[@Name='{0}']" }
+        };
         private readonly Func<ISearchContext> searchContextSupplier;
         private readonly Func<WindowsDriver> driverSessionSupplier;
 
@@ -74,6 +79,49 @@ namespace Aquality.WinAppDriver.Elements
         }
 
         /// <summary>
+        /// Defines is the locator can be transformed to xpath or not.
+        /// Base implementation works only with ByXPath.class and ByTagName locator types,
+        /// for WinAppDriver By.Name support was added.
+        /// </summary>
+        /// <param name="locator">locator to transform</param>
+        /// <returns>true if the locator can be transformed to xpath, false otherwise.</returns>
+        protected override bool IsLocatorSupportedForXPathExtraction(By locator)
+        {
+            return LocatorToXPathTemplateMap.Keys.Any(locType => locator.ToString().StartsWith(locType))
+                || base.IsLocatorSupportedForXPathExtraction(locator);
+        }
+
+        /// <summary>
+        /// Extracts XPath from passed locator.
+        /// Current implementation works only with ByXPath.class and ByTagName locator types,
+        /// but you can implement your own for the specific WebDriver type.
+        /// </summary>
+        /// <param name="locator">locator to get xpath from.</param>
+        /// <returns>extracted XPath.</returns>
+        protected override string ExtractXPathFromLocator(By locator)
+        {
+            var locatorString = locator.ToString();
+            var supportedLocatorType = LocatorToXPathTemplateMap.Keys.FirstOrDefault(locType => locatorString.StartsWith(locType));
+            return supportedLocatorType == null
+                ? base.ExtractXPathFromLocator(locator)
+                : string.Format(LocatorToXPathTemplateMap[supportedLocatorType], locatorString.Substring(locatorString.IndexOf(':') + 1).Trim());
+        }
+
+        /// <summary>
+        /// Workaround to support By.Name locator strategy.
+        /// </summary>
+        /// <param name="locator">Locator for element</param>
+        /// <returns>In case of By.Name: returns formatted XPath; otherwise, returns not changed locator.</returns>
+        protected virtual By ResolveLocator(By locator)
+        {
+            if ("css selector" == locator.Mechanism)
+            {
+                return By.XPath(ExtractXPathFromLocator(locator));
+            }
+            return locator;
+        }
+
+        /// <summary>
         /// Resolves element supplier or return itself if it is not null.
         /// </summary>
         /// <typeparam name="T">type of target element.</typeparam>
@@ -100,7 +148,7 @@ namespace Aquality.WinAppDriver.Elements
                 {
                     return base.ResolveSupplier(supplier);
                 }
-                return (locator, name, state) => (T)elementCntr.Invoke(new object[] { locator, name, customSearchContextSupplier, driverSessionSupplier, state });
+                return (locator, name, state) => (T)elementCntr.Invoke(new object[] { ResolveLocator(locator), name, customSearchContextSupplier, driverSessionSupplier, state });
             }
         }
     }
