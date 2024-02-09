@@ -12,6 +12,8 @@ namespace Aquality.WinAppDriver.Tests.Actions
     public class KeyboardActionsTests : TestWithApplication
     {
         private const string ValueToSend = "abc";
+        private const string Semicolon = ";";
+        private const string Colon = ":";
 
         protected virtual IKeyboardActions KeyboardActions => AqualityServices.KeyboardActions;
 
@@ -38,24 +40,24 @@ namespace Aquality.WinAppDriver.Tests.Actions
         [Test]
         public void Should_SendClosingKeys_ViaKeyboardActions()
         {
-            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: true));
+            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false));
         }
 
         [Test]
         public void Should_SendKey_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeys(ActionKey.Equal);
+            KeyboardActions.SendKeys(ActionKey.Semicolon);
             KeyboardActions.SendKeys(ValueToSend);
-            Assert.AreEqual("=" + ValueToSend, RightArgumentTextBox.Value);
+            Assert.AreEqual(Semicolon + ValueToSend, RightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_SendKey_AfterSequence_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeys(ValueToSend, ActionKey.Equal);
-            Assert.AreEqual(ValueToSend + "=", RightArgumentTextBox.Value);
+            KeyboardActions.SendKeys(ValueToSend, ActionKey.Semicolon);
+            Assert.AreEqual(ValueToSend + Semicolon, RightArgumentTextBox.Value);
         }
 
         [Test]
@@ -73,17 +75,17 @@ namespace Aquality.WinAppDriver.Tests.Actions
         {
             RightArgumentTextBox.Click();
             KeyboardActions.PressKey(ModifierKey.Shift);
-            KeyboardActions.SendKeys(ValueToSend);
+            KeyboardActions.SendKeys(ActionKey.Semicolon);
             KeyboardActions.ReleaseKey(ModifierKey.Shift);
-            Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
+            Assert.AreEqual(Colon, RightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_SendKeysWithKeyHold_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeysWithKeyHold(ValueToSend, ModifierKey.Shift);
-            Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
+            KeyboardActions.SendKeysWithKeyHold(Semicolon, ModifierKey.Shift);
+            Assert.AreEqual(Colon, RightArgumentTextBox.Value);
         }
 
         [Test]

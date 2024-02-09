@@ -9,7 +9,6 @@ namespace Aquality.WinAppDriver.Applications
     public class WindowHandleApplicationFactory : ApplicationFactory
     {
         private const string WindowHandleCapability = "appTopLevelWindow";
-        private const string AppNameCapability = "app";
         private readonly Uri driverServerUri;
         private readonly Func<WindowsDriver, string> getWindowHandleFunction;
         private readonly bool isRemote;
@@ -35,7 +34,7 @@ namespace Aquality.WinAppDriver.Applications
         protected override WindowsDriver GetApplicationSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions;
-            options.AddAdditionalAppiumOption(AppNameCapability, null);
+            options.App = null;
             options.AddAdditionalAppiumOption(WindowHandleCapability, getWindowHandleFunction(GetRootSession(driverServerUri)));
             return CreateSession(driverServerUri, options);
         }

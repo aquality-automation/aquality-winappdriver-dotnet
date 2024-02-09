@@ -11,7 +11,7 @@ using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
 namespace Aquality.WinAppDriver.Elements.Actions
 {
     /// <summary>
-    /// Abstract class for any actions agains element.
+    /// Abstract class for any actions against element.
     /// </summary>
     public abstract class ElementActions
     {

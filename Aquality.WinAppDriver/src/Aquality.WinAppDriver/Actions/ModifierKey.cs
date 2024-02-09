@@ -4,43 +4,39 @@
     /// Represents modifier keys which could be used in <see cref="IKeyboardActions"/>.
     /// Directly related to <see cref="OpenQA.Selenium.Keys"/>
     /// </summary>
-    public enum ModifierKey
+    public enum ModifierKey: short
     {
         /// <summary>
         /// Represents the Alt key.
         /// </summary>
-        Alt,
-        /// <summary>
-        /// Represents the function key COMMAND.
-        /// </summary>
-        Command,
+        Alt = 0x12,
         /// <summary>
         /// Represents the Control key.
         /// </summary>
-        Control,
+        Control = 0x11,
         /// <summary>
         /// Represents the Left Alt key.
         /// </summary>
-        LeftAlt,
+        LeftAlt = 0xA4,
         /// <summary>
         /// Represents the Left Control key.
         /// </summary>
-        LeftControl,
+        LeftControl = 0xA2,
         /// <summary>
         /// Represents the Left Shift key.
         /// </summary>
-        LeftShift,
+        LeftShift = 0xA0,
         /// <summary>
         /// Represents the Shift key.
         /// </summary>
-        Shift,
+        Shift = 0x10,
         /// <summary>
         /// Represents the Ctrl key.
         /// </summary>
-        Ctrl,
+        Ctrl = 0xA3,
         /// <summary>
         /// Represents the Win key.
         /// </summary>
-        Win
+        Win = 0x5B
     }
 }

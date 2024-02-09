@@ -1,5 +1,4 @@
 ﻿using Aquality.Selenium.Core.Localization;
-using Aquality.WinAppDriver.Elements;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
 using System;
@@ -23,13 +22,23 @@ namespace Aquality.WinAppDriver.Actions
         public void Click()
         {
             LogAction("loc.mouse.click");
-            windowsDriverSupplier().ExecuteScript("windows:click", new Dictionary<string, object>() { { "x", 0 }, {"y", 0 } } );
+            windowsDriverSupplier().ExecuteScript("windows: keys", new Dictionary<string, object>() { { "actions", new[]
+            {
+                new KeyAction{ VirtualKeyCode = 0x01, Down = true}.ToDictionary(),
+                //new Dictionary<string, object>() { { "virtualKeyCode", 0x01 }, { "down", true } },
+                new Dictionary<string, object>() { { "pause", 500 } },
+                new Dictionary<string, object>() { { "text", "Important text" } },
+                new Dictionary<string, object>() { { "virtualKeyCode", 0x01 }, { "down", false } }
+            }
+            }});
         }
 
         public void ContextClick()
         {
             LogAction("loc.mouse.contextclick");
-            windowsDriverSupplier().ExecuteScript("windows:click", new Dictionary<string, object>() { { "x", 0 }, { "y", 0 }, { "button", MouseButton.Right.ToString().ToLowerInvariant() } });
+            windowsDriverSupplier().ExecuteScript("windows: keys",
+                new Dictionary<string, object>() { { "virtualKeyCode", 0x02 }, { "down", true } },
+                new Dictionary<string, object>() { { "virtualKeyCode", 0x02 }, { "down", false } });
         }
 
         public void DoubleClick()

@@ -6,7 +6,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class ChromeNavigationPanel : Form
     {
-        public ChromeNavigationPanel() : base(By.XPath("//Pane[./*[@Name='Google Chrome']]"), $"Chrome Navigation panel")
+        public ChromeNavigationPanel() : base(By.XPath("//MenuItem[@Name = 'Chrome']"), $"Chrome Navigation panel")
         {
         }
 

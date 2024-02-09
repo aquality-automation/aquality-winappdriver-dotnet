@@ -4,14 +4,20 @@ using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using OpenQA.Selenium.Appium.Windows;
 using System;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Elements.Actions
 {
     /// <summary>
     /// Implements Keyboard actions for a specific element.
     /// </summary>
-    public class KeyboardActions : ElementActions, IKeyboardActions
+    public class KeyboardActions : WinAppDriver.Actions.KeyboardActions, IKeyboardActions
     {
+        private readonly IElement element;
+        private readonly string elementType;
+        private readonly ILocalizedLogger localizedLogger;
+        private readonly IElementActionRetrier elementActionsRetrier;
+
         /// <summary>
         /// Instantiates Keyboard actions for a specific element.
         /// </summary>
@@ -21,56 +27,50 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
         public KeyboardActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
-            : base(element, elementType, windowsDriverSupplier, localizedLogger, elementActionsRetrier)
+            : base(localizedLogger, windowsDriverSupplier)
         {
+            this.element = element;
+            this.elementType = elementType;
+            this.localizedLogger = localizedLogger;
+            this.elementActionsRetrier = elementActionsRetrier;
         }
 
-        public void PressKey(ModifierKey keyToPress)
+        protected override void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false)
         {
-            LogAction("loc.keyboard.presskey", keyToPress);
-            PerformAction((actions, element) => actions.KeyDown(element, keyToPress.GetKeysString()));
+            element.Click();
+            elementActionsRetrier.DoWithRetry(() => base.PerformKeyActions(keyActions, rootSession));
         }
 
-        public void ReleaseKey(ModifierKey keyToRelease)
+        protected override void LogAction(string messageKey, params object[] args)
         {
-            LogAction("loc.keyboard.releasekey", keyToRelease);
-            PerformAction((actions, element) => actions.KeyUp(element, keyToRelease.GetKeysString()));
+            localizedLogger.InfoElementAction(elementType, element.Name, messageKey, args);
         }
 
-        public void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
+        public override void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
         {
             var valueToLog = $"{keySequence}{(sendAfterSequence == null ? string.Empty : $" + {sendAfterSequence}")}";
             LogAction("loc.keyboard.sendkeys", valueToLog);
-            var valueToSend = $"{keySequence}{sendAfterSequence.GetKeysOrEmptyString()}";
-            PerformAction((actions, element) => actions.SendKeys(element, valueToSend));
+            element.SendKeys(keySequence);
+            if (sendAfterSequence != null)
+            {
+                var actions = new List<KeyAction>
+                {
+                    new KeyAction { VirtualKeyCode = (short)sendAfterSequence, Down = true },
+                    new KeyAction { VirtualKeyCode = (short)sendAfterSequence, Down = false }
+                };
+                base.PerformKeyActions(actions);
+            }
         }
 
-        public void SendKeys(ActionKey key, int times = 1)
+        public override void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
         {
-            if (times == 1)
-            {
-                LogAction("loc.keyboard.sendkey", key);
-            }
-            else
-            {
-                LogAction("loc.keyboard.sendkey.times", key, times);
-            }
-            PerformAction((actions, element) => actions.SendKeys(key.GetKeysString(times)));
-        }
-
-        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
-        {
-            var keyToHoldString = keyToHold.GetKeysString();
             LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
-            if (mayDisappear)
-            {
-                PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence));
-                PerformInRootSession(actions => actions.KeyUp(keyToHoldString));
-            }
-            else
-            {
-                PerformAction((actions, element) => actions.KeyDown(element, keyToHoldString).SendKeys(element, keySequence).KeyUp(element, keyToHoldString));
-            }
+
+            PerformKeyActions(new List<KeyAction> {
+                    new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true }
+                });
+            element.SendKeys(keySequence);
+            base.PerformKeyActions(new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false } }, rootSession: mayDisappear);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_PerformMouseActions()
         {
             RightArgumentTextBox.Click();
+            new CalculatorForm().OneButton.Click();
+            MouseActions.Click();
             MouseActions.Scroll(10, 10);
             Assert.DoesNotThrow(() =>
             {
