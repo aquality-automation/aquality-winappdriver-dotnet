@@ -6,18 +6,18 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class ChromeNavigationPanel : Form
     {
-        public ChromeNavigationPanel() : base(By.XPath("//MenuItem[@Name = 'Chrome']"), $"Chrome Navigation panel")
+        public ChromeNavigationPanel() : base(By.Name("Chrome"), $"Chrome Navigation panel")
         {
         }
 
         public void OpenDownloads()
         {
-            KeyboardActions.SendKeysWithKeyHold("j", ModifierKey.Control);
+            KeyboardActions.SendKeysWithKeyHold("J", ModifierKey.Control);
         }
 
         public void OpenNewWindow()
         {
-            KeyboardActions.SendKeysWithKeyHold("n", ModifierKey.Control);
+            KeyboardActions.SendKeysWithKeyHold("N", ModifierKey.Control);
         }
     }
 }

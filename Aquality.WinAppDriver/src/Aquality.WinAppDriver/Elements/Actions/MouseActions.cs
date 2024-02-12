@@ -3,24 +3,25 @@ using Aquality.Selenium.Core.Utilities;
 using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
-using Newtonsoft.Json;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Aquality.WinAppDriver.Elements.Actions
 {
     /// <summary>
     /// Implements Mouse actions for a specific element.
-    /// There is an issue with absolute coordinates calculation on Application session, so better to use the root session here if possible.
+    /// There is an issue with absolute coordinates calculation for elements found on Application session, so better to use the root session here if possible.
     /// Alternatively, you can move application to top left corner before doing mouse action.
     /// This might be addressed in future when fixed in appium-windows-driver 
     /// </summary>
-    public class MouseActions : ElementActions, IMouseActions
+    public class MouseActions : WinAppDriver.Actions.MouseActions, IMouseActions
     {
         private readonly IElement element;
+        private readonly string elementType;
+        private readonly ILocalizedLogger localizedLogger;
+        private readonly IElementActionRetrier elementActionsRetrier;
 
         /// <summary>
         /// Instantiates Mouse actions for a specific element.
@@ -30,24 +31,39 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
         /// <param name="localizationLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public MouseActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizationLogger, IElementActionRetrier elementActionsRetrier)
-            : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
+        public MouseActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
+            : base(localizedLogger, windowsDriverSupplier)
         {
             this.element = element;
+            this.elementType = elementType;
+            this.localizedLogger = localizedLogger;
+            this.elementActionsRetrier = elementActionsRetrier;
         }
 
-        protected virtual Dictionary<string, object> ResolveParameters(IList<ModifierKey> modifierKeys, TimeSpan? duration = null)
+        /// <summary>
+        /// Executes script action on current element.
+        /// </summary>
+        /// <param name="script">Script to be executed.</param>
+        /// <param name="parameters">Script parameters.</param>
+        /// <param name="elementIdParameterName"/>
+        /// <returns>Result of the script execution.</returns>
+        protected virtual object PerformMouseAction(string script, Dictionary<string, object> parameters, string elementIdParameterName = "elementId")
         {
-            var parameters = new Dictionary<string, object>();
-            if (modifierKeys != null && modifierKeys.Any())
+            return elementActionsRetrier.DoWithRetry(() =>
             {
-                parameters.Add("modifierKeys", modifierKeys.Select(key => key.ToString().ToLowerInvariant()).ToArray());
-            }
-            if (duration != null)
-            {
-                parameters.Add("durationMs", duration?.TotalMilliseconds);
-            }
-            return parameters;
+                parameters.Add(elementIdParameterName, element.GetElement().Id);
+                return base.PerformAction(script, parameters, rootSession: false);
+            });
+        }
+
+        /// <summary>
+        /// Logs element action in specific format.
+        /// </summary>
+        /// <param name="messageKey">Key of the localized message.</param>
+        /// <param name="args">Arguments for the localized message.</param>
+        protected override void LogAction(string messageKey, params object[] args)
+        {
+            localizedLogger.InfoElementAction(elementType, element.Name, messageKey, args);
         }
 
         public void Click(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
@@ -73,7 +89,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             {
                 LogAction("loc.mouse.click");
             }
-            PerformAction("windows: click", parameters);
+            PerformMouseAction("windows: click", parameters);
         }
 
         public void ContextClick(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
@@ -93,7 +109,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             var parameters = ResolveParameters(modifierKeys, duration);
             LogAction("loc.mouse.draganddrop", target.GetElementType(), target.Name);
             parameters.Add("endElementId", target.GetElement().Id);
-            PerformAction("windows: clickAndDrag", parameters, "startElementId");
+            PerformMouseAction("windows: clickAndDrag", parameters, "startElementId");
         }
 
         public void DragAndDrop(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
@@ -102,7 +118,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             LogAction("loc.mouse.draganddrop.tocoordinates", endX, endY);
             parameters.Add("endX", endX);
             parameters.Add("endY", endY);
-            PerformAction("windows: clickAndDrag", parameters, "startElementId");
+            PerformMouseAction("windows: clickAndDrag", parameters, "startElementId");
         }
 
         public void DragAndDropToOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
@@ -122,7 +138,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             var parameters = ResolveParameters(modifierKeys, duration);
             LogAction("loc.mouse.hover", endElement.GetElementType(), endElement.Name);
             parameters.Add("endElementId", endElement.GetElement().Id);
-            PerformAction("windows: hover", parameters, "startElementId");
+            PerformMouseAction("windows: hover", parameters, "startElementId");
         }
 
         public void Hover(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
@@ -131,7 +147,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             parameters.Add("endX", endX);
             parameters.Add("endY", endY);
             LogMouseAction("loc.mouse.hover.withparameters", parameters);
-            PerformAction("windows: hover", parameters, "startElementId");
+            PerformMouseAction("windows: hover", parameters, "startElementId");
         }
 
         public void MoveFromElement(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
@@ -168,17 +184,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
                 parameters.Add("deltaX", delta);
             }
             LogMouseAction("loc.mouse.scroll", parameters);
-            PerformAction("windows: scroll", parameters);
-        }
-
-        protected virtual void LogMouseAction(string localizationKey, Dictionary<string, object> parameters)
-        {
-            LogAction(localizationKey, PrepareParametersForLogging(parameters));
-        }
-
-        private string PrepareParametersForLogging(Dictionary<string, object> parameters)
-        {
-            return string.Join(",", parameters.Where(param => "elementId" != param.Key).Select(param => $"{Environment.NewLine}{param.Key}: {JsonConvert.SerializeObject(param.Value)}"));
+            PerformMouseAction("windows: scroll", parameters);
         }
     }
 }

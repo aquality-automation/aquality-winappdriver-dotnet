@@ -2,7 +2,7 @@
 using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -26,21 +26,13 @@ namespace Aquality.WinAppDriver.Actions
         }
 
         /// <summary>
-        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action script with specified parameters.
         /// </summary>
-        /// <param name="action">Action to be performed.</param>
-        protected virtual void PerformAction(Func<SeleniumActions, SeleniumActions> action)
+        /// <param name="script">Script to be executed.</param>
+        /// <param name="parameters">Script parameters.</param>
+        protected virtual object PerformAction(string script, Dictionary<string, object> parameters, bool rootSession = false)
         {
-            action(new SeleniumActions(windowsDriverSupplier())).Build().Perform();
-        }
-
-        /// <summary>
-        /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
-        /// </summary>
-        /// <param name="action">Action to be performed.</param>
-        protected internal virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
-        {
-            action(new SeleniumActions(AqualityServices.Application.RootSession)).Build().Perform();
+            return (rootSession ? AqualityServices.Application.RootSession : windowsDriverSupplier()).ExecuteScript(script, parameters);
         }
 
         /// <summary>

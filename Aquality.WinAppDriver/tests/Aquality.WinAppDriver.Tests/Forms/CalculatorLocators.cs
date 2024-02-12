@@ -5,7 +5,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
 {
     public static class CalculatorLocators
     {
-        public static By WindowLocator => By.XPath("//Window[@Name='Day Maxi Calc  v.1.5 Freeware']");
+        public static By WindowLocator => By.Name("Day Maxi Calc  v.1.5 Freeware");
 
         public static By LeftArgumentTextBox => MobileBy.AccessibilityId("50");
 

@@ -10,22 +10,20 @@ namespace Aquality.WinAppDriver.Tests.Actions
     {
         protected virtual IMouseActions MouseActions => AqualityServices.MouseActions;
 
-        protected ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
+        protected static ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
 
         [Test]
         public void Should_PerformMouseActions()
         {
             RightArgumentTextBox.Click();
-            new CalculatorForm().OneButton.Click();
-            MouseActions.Click();
-            MouseActions.Scroll(10, 10);
             Assert.DoesNotThrow(() =>
             {
                 MouseActions.Click();
                 MouseActions.ContextClick();
                 MouseActions.DoubleClick();
                 MouseActions.MoveByOffset(10, 10);
-                MouseActions.Scroll(10, 10);
+                MouseActions.Hover(15, 20);
+                MouseActions.Scroll(10, direction: ScrollDirection.Horizontal);
             });
         }
     }

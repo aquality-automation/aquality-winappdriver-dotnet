@@ -5,7 +5,7 @@ using System;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class CalculatorWindow : Window, ICalculatorForm
+    public class CalculatorWindow(Func<WindowsDriver> customSessionSupplier = null) : Window(CalculatorLocators.WindowLocator, "Calculator", customSessionSupplier), ICalculatorForm
     {
         public ITextBox LeftArgumentTextBox => RelativeElementFactory.GetTextBox(CalculatorLocators.LeftArgumentTextBox, "Left Argument");
 
@@ -24,9 +24,5 @@ namespace Aquality.WinAppDriver.Tests.Forms
         public IButton MaximizeButton => RelativeElementFactory.GetButton(CalculatorLocators.MaximizeButton, "Maximize");
 
         public ILabel ResultsLabel => RelativeElementFactory.GetLabel(CalculatorLocators.ResultsLabel, "Results bar");
-
-        public CalculatorWindow(Func<WindowsDriver> customSessionSupplier = null) : base(CalculatorLocators.WindowLocator, "Calculator", customSessionSupplier)
-        {
-        }
     }
 }

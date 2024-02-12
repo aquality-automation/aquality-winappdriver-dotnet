@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
@@ -110,6 +111,11 @@ namespace Aquality.WinAppDriver.Applications
             var launchedAppTitle = Driver.Title;
             AqualityServices.Logger.Debug(launchedAppTitle);
             return this;
+        }
+
+        public virtual object ExecuteScript(string script, IDictionary<string, object> parameters, bool inRootSession = false)
+        {
+            return (inRootSession ? RootSession : Driver).ExecuteScript(script, parameters);
         }
     }
 }

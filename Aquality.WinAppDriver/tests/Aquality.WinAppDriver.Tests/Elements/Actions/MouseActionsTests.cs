@@ -1,5 +1,7 @@
 ﻿using Aquality.WinAppDriver.Actions;
+using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
+using Aquality.WinAppDriver.Extensions;
 using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
 using IMouseActions = Aquality.WinAppDriver.Elements.Actions.IMouseActions;
@@ -8,8 +10,14 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
 {
     public class MouseActionsTests : TestWithApplication
     {
-        protected IMouseActions MouseActions => LeftArgumentTextBox.MouseActions;
-        private ITextBox LeftArgumentTextBox => new CalculatorForm().LeftArgumentTextBox;
+        private static IMouseActions MouseActions => LeftArgumentTextBox.MouseActions;
+        private static ITextBox LeftArgumentTextBox => new CalculatorForm().LeftArgumentTextBox;
+
+        [SetUp]
+        public void SetUp()
+        {
+            AqualityServices.KeyboardActions.SendKeyWithWindowsKeyHold(ActionKey.Left);
+        }
 
         [Test]
         public void Should_PerformElementSpecificMouseActions()
@@ -22,7 +30,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
                 LeftArgumentTextBox.MouseActions.MoveByOffset(10, 10);
                 LeftArgumentTextBox.MouseActions.MoveFromElement();
                 LeftArgumentTextBox.MouseActions.MoveToElement();
-                LeftArgumentTextBox.MouseActions.MoveToElement(10, 10); 
+                LeftArgumentTextBox.MouseActions.MoveToElement(10, 10);
                 LeftArgumentTextBox.MouseActions.Scroll(5, ScrollDirection.Horizontal);
             });
         }
@@ -37,6 +45,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
                 MouseActions.DoubleClick();
                 MouseActions.MoveByOffset(10, 10);
                 MouseActions.Scroll(10, modifierKeys: [ModifierKey.Ctrl]);
+                MouseActions.ContextClick();
             });
         }
     }

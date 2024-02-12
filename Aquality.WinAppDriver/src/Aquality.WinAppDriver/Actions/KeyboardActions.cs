@@ -1,9 +1,9 @@
 ﻿using Aquality.Selenium.Core.Localization;
-using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium.Appium.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -12,19 +12,29 @@ namespace Aquality.WinAppDriver.Actions
     /// </summary>
     public class KeyboardActions : ApplicationActions, IKeyboardActions
     {
-        private readonly Func<WindowsDriver> windowsDriverSupplier;
+        [DllImport("User32")]
+        private static extern short VkKeyScanA(char ch);
 
         public KeyboardActions(ILocalizedLogger localizationLogger, Func<WindowsDriver> windowsDriverSupplier)
             : base(localizationLogger, windowsDriverSupplier)
         {
-            this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
-
-        protected virtual void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false)
+        protected virtual List<KeyAction> ConvertToSendKeysActions(string keySequence)
         {
-            (rootSession ? AqualityServices.Application.RootSession : windowsDriverSupplier())
-                .ExecuteScript("windows: keys", new Dictionary<string, object>(){{ "actions", keyActions.Select(act => act.ToDictionary()).ToArray() }});
+            var actions = new List<KeyAction>();
+            foreach (var key in keySequence)
+            {
+                var vkCode = VkKeyScanA(key);
+                actions.Add(new KeyAction { VirtualKeyCode = vkCode, Down = true });
+                actions.Add(new KeyAction { VirtualKeyCode = vkCode, Down = false });
+            }
+            return actions;
+        }
+
+        public virtual void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false)
+        {
+            PerformAction("windows: keys", new Dictionary<string, object>(){{ "actions", keyActions.Select(act => act.ToDictionary()).ToArray() }}, rootSession);
         }
 
         public void PressKey(ModifierKey keyToPress)
@@ -39,11 +49,11 @@ namespace Aquality.WinAppDriver.Actions
             PerformKeyActions(new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToRelease, Down = false } });
         }
 
-        public virtual void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
+        public void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
         {
             var valueToLog = $"{keySequence}{(sendAfterSequence == null ? string.Empty : $" + {sendAfterSequence}")}";
             LogAction("loc.keyboard.sendkeys", valueToLog);
-            var actions = new List<KeyAction> { new KeyAction { Text = keySequence }};
+            var actions = ConvertToSendKeysActions(keySequence);
             if (sendAfterSequence != null)
             {
                 actions.Add(new KeyAction { VirtualKeyCode = (short)sendAfterSequence, Down = true });
@@ -71,25 +81,40 @@ namespace Aquality.WinAppDriver.Actions
             PerformKeyActions(actions);
         }
 
-        public virtual void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
+        public void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
         {
             LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
-
+            var actions = new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true } };
+            actions.AddRange(ConvertToSendKeysActions(keySequence));
             if (mayDisappear)
             {
-                PerformKeyActions(new List<KeyAction> { 
-                    new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true },
-                    new KeyAction { Text = keySequence }
-                });
+                PerformKeyActions(actions);
                 PerformKeyActions(new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false } }, rootSession: true);
             }
             else
             {
-                PerformKeyActions(new List<KeyAction> {
-                    new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true },
-                    new KeyAction { Text = keySequence },
-                    new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false }
-                });
+                actions.Add(new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false });
+                PerformKeyActions(actions);
+            }
+        }
+
+        public void SendKeysWithKeyHold(ActionKey key, ModifierKey keyToHold, bool mayDisappear = false)
+        {
+            LogAction("loc.keyboard.sendkeys.withkeyhold", key, keyToHold);
+            var actions = new List<KeyAction> {
+                new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true },
+                new KeyAction { VirtualKeyCode = (short)key, Down = true },
+                new KeyAction { VirtualKeyCode = (short)key, Down = false },
+            };
+            if (mayDisappear)
+            {
+                PerformKeyActions(actions);
+                PerformKeyActions(new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false } }, rootSession: true);
+            }
+            else
+            {
+                actions.Add(new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false });
+                PerformKeyActions(actions);
             }
         }
     }

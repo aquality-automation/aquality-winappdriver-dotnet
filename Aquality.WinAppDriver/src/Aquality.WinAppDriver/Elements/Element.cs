@@ -23,10 +23,10 @@ namespace Aquality.WinAppDriver.Elements
 {
     public abstract class Element : CoreElement, IElement
     {
-        private static readonly IDictionary<string, string> LocatorToXPathTemplateMap = new Dictionary<string, string>
+        private static readonly IDictionary<string, Func<string, By>> LocatorConversionMap = new Dictionary<string, Func<string, By>>
         {
-            { "By.Name", "//*[@Name='{0}']" },
-            { "By.ClassName[Contains]", "//*[@ClassName='{0}']" }
+            { "By.Name", name => MobileBy.Name(name) },
+            { "By.ClassName[Contains]", name => MobileBy.ClassName(name) }
         };
         private readonly Func<ISearchContext> searchContextSupplier;
         internal readonly ElementState elementState;
@@ -54,13 +54,13 @@ namespace Aquality.WinAppDriver.Elements
             if ("css selector" == locator.Mechanism)
             {
                 var locatorString = locator.ToString();
-                var supportedLocatorType = LocatorToXPathTemplateMap.Keys.FirstOrDefault(locType => locatorString.StartsWith(locType));
+                var supportedLocatorType = LocatorConversionMap.Keys.FirstOrDefault(locType => locatorString.StartsWith(locType));
                 if (supportedLocatorType == null)
                 {
                     return locator;
                 }
-                var xpath = string.Format(LocatorToXPathTemplateMap[supportedLocatorType], locatorString.Substring(locatorString.IndexOf(':') + 1).Trim());
-                return By.XPath(xpath);
+                var name = locatorString.Substring(locatorString.IndexOf(':') + 1).Trim();
+                return LocatorConversionMap[supportedLocatorType](name);
             }
             return locator;
         }

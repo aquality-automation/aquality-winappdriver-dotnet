@@ -35,42 +35,14 @@ namespace Aquality.WinAppDriver.Elements.Actions
             this.elementActionsRetrier = elementActionsRetrier;
         }
 
-        protected override void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false)
+        public override void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false)
         {
-            element.Click();
             elementActionsRetrier.DoWithRetry(() => base.PerformKeyActions(keyActions, rootSession));
         }
 
         protected override void LogAction(string messageKey, params object[] args)
         {
             localizedLogger.InfoElementAction(elementType, element.Name, messageKey, args);
-        }
-
-        public override void SendKeys(string keySequence, ActionKey? sendAfterSequence = null)
-        {
-            var valueToLog = $"{keySequence}{(sendAfterSequence == null ? string.Empty : $" + {sendAfterSequence}")}";
-            LogAction("loc.keyboard.sendkeys", valueToLog);
-            element.SendKeys(keySequence);
-            if (sendAfterSequence != null)
-            {
-                var actions = new List<KeyAction>
-                {
-                    new KeyAction { VirtualKeyCode = (short)sendAfterSequence, Down = true },
-                    new KeyAction { VirtualKeyCode = (short)sendAfterSequence, Down = false }
-                };
-                base.PerformKeyActions(actions);
-            }
-        }
-
-        public override void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false)
-        {
-            LogAction("loc.keyboard.sendkeys.withkeyhold", keySequence, keyToHold);
-
-            PerformKeyActions(new List<KeyAction> {
-                    new KeyAction { VirtualKeyCode = (short)keyToHold, Down = true }
-                });
-            element.SendKeys(keySequence);
-            base.PerformKeyActions(new List<KeyAction> { new KeyAction { VirtualKeyCode = (short)keyToHold, Down = false } }, rootSession: mayDisappear);
         }
     }
 }
