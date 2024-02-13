@@ -53,6 +53,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
             var navigationPanel = new ChromeNavigationPanel();
+            navigationPanel.ClosePopUps();
             Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
             var firstWindowName = AqualityServices.Application.Driver.Title;
             firstWindow = new ChromeWindow(firstWindowName);
