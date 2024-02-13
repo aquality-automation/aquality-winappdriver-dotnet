@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Represents modifier keys which could be used in <see cref="IKeyboardActions"/>.
-    /// Directly related to <see cref="OpenQA.Selenium.Keys"/>
+    /// Int values correspond to Virtual-Key Codes: <seealso href="https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes"/>
     /// </summary>
     public enum ModifierKey: short
     {

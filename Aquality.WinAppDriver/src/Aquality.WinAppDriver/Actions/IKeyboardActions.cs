@@ -55,7 +55,7 @@ namespace Aquality.WinAppDriver.Actions
         /// </summary>
         /// <param name="key">The <see cref="ActionKey"/> value representing the keystroke to send.</param>
         /// <param name="keyToHold">The <see cref="ModifierKey"/> value representing the key to hold.</param>
-        /// <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="keySequence"/>.</param>
+        /// <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="key"/>.</param>
         void SendKeysWithKeyHold(ActionKey key, ModifierKey keyToHold, bool mayDisappear = false);
     }
 }

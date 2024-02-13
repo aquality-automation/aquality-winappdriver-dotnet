@@ -7,13 +7,8 @@
         <member name="T:Aquality.WinAppDriver.Actions.ActionKey">
             <summary>
             Represents action keys which could be used in <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/>.
-            Used to enhance logging of SendKeys actions
-            Directly related to <see cref="T:OpenQA.Selenium.Keys"/>
-            </summary>
-        </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Null">
-            <summary>
-            Represents the NUL keystroke.
+            Used to enhance logging of SendKeys actions.
+            Int values correspond to Virtual-Key Codes: <seealso href="https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes"/>
             </summary>
         </member>
         <member name="F:Aquality.WinAppDriver.Actions.ActionKey.NumberPad0">
@@ -81,14 +76,14 @@
             Represents the number pad thousands separator key.
             </summary>
         </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Equal">
-            <summary>
-            Represents the equal sign key.
-            </summary>
-        </member>
         <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Subtract">
             <summary>
             Represents the number pad subtraction key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Decimal">
+            <summary>
+            Represents the number pad decimal separator key.
             </summary>
         </member>
         <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Divide">
@@ -154,16 +149,6 @@
         <member name="F:Aquality.WinAppDriver.Actions.ActionKey.F12">
             <summary>
             Represents the function key F12.
-            </summary>
-        </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Decimal">
-            <summary>
-            Represents the number pad decimal separator key.
-            </summary>
-        </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Meta">
-            <summary>
-            Represents the function key META.
             </summary>
         </member>
         <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Semicolon">
@@ -321,34 +306,25 @@
             Represents the Escape key.
             </summary>
         </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ActionKey.Command">
-            <summary>
-            Represents the function key COMMAND.
-            </summary>
-        </member>
         <member name="T:Aquality.WinAppDriver.Actions.ApplicationActions">
             <summary>
             Abstract class for any actions against the whole application.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.#ctor(Aquality.Selenium.Core.Localization.ILocalizedLogger,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
+        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.#ctor(Aquality.Selenium.Core.Localization.ILocalizedLogger,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver})">
             <summary>
             Instantiates Application actions.
             </summary>
             <param name="localizedLogger">Logger for localized values.</param>
             <param name="windowsDriverSupplier">Method to get current application session.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.PerformAction(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
+        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.PerformAction(System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean)">
             <summary>
-            Performs submitted action against new <see cref="T:OpenQA.Selenium.Interactions.Actions"/> object.
+            Performs submitted action script with specified parameters.
             </summary>
-            <param name="action">Action to be performed.</param>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.PerformInRootSession(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
-            <summary>
-            Performs submitted action against the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/>.
-            </summary>
-            <param name="action">Action to be performed.</param>
+            <param name="script">Script to be executed.</param>
+            <param name="parameters">Script parameters.</param>
+            <param name="rootSession">Whether to execute the script against the root session or the application session <see cref="P:Aquality.WinAppDriver.Applications.AqualityServices.Application"/>.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.ApplicationActions.LogAction(System.String,System.Object[])">
             <summary>
@@ -361,6 +337,13 @@
             <summary>
             Provides methods representing basic keyboard actions.
             </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.PerformKeyActions(System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.KeyAction},System.Boolean)">
+            <summary>
+            Performs chain of key actions.
+            </summary>
+            <param name="keyActions">List of desired key actions.</param>
+            <param name="rootSession">Whether to perform actions from the root session instead of application session. False by default.</param>
         </member>
         <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.PressKey(Aquality.WinAppDriver.Actions.ModifierKey)">
             <summary>
@@ -391,55 +374,150 @@
         <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(System.String,Aquality.WinAppDriver.Actions.ModifierKey,System.Boolean)">
             <summary>
             Sends a sequence of keystrokes to the application, holding a specified key.
-            After the action, holded key is released.
+            After the action, held key is released.
             </summary>
             <param name="keySequence">A string representing the keystrokes to send.</param>
             <param name="keyToHold">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to hold.</param>
             <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="keySequence"/>.</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.IKeyboardActions.SendKeysWithKeyHold(Aquality.WinAppDriver.Actions.ActionKey,Aquality.WinAppDriver.Actions.ModifierKey,System.Boolean)">
+            <summary>
+            Sends a keystroke to the application, holding a specified key.
+            After the action, held key is released.
+            </summary>
+            <param name="key">The <see cref="T:Aquality.WinAppDriver.Actions.ActionKey"/> value representing the keystroke to send.</param>
+            <param name="keyToHold">The <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> value representing the key to hold.</param>
+            <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="key"/>.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Actions.IMouseActions">
             <summary>
             Provides methods representing basic mouse actions.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Click">
+        <member name="P:Aquality.WinAppDriver.Actions.IMouseActions.Coordinates">
             <summary>
-            Clicks the mouse at the last known mouse coordinates.
+            Returns current mouse coordinates.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.ClickAndHold">
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Click(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{OpenQA.Selenium.Interactions.MouseButton},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <summary>
-            Clicks and holds the mouse button at the last known mouse coordinates.
+            Clicks the mouse at the last known or specified mouse coordinates.
             </summary>
+            <param name="x">The horizontal coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="y">The vertical coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="button">Name of the mouse button to be clicked. An exception is thrown if an unknown button name is provided. 
+            Supported button names are: left, middle, right, back, forward. The default value is left</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="times">How many times the click must be performed. One by default.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Release">
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.ContextClick(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <summary>
-            Releases the mouse button at the last known mouse coordinates.
+            Right-clicks the mouse at the last known or specified mouse coordinates.
             </summary>
+            <param name="x">The horizontal coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="y">The vertical coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="times">How many times the click must be performed. One by default.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.ContextClick">
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.DoubleClick(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{OpenQA.Selenium.Interactions.MouseButton},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
             <summary>
-            Right-clicks the mouse at the last known mouse coordinates.
+            Double-clicks the mouse at the last known or specified mouse coordinates.
             </summary>
+            <param name="x">The horizontal coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="y">The vertical coordinate of the clicking point. If not specified, last known coordinate will be used.</param>
+            <param name="button">Name of the mouse button to be clicked. An exception is thrown if an unknown button name is provided. 
+            Supported button names are: left, middle, right, back, forward. The default value is left</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="times">How many times the click must be performed. One by default.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.DoubleClick">
-            <summary>
-            Double-clicks the mouse at the last known mouse coordinates.
-            </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.MoveByOffset(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.MoveByOffset(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
             Moves the mouse to the specified offset of the last known mouse coordinates.
             </summary>
             <param name="offsetX">The horizontal offset to which to move the mouse.</param>
             <param name="offsetY">The vertical offset to which to move the mouse.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Scroll(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Scroll(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},Aquality.WinAppDriver.Actions.ScrollDirection,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey})">
             <summary>
             Scrolls the current screen by specified offset.
             </summary>
-            <param name="offsetX">The horizontal offset relative to the view port.</param>
-            <param name="offsetY">The vertical offset relative to the view port.</param>
+            <param name="x">The horizontal coordinate of the scroll point.</param>
+            <param name="y">The vertical coordinate of the scroll point.</param>
+            <param name="delta">The amount of horizontal wheel movement measured in wheel clicks (1 click ~ 120px). 
+            In case of vertical scroll, a positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user.
+            In case of horizontal scroll, a positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
+            <param name="direction">Direction of scrolling.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the scroll is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while scrolling, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.IMouseActions.Hover(System.Int32,System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
+            <summary>
+            Hovers the cursor on the current element, then moves it to the end element.
+            <param name="startX">The horizontal coordinate of the starting hover point.</param>
+            <param name="startY">The vertical coordinate of the starting hover point.</param>
+            <param name="endX">The horizontal coordinate of the ending hover point. Will be the same as the starting point by default.</param>
+            <param name="endY">The vertical coordinate of the ending hover point. Will be the same as the starting point by default.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
+            </summary>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Actions.KeyAction">
+            <summary>
+            Represents key action structure which could be used in chains in <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/>.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Actions.KeyAction.Pause">
+            <summary>
+            Allows to set a delay between key input series. Either this property or text or virtualKeyCode must be provided.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Actions.KeyAction.Text">
+            <summary>
+            Non-empty string of Unicode text to type (surrogate characters like smiles are not supported). Either this property or pause or virtualKeyCode must be provided.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Actions.KeyAction.VirtualKeyCode">
+            <summary>
+            Valid virtual key code. The list of supported key codes is available at Virtual-Key Codes page. Either this property or pause or text must be provided.
+            You can use short values of <see cref="T:Aquality.WinAppDriver.Actions.ModifierKey"/> and <see cref="T:Aquality.WinAppDriver.Actions.ActionKey"/> for convenience here.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Actions.KeyAction.Down">
+            <summary>
+            This property only makes sense in combination with virtualKeyCode. 
+            If set to true then the corresponding key will be depressed, false - released. By default the key is just pressed once. 
+            ! Do not forget to release depressed keys in your automated tests.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.KeyAction.ToDictionary">
+            <summary>
+            Converts this structure to KeyActions dictionary.
+            <seealso href="https://github.com/appium/appium-windows-driver?tab=readme-ov-file#keyaction"/>
+            </summary>
+            <returns>KeyAction dictionary.</returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Actions.KeyboardActions">
             <summary>
@@ -449,17 +527,12 @@
         <member name="T:Aquality.WinAppDriver.Actions.ModifierKey">
             <summary>
             Represents modifier keys which could be used in <see cref="T:Aquality.WinAppDriver.Actions.IKeyboardActions"/>.
-            Directly related to <see cref="T:OpenQA.Selenium.Keys"/>
+            Int values correspond to Virtual-Key Codes: <seealso href="https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes"/>
             </summary>
         </member>
         <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt">
             <summary>
             Represents the Alt key.
-            </summary>
-        </member>
-        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Command">
-            <summary>
-            Represents the function key COMMAND.
             </summary>
         </member>
         <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Control">
@@ -487,9 +560,46 @@
             Represents the Shift key.
             </summary>
         </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl">
+            <summary>
+            Represents the Ctrl key.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Actions.ModifierKey.Win">
+            <summary>
+            Represents the Win key.
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Actions.MouseActions">
             <summary>
             Implements Mouse actions for the whole application.
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.MouseActions.ResolveParameters(System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
+            <summary>
+            Resolves nullable parameters for mouse action scripts.
+            </summary>
+            <param name="modifierKeys"></param>
+            <param name="duration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.MouseActions.PrepareParametersForLogging(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Prepares action parameters for logging, excluding elementId from them.
+            </summary>
+            <param name="parameters">Parameters of the action.</param>
+            <returns>Parameters formatted as string.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Actions.MouseActions.LogMouseAction(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Logs mouse action.
+            </summary>
+            <param name="localizationKey">Key of the localized message.</param>
+            <param name="parameters">Parameters of the action.</param>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Actions.ScrollDirection">
+            <summary>
+            Direction of scroll in <see cref="T:Aquality.WinAppDriver.Actions.IMouseActions"/>.
             </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Applications.Application">
@@ -497,7 +607,7 @@
             Provides functionality to work with Windows application via WinAppDriver.  
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
+        <member name="M:Aquality.WinAppDriver.Applications.Application.#ctor(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver},System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver})">
             <summary>
             Instantiate application.
             </summary>
@@ -557,11 +667,6 @@
             Gets MouseActions object
             </summary>
         </member>
-        <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.WinAppDriverLauncher">
-            <summary>
-            Gets WinAppDriverLauncher object
-            </summary>
-        </member>
         <member name="P:Aquality.WinAppDriver.Applications.AqualityServices.ProcessManager">
             <summary>
             Gets ProcessManager object
@@ -603,11 +708,12 @@
             RemoteApplicationFactory if value set in configuration and LocalApplicationFactory otherwise.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.SetWindowHandleApplicationFactory(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement},System.String})">
+        <member name="M:Aquality.WinAppDriver.Applications.AqualityServices.SetWindowHandleApplicationFactory(System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver,System.String})">
             <summary>
             Sets window handle factory, which attaches to already running application by it's window handle
             </summary>
-            <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
+            <param name="getWindowHandleFunction">Function to get top window handle via RootSession of Application, see <see cref="P:Aquality.WinAppDriver.Forms.Window.NativeWindowHandle"/>.
+            window handle could be also achieved from process.MainWindowHandle;</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Applications.IWindowsApplication">
             <summary>
@@ -639,6 +745,16 @@
             Launches an instance of the current application.
             </summary>
             <returns>Current application instance.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Applications.IWindowsApplication.ExecuteScript(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Executes driver scripts e.g. PowerShell, platform-specific extensions.
+            <see href="https://github.com/appium/appium-windows-driver?tab=readme-ov-file#power-shell-commands-execution"/>
+            </summary>
+            <param name="script">Script for execution or script type, e.g. "powerShell" or "windows: click".</param>
+            <param name="parameters">Parameters for the script execution. E.g. for PowerShell a "script" or "command" key must be defined.</param>
+            <param name="inRootSession">Whether to execute the script against the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/> or the application session <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.Driver"/></param>
+            <returns>Script result, if any, or null otherwise.</returns>
         </member>
         <member name="M:Aquality.WinAppDriver.Applications.IWindowsApplication.Quit">
             <summary>
@@ -709,104 +825,166 @@
             Provides a path to the application
             </summary>
         </member>
-        <member name="T:Aquality.WinAppDriver.Elements.Actions.ElementActions">
-            <summary>
-            Abstract class for any actions agains element.
-            </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
-            <summary>
-            Instantiates Element actions for a specific element.
-            </summary>
-            <param name="element">Target element.</param>
-            <param name="elementType">Target element's type.</param>
-            <param name="windowsDriverSupplier">Method to get current application session.</param>
-            <param name="localizedLogger">Logger for localized values.</param>
-            <param name="elementActionsRetrier">Retrier for element actions.</param>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.PerformAction(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.IWebElement,OpenQA.Selenium.Interactions.Actions})">
-            <summary>
-            Performs submitted action against new <see cref="T:OpenQA.Selenium.Interactions.Actions"/> object on current element.
-            </summary>
-            <param name="action">Action to be performed.</param>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.PerformInRootSession(System.Func{OpenQA.Selenium.Interactions.Actions,OpenQA.Selenium.Interactions.Actions})">
-            <summary>
-            Performs submitted action against the <see cref="P:Aquality.WinAppDriver.Applications.IWindowsApplication.RootSession"/>.
-            </summary>
-            <param name="action">Action to be performed.</param>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.ElementActions.LogAction(System.String,System.Object[])">
-            <summary>
-            Logs element action in specific format.
-            </summary>
-            <param name="messageKey">Key of the localized message.</param>
-            <param name="args">Arguments for the localized message.</param>
-        </member>
         <member name="T:Aquality.WinAppDriver.Elements.Actions.IMouseActions">
             <summary>
             Provides methods representing basic mouse actions against the current element.
-            Current element's coordinates are user as last known mouse coordinates.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDrop(Aquality.WinAppDriver.Elements.Interfaces.IElement)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Click(System.Nullable{OpenQA.Selenium.Interactions.MouseButton},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Clicks the mouse at the element coordinates.
+            </summary>
+            <param name="button">Name of the mouse button to be clicked. An exception is thrown if an unknown button name is provided. 
+            Supported button names are: left, middle, right, back, forward. The default value is left</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="times">How many times the click must be performed. One by default.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.ContextClick(System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.Int32},System.Nullable{System.TimeSpan})">
+            <summary>
+            Right-clicks the mouse at the element coordinates.
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="times">How many times the click must be performed. One by default.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DoubleClick(System.Nullable{OpenQA.Selenium.Interactions.MouseButton},System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+            <summary>
+            Double-clicks the mouse at the element coordinates.
+            <param name="button">Name of the mouse button to be clicked. An exception is thrown if an unknown button name is provided. 
+            Supported button names are: left, middle, right, back, forward. The default value is left</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing and releasing the mouse button. 
+            By default no delay is applied, which simulates a regular click.</param>
+            <param name="interClickDelay">Duration of the pause between each click gesture. 100ms by default.</param>
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDrop(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
             Performs a drag-and-drop operation on the current element; drops it on target element.
             </summary>
             <param name="target">The element on which the drop is performed.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing the left mouse button and moving the cursor to the ending drag point. 
+            5000ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDropToOffset(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDrop(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
+            <summary>
+            Performs a drag-and-drop operation on the current element; drops it on target point.
+            </summary>
+            <param name="endX">The horizontal coordinate of the dropping point.</param>
+            <param name="endY">The vertical coordinate of the dropping point.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing the left mouse button and moving the cursor to the ending drag point. 
+            5000ms by default.</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDropToOffset(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
             Performs a drag-and-drop operation on the current element to a specified offset.
             </summary>
             <param name="offsetX">The horizontal offset to which to move the mouse.</param>
             <param name="offsetY">The vertical offset to which to move the mouse.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing the left mouse button and moving the cursor to the ending drag point. 
+            5000ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveByOffset(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveByOffset(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
-            Moves the current element to a specified offset. Works the same as to <see cref="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDropToOffset(System.Int32,System.Int32)"/>
+            Moves the current element to a specified offset. Works the same as to <see cref="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.DragAndDropToOffset(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})"/>
             </summary>
             <param name="offsetX">The horizontal offset to which to move the mouse.</param>
             <param name="offsetY">The vertical offset to which to move the mouse.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">Time to wait between pressing the left mouse button and moving the cursor to the ending drag point. 
+            5000ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveFromElement">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Hover(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
+            <summary>
+            Hovers the cursor on the current element, then moves it to the end element.
+            <param name="endElement">Element which coordinates to be used as the ending hover point.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Hover(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
+            <summary>
+            Hovers the cursor on the current element, then moves it to the end element.
+            <param name="endX">The horizontal coordinate of the ending hover point.</param>
+            <param name="endY">The vertical coordinate of the ending hover point.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
+            </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveFromElement(System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
             Moves the mouse from the current element.
+            Works the same as to <see cref="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Hover(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})"/> when ending hover point is offset to current element in the direction up left, half of the element size.
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveToElement">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveToElement(System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
-            Moves the mouse to the current element.
+            Moves the mouse to the current element. Works the same as to <see cref="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Hover(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})"/> when we don't move the mouse to other element afterwards.
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveToElement(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveToElement(System.Int32,System.Int32,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey},System.Nullable{System.TimeSpan})">
             <summary>
             Moves the mouse to the specified offset of the top-left corner of the current element.
             </summary>
             <param name="offsetX">The horizontal offset to which to move the mouse.</param>
             <param name="offsetY">The vertical offset to which to move the mouse.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the hover is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while hovering, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
+            <param name="duration">The number of milliseconds between moving the cursor from the starting to the ending hover point. 500ms by default.</param>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.MoveToElement(System.Int32,System.Int32,OpenQA.Selenium.Interactions.MoveToElementOffsetOrigin)">
-            <summary>
-            Moves the mouse to the specified offset of specified offset origin of the current element.
-            </summary>
-            <param name="offsetX">The horizontal offset to which to move the mouse.</param>
-            <param name="offsetY">The vertical offset to which to move the mouse.</param>
-            <param name="offsetOrigin">The <see cref="T:OpenQA.Selenium.Interactions.MoveToElementOffsetOrigin"/> value from which to calculate the offset.</param>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Scroll(System.Int32,System.Int32)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.IMouseActions.Scroll(System.Int32,Aquality.WinAppDriver.Actions.ScrollDirection,System.Collections.Generic.IList{Aquality.WinAppDriver.Actions.ModifierKey})">
             <summary>
             Scrolls the current screen by specified offset, starting from the current element.
             </summary>
-            <param name="offsetX"></param>
-            <param name="offsetY"></param>
+            <param name="delta">The amount of horizontal wheel movement measured in wheel clicks (1 click ~ 120px). 
+            In case of vertical scroll, a positive value indicates that the wheel was rotated forward, away from the user; a negative value indicates that the wheel was rotated backward, toward the user.
+            In case of horizontal scroll, a positive value indicates that the wheel was rotated to the right; a negative value indicates that the wheel was rotated to the left.</param>
+            <param name="direction">Direction of scrolling.</param>
+            <param name="modifierKeys">List of possible keys or a single key name to depress while the scroll is being performed. 
+            Supported key names are: Shift, Ctrl, Alt, Win. 
+            For example, in order to keep Ctrl+Alt depressed while scrolling, provide the value of [<see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Ctrl"/>, <see cref="F:Aquality.WinAppDriver.Actions.ModifierKey.Alt"/>]</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Actions.KeyboardActions">
             <summary>
             Implements Keyboard actions for a specific element.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.KeyboardActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
             <summary>
             Instantiates Keyboard actions for a specific element.
             </summary>
@@ -819,22 +997,48 @@
         <member name="T:Aquality.WinAppDriver.Elements.Actions.MouseActions">
             <summary>
             Implements Mouse actions for a specific element.
+            There is an issue with absolute coordinates calculation for elements found on Application session, so better to use the root session here if possible.
+            Alternatively, you can move application to top left corner before doing mouse action.
+            This might be addressed in future when fixed in appium-windows-driver 
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.#ctor(Aquality.WinAppDriver.Elements.Interfaces.IElement,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver},Aquality.Selenium.Core.Localization.ILocalizedLogger,Aquality.Selenium.Core.Utilities.IElementActionRetrier)">
             <summary>
             Instantiates Mouse actions for a specific element.
             </summary>
             <param name="element">Target element.</param>
             <param name="elementType">Target element's type.</param>
             <param name="windowsDriverSupplier">Method to get current application session.</param>
-            <param name="localizationLogger">Logger for localized values.</param>
+            <param name="localizedLogger">Logger for localized values.</param>
             <param name="elementActionsRetrier">Retrier for element actions.</param>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.PerformMouseAction(System.String,System.Collections.Generic.Dictionary{System.String,System.Object},System.String)">
+            <summary>
+            Executes script action on current element.
+            </summary>
+            <param name="script">Script to be executed.</param>
+            <param name="parameters">Script parameters.</param>
+            <param name="elementIdParameterName"/>
+            <returns>Result of the script execution.</returns>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Actions.MouseActions.LogAction(System.String,System.Object[])">
+            <summary>
+            Logs element action in specific format.
+            </summary>
+            <param name="messageKey">Key of the localized message.</param>
+            <param name="args">Arguments for the localized message.</param>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Button">
             <summary>
             Defines Button UI element.
             </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Element.ConvertCssSelector(OpenQA.Selenium.By)">
+            <summary>
+            Workaround to support By.Name and By.ClassName locator strategies.
+            </summary>
+            <param name="locator"></param>
+            <returns></returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.ElementFactory">
             <summary>
@@ -857,7 +1061,7 @@
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.IElement">
             <summary>
-            Descibes behavior of any application element.
+            Describes behavior of any application element.
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Elements.Interfaces.IElement.WindowsDriverSupplier">
@@ -874,6 +1078,14 @@
             <summary>
             Provides access to <see cref="T:Aquality.WinAppDriver.Elements.Actions.IMouseActions"/> against the current element.
             </summary>
+        </member>
+        <member name="M:Aquality.WinAppDriver.Elements.Interfaces.IElement.GetElement(System.Nullable{System.TimeSpan})">
+            <summary>
+            Gets current mobile element by specified <see cref="P:Aquality.Selenium.Core.Elements.Interfaces.IElement.Locator"/>
+            </summary>
+            <param name="timeout">Timeout for waiting (would use default timeout from settings by default).</param>
+            <returns></returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">Thrown if element was not found.</exception>
         </member>
         <member name="T:Aquality.WinAppDriver.Elements.Interfaces.IElementFactory">
             <summary>
@@ -961,12 +1173,98 @@
             <param name="element"></param>
             <returns></returns>
         </member>
+        <member name="M:Aquality.WinAppDriver.Extensions.ProcessExtensions.ShowWindow(System.Diagnostics.Process,Aquality.WinAppDriver.Extensions.ShowCommand)">
+            <summary>
+            Sends ShowCommand to the window associated with the specified process.
+            </summary>
+            <param name="process">Process to send the command.</param>
+            <param name="showCommand">A command that controls how the window is to be shown.</param>
+        </member>
+        <member name="T:Aquality.WinAppDriver.Extensions.ShowCommand">
+            <summary>
+            Controls how the window is to be shown. 
+            This parameter is ignored the first time an application calls ShowWindow, 
+            if the program that launched the application provides a STARTUPINFO structure.
+            Otherwise, the first time ShowWindow is called, 
+            the value should be the value obtained by the WinMain function in its nCmdShow parameter.
+            For more information, please visit https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.Hide">
+            <summary>
+            Hides the window and activates another window.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowNormal">
+            <summary>
+            Activates and displays a window. 
+            If the window is minimized or maximized, the system restores it to its original size and position. 
+            An application should specify this flag when displaying the window for the first time.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowMinimized">
+            <summary>
+            Activates the window and displays it as a minimized window.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowMaximized">
+            <summary>
+            Activates the window and displays it as a maximized window.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowNoActivate">
+            <summary>
+            Displays a window in its most recent size and position. 
+            This value is similar to <see cref="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowNormal"/>, except that the window is not activated.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.Show">
+            <summary>
+            Activates the window and displays it in its current size and position.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.Minimize">
+            <summary>
+            Minimizes the specified window and activates the next top-level window in the Z order.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowMinimizedNoActive">
+            <summary>
+            Displays the window as a minimized window. 
+            This value is similar to <see cref="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowMinimized"/>, except the window is not activated.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowNoActive">
+            <summary>
+            Displays the window in its current size and position. 
+            This value is similar to <see cref="F:Aquality.WinAppDriver.Extensions.ShowCommand.Show"/>, except that the window is not activated.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.Restore">
+            <summary>
+            Activates and displays the window. 
+            If the window is minimized or maximized, the system restores it to its original size and position. 
+            An application should specify this flag when restoring a minimized window.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ShowDefault">
+            <summary>
+            Sets the show state based on the SW_ value specified in the STARTUPINFO structure 
+            passed to the CreateProcess function by the program that started the application.
+            </summary>
+        </member>
+        <member name="F:Aquality.WinAppDriver.Extensions.ShowCommand.ForceMinimize">
+            <summary>
+            Minimizes a window, even if the thread that owns the window is not responding. 
+            This flag should only be used when minimizing windows from a different thread.
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Forms.Form">
             <summary>
             Defines base class for any form on any application's window.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Forms.Form.#ctor(OpenQA.Selenium.By,System.String,Aquality.WinAppDriver.Forms.IForm,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}},Aquality.Selenium.Core.Elements.ElementState)">
+        <member name="M:Aquality.WinAppDriver.Forms.Form.#ctor(OpenQA.Selenium.By,System.String,Aquality.WinAppDriver.Forms.IForm,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver},Aquality.Selenium.Core.Elements.ElementState)">
             <summary>
             Constructor with parameters.
             </summary>
@@ -1001,7 +1299,7 @@
             <param name="childLocator">Locator of the element relative to current form.</param>
             <param name="childName">Name of the element.</param>
             <param name="supplier">Delegate that defines constructor of element in case of custom element.</param>
-            <param name="elementState">Element existance state</param>
+            <param name="elementState">Element existence state</param>
             <returns>Instance of element.</returns>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.Form.Size">
@@ -1009,9 +1307,44 @@
             Gets size of the form element defined by its locator.
             </summary>
         </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.Dump">
+            <summary>
+            Gets dump manager for the current form that could be used for visualization purposes, such as saving and comparing dumps.
+            Uses <see cref="P:Aquality.WinAppDriver.Forms.Form.ElementsForVisualization"/> as basis for dump creation and comparison.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.ElementsForVisualization">
+            <summary>
+            List of pairs uniqueName-element to be used for dump saving and comparing.
+            By default, only currently displayed elements to be used (<see cref="P:Aquality.WinAppDriver.Forms.Form.ElementsInitializedAsDisplayed"/>).
+            You can override this property with defined <see cref="P:Aquality.WinAppDriver.Forms.Form.AllElements"/>, <see cref="P:Aquality.WinAppDriver.Forms.Form.DisplayedElements"/> or your own element set.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.AllElements">
+            <summary>
+            List of pairs uniqueName-element from all fields and properties of type <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElement"/>.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.ElementsInitializedAsDisplayed">
+            <summary>
+            List of pairs uniqueName-element from all fields and properties of type <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElement"/>,
+            which were initialized as <see cref="F:Aquality.Selenium.Core.Elements.ElementState.Displayed"/>.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Form.DisplayedElements">
+            <summary>
+            List of pairs uniqueName-element from all fields and properties of type <see cref="T:Aquality.WinAppDriver.Elements.Interfaces.IElement"/>,
+            which are currently displayed (using <see cref="P:Aquality.Selenium.Core.Elements.Interfaces.IElementStateProvider.IsDisplayed"/>).
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Forms.IForm">
             <summary>
             Defines an interface for any form on any application's window.
+            </summary>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.IForm.Name">
+            <summary>
+            Name of the current form.
             </summary>
         </member>
         <member name="P:Aquality.WinAppDriver.Forms.IForm.Size">
@@ -1019,18 +1352,33 @@
             Gets size of the form element defined by its locator.
             </summary>
         </member>
+        <member name="P:Aquality.WinAppDriver.Forms.IForm.Process">
+            <summary>
+            Returns the process defined by ProcessId of the current form.
+            <seealso cref="T:Aquality.WinAppDriver.Extensions.ProcessExtensions"/>
+            <seealso cref="P:Aquality.WinAppDriver.Applications.AqualityServices.ProcessManager"/>
+            </summary>
+        </member>
         <member name="T:Aquality.WinAppDriver.Forms.Window">
             <summary>
             Defines base class for a separate window of any application.
             </summary>
         </member>
-        <member name="M:Aquality.WinAppDriver.Forms.Window.#ctor(OpenQA.Selenium.By,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver{OpenQA.Selenium.Appium.Windows.WindowsElement}})">
+        <member name="M:Aquality.WinAppDriver.Forms.Window.#ctor(OpenQA.Selenium.By,System.String,System.Func{OpenQA.Selenium.Appium.Windows.WindowsDriver})">
             <summary>
             Constructor with parameters.
             </summary>
             <param name="locator">Unique locator of the window.</param>
             <param name="name">Name of the window.</param>
             <param name="customSessionSupplier">Custom WinAppDriver session supplier.</param>
+        </member>
+        <member name="P:Aquality.WinAppDriver.Forms.Window.NativeWindowHandle">
+            <summary>
+            Returns native handle of the current window. 
+            If the window element is top level window, this value could be used to start the driver for already running application, e.g.:
+            class CoreChromeWindow(WindowsDriver rootSession) : Window(MobileBy.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
+            AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
+            </summary>
         </member>
         <member name="T:Aquality.WinAppDriver.Utilities.IProcessManager">
             <summary>
@@ -1074,23 +1422,6 @@
             </summary>
             <param name="name">Name of the executable (e.g. WinAppDriver.exe).</param>
             <returns>True if any process was found and all of found processes were stopped successfully, false otherwise.</returns>
-        </member>
-        <member name="T:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher">
-            <summary>
-            Provides ability to start and stop WinAppDriver
-            </summary>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher.StartWinAppDriverIfRequired">
-            <summary>
-            Attepmts to find running WinAppDriver process; if no process found, starts it
-            </summary>
-            <returns>Instance of process if it was started or null if it wasn't.</returns>
-        </member>
-        <member name="M:Aquality.WinAppDriver.Utilities.IWinAppDriverLauncher.TryToStopWinAppDriver">
-            <summary>
-            Attempts to stop WinAppDriver process
-            </summary>
-            <returns>True if the process was found and stopped, false otherwise</returns>
         </member>
         <member name="T:Aquality.WinAppDriver.Utilities.ProcessManager">
             <summary>

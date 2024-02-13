@@ -5,6 +5,7 @@
   "loc.application.driver.service.local.stop": "Stopping Appium local service",
   "loc.application.driver.service.local.start": "Started local Appium service on address '{0}'",
   "loc.application.driver.service.remote": "Using driver service running on '{0}'",
+  "loc.application.execute.script": "Executing the script '{0}' with parameters: {1}",
   "loc.button": "Button",
   "loc.label": "Label",
   "loc.window": "Window",

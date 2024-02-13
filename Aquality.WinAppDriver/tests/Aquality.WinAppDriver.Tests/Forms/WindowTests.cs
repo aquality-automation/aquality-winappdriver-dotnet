@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
 
         protected override ITestForm TestForm => new TestWindow(Locator, PageName);
 
-        private static IElementFactory RootElementFactory => new ElementFactory(
+        private static ElementFactory RootElementFactory => new(
             AqualityServices.ConditionalWait,
             new WindowsElementFinder(
                 AqualityServices.LocalizedLogger,

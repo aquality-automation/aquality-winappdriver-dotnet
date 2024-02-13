@@ -66,6 +66,11 @@ namespace Aquality.WinAppDriver.Actions
         /// </summary>
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
+        /// <param name="modifierKeys">List of possible keys or a single key name to depress while the click is being performed. 
+        /// Supported key names are: Shift, Ctrl, Alt, Win. 
+        /// For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="ModifierKey.Ctrl"/>, <see cref="ModifierKey.Alt"/>]</param>
+        /// <param name="duration">Time to wait between pressing and releasing the mouse button. 
+        /// By default no delay is applied, which simulates a regular click.</param>
         void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null);
 
         /// <summary>

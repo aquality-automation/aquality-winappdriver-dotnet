@@ -5,13 +5,25 @@
 
 ### Overview
 
-This package is a library designed to simplify your work with WinAppDriver, aimed to control Windows application using Selenium WebDriver API.
+This package is a library designed to simplify your work with WinAppDriver, aimed to control Windows application using Appium and Selenium WebDriver API.
 
 You've got to use this set of methods, related to most common actions performed with windows application elements.
 
 Most of performed methods are logged using NLog, so you can easily see a history of performed actions in your log.
 
 We use interfaces where is possible, so you can implement your own version of target interface with no need to rewrite other classes.
+
+> Breaking news!
+
+> Starting from v3.0.0 onwards, this package has dropped the support of Appium 1, and is only compatible to Appium 2.
+> You will need to install appium 2 before using this package: `npm install -g appium@next`. 
+> This require specific version of node.js to be preinstalled on your machine, details [here](http://appium.io/docs/en/contributing-to-appium/appium-from-source/#nodejs).
+> It's good idea to remove all previous appium versions and artifacts prior to installation to avoid conflicts.
+> Use the `appium driver install --source=npm appium-windows-driver` command to add it to your Appium 2 dist.
+> More details could be found at https://github.com/appium/appium-windows-driver
+>
+> Important: Current version is compatible to [WinAppDriver v1.2.1](https://github.com/microsoft/WinAppDriver/releases/tag/v1.2.1). 
+> If you are using WinAppDriver v1.3-rc you will need to uninstall it and install v1.2.1, as there are compatibility issues.
 
 ### Quick start
 
@@ -24,10 +36,9 @@ We use interfaces where is possible, so you can implement your own version of ta
 
 3. Ensure that [WinAppDriver](https://github.com/microsoft/WinAppDriver) is set up at your machine where the code would be executed.
 
-4. Start WinAppDriver service before your code execution. There are several options to do this:
- - Start WinAppDriver.exe via external tool or command (e.g. manually with cmd/PS from the installation directory; via [task for you CI](https://marketplace.visualstudio.com/items?itemName=WinAppDriver.winappdriver-pipelines-task) )
- - Start WinAppDriver automatically via AppiumLocalService - this option is integrated in our package, just set `"isRemote"` to `false` at your settings.json. This option requires specific version of node.js to be preinstalled on your machine (Please read more [here](http://appium.io/docs/en/contributing-to-appium/appium-from-source/#nodejs) and [here](https://github.com/appium/appium-dotnet-driver/wiki/How-to-start-an-AppiumDriver-locally)).
- - Start WinAppDriver.exe manually calling the method `AqualityServices.WinAppDriverLauncher.StartWinAppDriverIfRequired();` from your code.
+4. Start Appium service before your code execution. There are several options to do this:
+ - Start appium with cmd/PS command "appium", e.g.: `start cmd.exe @cmd /k "appium"`
+ - Start Appium automatically via AppiumLocalService - this option is integrated in our package, just set `"isRemote"` to `false` at your settings.json. You can read more [here](https://github.com/appium/appium-dotnet-driver/wiki/How-to-start-an-AppiumDriver-locally).
  
 5. (optional) Launch an application directly by calling `AqualityServices.Application.Launch();`. 
 

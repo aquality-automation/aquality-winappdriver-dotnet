@@ -5,6 +5,7 @@
   "loc.application.driver.service.local.stop": "Останавливаем локальный сервис Appium",
   "loc.application.driver.service.local.start": "Запустили локальный сервис Appium по адрасу '{0}'",
   "loc.application.driver.service.remote": "Работаем с сервисом драйвера по адресу '{0}'",
+  "loc.application.execute.script": "Исполняем скрипт '{0}' с параметрами: {1}",
   "loc.button": "Кнопка",
   "loc.label": "Надпись",
   "loc.window": "Окно",

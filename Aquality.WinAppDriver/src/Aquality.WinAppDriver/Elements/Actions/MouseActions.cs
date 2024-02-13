@@ -29,7 +29,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
-        /// <param name="localizationLogger">Logger for localized values.</param>
+        /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
         public MouseActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
             : base(localizedLogger, windowsDriverSupplier)
@@ -128,7 +128,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
             DragAndDrop(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
         }
 
-        public void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        public new void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             DragAndDropToOffset(offsetX, offsetY);
         }

@@ -3,6 +3,7 @@ using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Tests.Actions
 {
@@ -16,6 +17,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_PerformMouseActions()
         {
             RightArgumentTextBox.Click();
+            AqualityServices.Application.ExecuteScript("windows: click", new Dictionary<string, object> { { "elementId", RightArgumentTextBox.GetElement().Id } });
             Assert.DoesNotThrow(() =>
             {
                 MouseActions.Click();

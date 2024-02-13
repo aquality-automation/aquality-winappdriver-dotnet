@@ -9,7 +9,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
     /// <summary>
     /// Provides methods representing basic mouse actions against the current element.
     /// </summary>
-    public interface IMouseActions
+    public interface IMouseActions : WinAppDriver.Actions.IMouseActions
     {
         /// <summary>
         /// Clicks the mouse at the element coordinates.
@@ -46,7 +46,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="ModifierKey.Ctrl"/>, <see cref="ModifierKey.Alt"/>]</param>
         /// <param name="duration">Time to wait between pressing and releasing the mouse button. 
         /// By default no delay is applied, which simulates a regular click.</param>
-        /// <param name="interClickDelay">Duration of the pause between each click gesture. Only makes sense if <paramref name="times"/> is greater than one. 100ms by default.</param>
+        /// <param name="interClickDelay">Duration of the pause between each click gesture. 100ms by default.</param>
         /// </summary>
         void DoubleClick(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, TimeSpan? interClickDelay = null);
 
@@ -86,7 +86,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         void DragAndDropToOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null);
 
         /// <summary>
-        /// Moves the current element to a specified offset. Works the same as to <see cref="DragAndDropToOffset(int, int, IList{ModifierKey}, TimeSpan?)
+        /// Moves the current element to a specified offset. Works the same as to <see cref="DragAndDropToOffset(int, int, IList{ModifierKey}, TimeSpan?)"/>
         /// </summary>
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
@@ -95,7 +95,7 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// For example, in order to keep Ctrl+Alt depressed while clicking, provide the value of [<see cref="ModifierKey.Ctrl"/>, <see cref="ModifierKey.Alt"/>]</param>
         /// <param name="duration">Time to wait between pressing the left mouse button and moving the cursor to the ending drag point. 
         /// 5000ms by default.</param>
-        void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null);
+        new void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null);
 
 
         /// <summary>

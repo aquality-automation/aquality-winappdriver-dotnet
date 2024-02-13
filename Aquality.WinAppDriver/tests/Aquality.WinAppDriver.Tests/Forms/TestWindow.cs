@@ -3,12 +3,8 @@ using OpenQA.Selenium;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
-    public class TestWindow : Window, ITestForm
+    public class TestWindow(By locator, string name) : Window(locator, name), ITestForm
     {
-        public TestWindow(By locator, string name) : base(locator, name)
-        {
-        }
-
         public new string ElementType => base.ElementType;
     }
 }

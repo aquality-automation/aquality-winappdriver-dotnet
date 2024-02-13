@@ -14,7 +14,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public void Should_BePossibleTo_SetWindowHandleApplicationFactory()
         {
             ProcessManager.Start(ApplicationPath);
-            AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CalculatorWindow(() => rootSession).GetNativeWindowHandle());
+            AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CalculatorWindow(() => rootSession).NativeWindowHandle);
             Assert.IsTrue(new CalculatorForm().State.IsDisplayed);
         }
     }

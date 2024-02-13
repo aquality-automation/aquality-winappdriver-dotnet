@@ -20,6 +20,14 @@ namespace Aquality.WinAppDriver.Forms
         {
         }
 
+        /// <summary>
+        /// Returns native handle of the current window. 
+        /// If the window element is top level window, this value could be used to start the driver for already running application, e.g.:
+        /// class CoreChromeWindow(WindowsDriver rootSession) : Window(MobileBy.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
+        /// AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
+        /// </summary>
+        public string NativeWindowHandle => int.Parse(GetElement().GetAttribute("NativeWindowHandle")).ToString("x");
+
         private static WindowsDriverSupplier ResolveWindowsSessionSupplier(WindowsDriverSupplier customSessionSupplier)
         {
             return customSessionSupplier ?? (() => AqualityServices.Application.RootSession);

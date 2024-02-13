@@ -30,6 +30,7 @@ namespace Aquality.WinAppDriver.Actions
         /// </summary>
         /// <param name="script">Script to be executed.</param>
         /// <param name="parameters">Script parameters.</param>
+        /// <param name="rootSession">Whether to execute the script against the root session or the application session <see cref="AqualityServices.Application"/>.</param>
         protected virtual object PerformAction(string script, Dictionary<string, object> parameters, bool rootSession = false)
         {
             return (rootSession ? AqualityServices.Application.RootSession : windowsDriverSupplier()).ExecuteScript(script, parameters);
