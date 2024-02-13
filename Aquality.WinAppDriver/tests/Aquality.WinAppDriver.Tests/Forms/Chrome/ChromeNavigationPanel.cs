@@ -13,7 +13,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         private ILabel RestorePagesLabel => ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
         private IButton CloseButton => RestorePagesLabel.FindChildElement<IButton>(By.Name("Close"), "Close");
         private IButton DontSignInButton => ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
-        public ChromeNavigationPanel() : base(By.Name("Chrome"), $"Chrome Navigation panel")
+        public ChromeNavigationPanel() : base(By.TagName("Pane"), $"Chrome Navigation panel")
         {
         }
 
@@ -22,29 +22,33 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             if (!State.WaitForExist() && DontSignInButton.State.WaitForExist())
             {
                 DontSignInButton.Click();
+                State.WaitForExist();
             }
             if (NoThanksButton.State.IsExist)
             {
                 NoThanksButton.Click();
-            }
-            if (RestorePagesLabel.State.IsExist)
-            {
-                CloseButton.Click();
+                GotItButton.State.WaitForExist();
             }
             if (GotItButton.State.IsExist)
             {
                 GotItButton.Click();
+            }
+            if (RestorePagesLabel.State.IsExist)
+            {
+                CloseButton.Click();
             }
         }
 
         public void OpenDownloads()
         {
             KeyboardActions.SendKeysWithKeyHold("J", ModifierKey.Control);
+            State.WaitForDisplayed();
         }
 
         public void OpenNewWindow()
         {
             KeyboardActions.SendKeysWithKeyHold("N", ModifierKey.Control);
+            State.WaitForDisplayed();
         }
     }
 }
