@@ -8,14 +8,19 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
     public class ChromeNavigationPanel : Form
     {
-        private IButton NoThanksButton => ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
-        private IButton GotItButton => ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
-        private ILabel RestorePagesLabel => ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
-        private IButton CloseButton => RestorePagesLabel.FindChildElement<IButton>(By.Name("Close"), "Close");
-        private IButton DontSignInButton => ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
+        private IButton NoThanksButton { get; }
+        private IButton GotItButton { get; }
+        private ILabel RestorePagesLabel { get; }
+        private IButton CloseButton { get; }
+        private IButton DontSignInButton { get; }
         public ChromeNavigationPanel() : base(By.TagName("Pane"), $"Chrome Navigation panel")
         {
-        }
+            NoThanksButton = ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
+            GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
+            RestorePagesLabel = ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
+            CloseButton = RestorePagesLabel.FindChildElement<IButton>(By.Name("Close"), "Close");
+            DontSignInButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
+    }
 
         public void ClosePopUps()
         {

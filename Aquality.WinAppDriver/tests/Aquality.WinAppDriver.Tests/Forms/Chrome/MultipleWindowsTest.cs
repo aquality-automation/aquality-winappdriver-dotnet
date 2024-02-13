@@ -52,10 +52,15 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             var appProcess = ProcessManager.Start(ApplicationPath);
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
+            AqualityServices.Application.Launch();
+            var firstWindowName = AqualityServices.Application.Driver.Title;
+            firstWindow = new ChromeWindow(firstWindowName);
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
+
             var navigationPanel = new ChromeNavigationPanel();
             navigationPanel.ClosePopUps();
-            Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
-            var firstWindowName = AqualityServices.Application.Driver.Title;
+            Assert.IsTrue(navigationPanel.State.WaitForDisplayed(), $"{navigationPanel.Name} is not displayed");
+            firstWindowName = AqualityServices.Application.Driver.Title;
             firstWindow = new ChromeWindow(firstWindowName);
             Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
 
