@@ -1,5 +1,7 @@
 ﻿using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium;
+using System;
+using System.Collections.Generic;
 using WindowsDriverSupplier = System.Func<OpenQA.Selenium.Appium.Windows.WindowsDriver>;
 
 namespace Aquality.WinAppDriver.Forms
@@ -26,7 +28,7 @@ namespace Aquality.WinAppDriver.Forms
         /// class CoreChromeWindow(WindowsDriver rootSession) : Window(MobileBy.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
         /// AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
         /// </summary>
-        public string NativeWindowHandle => int.Parse(GetElement().GetAttribute("NativeWindowHandle")).ToString("x");
+        public string NativeWindowHandle => int.Parse(ActionRetrier.DoWithRetry(() => GetAttribute("NativeWindowHandle"), new List<Type>{ typeof(NoSuchElementException) })).ToString("x");
 
         private static WindowsDriverSupplier ResolveWindowsSessionSupplier(WindowsDriverSupplier customSessionSupplier)
         {
