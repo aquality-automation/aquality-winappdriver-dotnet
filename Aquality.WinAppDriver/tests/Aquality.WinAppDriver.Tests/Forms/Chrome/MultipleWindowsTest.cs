@@ -61,6 +61,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             if (firstWindowName.Contains("Sign in"))
             {
                 navigationPanel.DontSignIn();
+                AqualityServices.Application = AqualityServices.ApplicationFactory.Application;
             }
             navigationPanel.ClosePopUps();
             Assert.IsTrue(navigationPanel.State.WaitForDisplayed(), $"{navigationPanel.Name} is not displayed");
