@@ -13,7 +13,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         private ILabel RestorePagesLabel { get; }
         private IButton CloseButton { get; }
         private IButton DontSignInButton { get; }
-        public ChromeNavigationPanel() : base(By.TagName("Pane"), $"Chrome Navigation panel")
+        public ChromeNavigationPanel() : base(By.TagName("Pane"), "Chrome Navigation panel")
         {
             NoThanksButton = ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
             GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
@@ -24,7 +24,8 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
         public void ClosePopUps()
         {
-            if (!State.WaitForExist() && DontSignInButton.State.WaitForExist())
+            State.WaitForExist();
+            if (DontSignInButton.State.IsExist)
             {
                 DontSignInButton.Click();
                 State.WaitForExist();
@@ -32,11 +33,11 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             if (NoThanksButton.State.IsExist)
             {
                 NoThanksButton.Click();
-                GotItButton.State.WaitForExist();
-            }
-            if (GotItButton.State.IsExist)
-            {
-                GotItButton.Click();
+                NoThanksButton.State.WaitForNotDisplayed();
+                if (GotItButton.State.WaitForExist())
+                {
+                    GotItButton.Click();
+                }
             }
             if (RestorePagesLabel.State.IsExist)
             {
