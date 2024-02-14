@@ -39,7 +39,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
                 if (GotItButton.State.WaitForExist())
                 {
                     LastTextLabel.Click();
-                    KeyboardActions.SendKeys(ActionKey.Tab);
+                    KeyboardActions.SendKeys(ActionKey.Tab, times: 2);
                     KeyboardActions.SendKeys(ActionKey.Enter);
                 }
             }
