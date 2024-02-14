@@ -117,7 +117,6 @@ namespace CalcApp.Forms
 ```
 
 
-
 Please take a look at more examples in our tests at https://github.com/aquality-automation/aquality-winappdriver-dotnet/tree/master/Aquality.WinAppDriver/tests/Aquality.WinAppDriver.Tests/Forms.
 
 
