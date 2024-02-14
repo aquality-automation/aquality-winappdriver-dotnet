@@ -1,4 +1,5 @@
-﻿using Aquality.WinAppDriver.Actions;
+﻿using Aquality.Selenium.Core.Elements;
+using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
@@ -16,11 +17,16 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         public ChromeNavigationPanel() : base(By.TagName("Pane"), "Chrome Navigation panel")
         {
             NoThanksButton = ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
-            GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
+            GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it", ElementState.ExistsInAnyState);
             RestorePagesLabel = ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
             CloseButton = RestorePagesLabel.FindChildElement<IButton>(By.Name("Close"), "Close");
             DontSignInButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
-    }
+        }
+
+        public void DontSignIn()
+        {
+            DontSignInButton.Click();
+        }
 
         public void ClosePopUps()
         {
