@@ -1,10 +1,19 @@
-﻿namespace Aquality.WinAppDriver.Actions
+﻿using System.Collections.Generic;
+
+namespace Aquality.WinAppDriver.Actions
 {
     /// <summary>
     /// Provides methods representing basic keyboard actions.
     /// </summary>
     public interface IKeyboardActions
     {
+        /// <summary>
+        /// Performs chain of key actions.
+        /// </summary>
+        /// <param name="keyActions">List of desired key actions.</param>
+        /// <param name="rootSession">Whether to perform actions from the root session instead of application session. False by default.</param>
+        void PerformKeyActions(IList<KeyAction> keyActions, bool rootSession = false);
+
         /// <summary>
         /// Presses a key.
         /// </summary>
@@ -33,11 +42,20 @@
 
         /// <summary>
         /// Sends a sequence of keystrokes to the application, holding a specified key.
-        /// After the action, holded key is released.
+        /// After the action, held key is released.
         /// </summary>
         /// <param name="keySequence">A string representing the keystrokes to send.</param>
         /// <param name="keyToHold">The <see cref="ModifierKey"/> value representing the key to hold.</param>
         /// <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="keySequence"/>.</param>
         void SendKeysWithKeyHold(string keySequence, ModifierKey keyToHold, bool mayDisappear = false);
+
+        /// <summary>
+        /// Sends a keystroke to the application, holding a specified key.
+        /// After the action, held key is released.
+        /// </summary>
+        /// <param name="key">The <see cref="ActionKey"/> value representing the keystroke to send.</param>
+        /// <param name="keyToHold">The <see cref="ModifierKey"/> value representing the key to hold.</param>
+        /// <param name="mayDisappear">May the application or current window disappear after sending the <paramref name="key"/>.</param>
+        void SendKeysWithKeyHold(ActionKey key, ModifierKey keyToHold, bool mayDisappear = false);
     }
 }

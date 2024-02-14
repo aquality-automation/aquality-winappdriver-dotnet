@@ -20,14 +20,14 @@ namespace Aquality.WinAppDriver.Elements
     public class ElementFactory : CoreFactory, IElementFactory
     {
         private readonly Func<ISearchContext> searchContextSupplier;
-        private readonly Func<WindowsDriver<WindowsElement>> driverSessionSupplier;
+        private readonly Func<WindowsDriver> driverSessionSupplier;
 
         public ElementFactory(
             IConditionalWait conditionalWait, 
             IElementFinder elementFinder, 
             ILocalizationManager localizationManager, 
             Func<ISearchContext> searchContextSupplier = null,
-            Func<WindowsDriver<WindowsElement>> driverSessionSupplier = null) 
+            Func<WindowsDriver> driverSessionSupplier = null) 
             : base(conditionalWait, elementFinder, localizationManager)
         {
             this.searchContextSupplier = searchContextSupplier;
@@ -94,7 +94,7 @@ namespace Aquality.WinAppDriver.Elements
                 var elementCntr = elementType.GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.Instance,
                         null,
-                        new[] { typeof(By), typeof(string), typeof(Func<ISearchContext>), typeof(Func<WindowsDriver<WindowsElement>>), typeof(ElementState) },
+                        new[] { typeof(By), typeof(string), typeof(Func<ISearchContext>), typeof(Func<WindowsDriver>), typeof(ElementState) },
                         null);
                 if (elementCntr == null)
                 {

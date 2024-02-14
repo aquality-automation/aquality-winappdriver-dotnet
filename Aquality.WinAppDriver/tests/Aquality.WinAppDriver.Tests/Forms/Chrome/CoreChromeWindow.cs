@@ -4,12 +4,7 @@ using OpenQA.Selenium.Appium.Windows;
 
 namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 {
-    public class CoreChromeWindow : Window
+    public class CoreChromeWindow(WindowsDriver rootSession) : Window(By.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
     {
-        public CoreChromeWindow(WindowsDriver<WindowsElement> rootSession) : base(By.ClassName("Chrome_WidgetWin_1"), nameof(CoreChromeWindow), () => rootSession)
-        {
-        }
-
-        public string NativeWindowHandle => int.Parse(GetElement().GetAttribute("NativeWindowHandle")).ToString("x");
     }
 }

@@ -2,7 +2,7 @@
 using Aquality.WinAppDriver.Applications;
 using OpenQA.Selenium.Appium.Windows;
 using System;
-using SeleniumActions = OpenQA.Selenium.Interactions.Actions;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -12,35 +12,28 @@ namespace Aquality.WinAppDriver.Actions
     public abstract class ApplicationActions
     {
         private readonly ILocalizedLogger localizedLogger;
-        private readonly Func<WindowsDriver<WindowsElement>> windowsDriverSupplier;
+        private readonly Func<WindowsDriver> windowsDriverSupplier;
 
         /// <summary>
         /// Instantiates Application actions.
         /// </summary>
         /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
-        protected ApplicationActions(ILocalizedLogger localizedLogger, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier)
+        protected ApplicationActions(ILocalizedLogger localizedLogger, Func<WindowsDriver> windowsDriverSupplier)
         {
             this.localizedLogger = localizedLogger;
             this.windowsDriverSupplier = windowsDriverSupplier;
         }
 
         /// <summary>
-        /// Performs submitted action against new <see cref="SeleniumActions"/> object.
+        /// Performs submitted action script with specified parameters.
         /// </summary>
-        /// <param name="action">Action to be performed.</param>
-        protected virtual void PerformAction(Func<SeleniumActions, SeleniumActions> action)
+        /// <param name="script">Script to be executed.</param>
+        /// <param name="parameters">Script parameters.</param>
+        /// <param name="rootSession">Whether to execute the script against the root session or the application session <see cref="AqualityServices.Application"/>.</param>
+        protected virtual object PerformAction(string script, Dictionary<string, object> parameters, bool rootSession = false)
         {
-            action(new SeleniumActions(windowsDriverSupplier())).Build().Perform();
-        }
-
-        /// <summary>
-        /// Performs submitted action against the <see cref="IWindowsApplication.RootSession"/>.
-        /// </summary>
-        /// <param name="action">Action to be performed.</param>
-        protected internal virtual void PerformInRootSession(Func<SeleniumActions, SeleniumActions> action)
-        {
-            action(new SeleniumActions(AqualityServices.Application.RootSession)).Build().Perform();
+            return (rootSession ? AqualityServices.Application.RootSession : windowsDriverSupplier()).ExecuteScript(script, parameters);
         }
 
         /// <summary>

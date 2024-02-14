@@ -15,7 +15,7 @@ namespace Aquality.WinAppDriver.Elements
             By locator,
             string name,
             Func<ISearchContext> searchContextSupplier = null,
-            Func<WindowsDriver<WindowsElement>> customSessionSupplier = null,
+            Func<WindowsDriver> customSessionSupplier = null,
             ElementState elementState = ElementState.ExistsInAnyState)
             : base(locator, name, searchContextSupplier, customSessionSupplier, elementState)
         {

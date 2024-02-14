@@ -1,8 +1,10 @@
 ﻿using Aquality.Selenium.Core.Localization;
+using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using NUnit.Framework;
+using System;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
@@ -14,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Forms
 
         protected override ITestForm TestForm => new TestWindow(Locator, PageName);
 
-        private IElementFactory RootElementFactory => new ElementFactory(
+        private static ElementFactory RootElementFactory => new(
             AqualityServices.ConditionalWait,
             new WindowsElementFinder(
                 AqualityServices.LocalizedLogger,
@@ -34,9 +36,12 @@ namespace Aquality.WinAppDriver.Tests.Forms
         public void Should_FindChildElements_FromTheRootSessionElement()
         {
             var parentElement = RootElementFactory.GetLabel(CalculatorLocators.WindowLocator, "Calc window");
-            var childElement = parentElement.FindChildElement<IButton>(CalculatorLocators.OneButton);
-            Assert.IsTrue(childElement.State.IsDisplayed);
+            var childElement = parentElement.FindChildElement<IButton>(CalculatorLocators.LeftArgumentTextBox);
+            Assert.IsTrue(childElement.State.WaitForDisplayed());
             Assert.DoesNotThrow(() => childElement.MouseActions.Click());
+            Assert.DoesNotThrow(() => childElement.MouseActions.DoubleClick());
+            Assert.DoesNotThrow(() => childElement.MouseActions.ContextClick(modifierKeys: [ModifierKey.Ctrl, ModifierKey.Shift], interClickDelay: TimeSpan.FromSeconds(0.2)));
+            Assert.DoesNotThrow(() => childElement.MouseActions.Scroll(10));
         }
     }
 }

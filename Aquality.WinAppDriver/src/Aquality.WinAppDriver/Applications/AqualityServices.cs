@@ -54,11 +54,6 @@ namespace Aquality.WinAppDriver.Applications
         public static IMouseActions MouseActions => Get<IMouseActions>();
 
         /// <summary>
-        /// Gets WinAppDriverLauncher object
-        /// </summary>
-        public static IWinAppDriverLauncher WinAppDriverLauncher => Get<IWinAppDriverLauncher>();
-
-        /// <summary>
         /// Gets ProcessManager object
         /// </summary>
         public static IProcessManager ProcessManager => Get<IProcessManager>();
@@ -151,8 +146,9 @@ namespace Aquality.WinAppDriver.Applications
         /// <summary>
         /// Sets window handle factory, which attaches to already running application by it's window handle
         /// </summary>
-        /// <param name="getWindowHandleFunction">Function to get window handle via RootSession of Application</param>
-        public static void SetWindowHandleApplicationFactory(Func<WindowsDriver<WindowsElement>, string> getWindowHandleFunction)
+        /// <param name="getWindowHandleFunction">Function to get top window handle via RootSession of Application, see <see cref="Forms.Window.NativeWindowHandle"/>.
+        /// window handle could be also achieved from process.MainWindowHandle;</param>
+        public static void SetWindowHandleApplicationFactory(Func<WindowsDriver, string> getWindowHandleFunction)
         {
             var appProfile = Get<IApplicationProfile>();
             var serviceUri = appProfile.IsRemote ? appProfile.RemoteConnectionUrl : AppiumLocalServiceContainer.Value.ServiceUrl;

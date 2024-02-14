@@ -8,9 +8,9 @@ namespace Aquality.WinAppDriver.Extensions
     public static class ProcessExtensions
     {
         /// <summary>
-        /// Sends ShowCommand to the window associated with the specified proccess.
+        /// Sends ShowCommand to the window associated with the specified process.
         /// </summary>
-        /// <param name="process">Proccess to send the command.</param>
+        /// <param name="process">Process to send the command.</param>
         /// <param name="showCommand">A command that controls how the window is to be shown.</param>
         public static void ShowWindow(this Process process, ShowCommand showCommand)
         {

@@ -28,24 +28,24 @@ namespace Aquality.WinAppDriver.Applications
             return new Application(() => GetApplicationSession(driverServerUri), () => GetRootSession(driverServerUri));
         }
 
-        protected virtual WindowsDriver<WindowsElement> GetApplicationSession(Uri driverServerUri)
+        protected virtual WindowsDriver GetApplicationSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions;
-            options.ToDictionary().TryGetValue("app", out var appPath);
+            var appPath = options.App;
             LocalizedLogger.Info("loc.application.start", appPath);
             return CreateSession(driverServerUri, options);
         }
 
-        protected virtual WindowsDriver<WindowsElement> GetRootSession(Uri driverServerUri)
+        protected virtual WindowsDriver GetRootSession(Uri driverServerUri)
         {
             var options = DriverSettings.AppiumOptions; 
-            options.AddAdditionalCapability("app", "Root");
+            options.App = "Root";
             return CreateSession(driverServerUri, options);
         }
 
-        protected virtual WindowsDriver<WindowsElement> CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
+        protected virtual WindowsDriver CreateSession(Uri driverServerUri, AppiumOptions appliumOptions)
         {
-            return new WindowsDriver<WindowsElement>(driverServerUri, appliumOptions, timeoutConfiguration.Command);
+            return new WindowsDriver(driverServerUri, appliumOptions, timeoutConfiguration.Command);
         }
     }
 }

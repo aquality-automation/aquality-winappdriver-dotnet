@@ -10,7 +10,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
 {
     public class AqualityServicesTests : TestWithApplication
     {
-        private readonly CalculatorForm calculatorForm = new CalculatorForm();
+        private readonly CalculatorForm calculatorForm = new();
 
         [Test]
         public void Should_WorkWithCalculator()
@@ -81,12 +81,10 @@ namespace Aquality.WinAppDriver.Tests.Applications
             firstApplication.Launch().Quit();
             var secondApplication = AqualityServices.Application.Launch();
             Assert.AreNotSame(firstApplication, secondApplication);
-            using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
-            {
-                var secondApplicationFromServiceProvider = scope.ServiceProvider.GetRequiredService<IApplication>();
-                Assert.AreNotSame(firstApplication, secondApplicationFromServiceProvider);
-                Assert.AreSame(secondApplication, secondApplicationFromServiceProvider);
-            }
+            using var scope = AqualityServices.Get<IServiceProvider>().CreateScope();
+            var secondApplicationFromServiceProvider = scope.ServiceProvider.GetRequiredService<IApplication>();
+            Assert.AreNotSame(firstApplication, secondApplicationFromServiceProvider);
+            Assert.AreSame(secondApplication, secondApplicationFromServiceProvider);
         }
 
         [Test]
@@ -133,13 +131,6 @@ namespace Aquality.WinAppDriver.Tests.Applications
         public void Should_BeAbleToGet_MouseActions()
         {
             Assert.DoesNotThrow(() => AqualityServices.MouseActions.MoveByOffset(1,1), "MouseActions should not be null");
-        }
-
-        [Test]
-        [Parallelizable]
-        public void Should_BeAbleToGet_WinAppDriverLauncher()
-        {
-            Assert.IsNotNull(AqualityServices.WinAppDriverLauncher, "WinAppDriverLauncher should not be null");
         }
 
         [Test]

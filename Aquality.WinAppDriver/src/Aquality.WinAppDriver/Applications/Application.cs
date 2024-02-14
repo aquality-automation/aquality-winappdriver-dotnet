@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Actions;
-using OpenQA.Selenium.Remote;
-using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver<OpenQA.Selenium.Appium.Windows.WindowsElement>;
+using Newtonsoft.Json;
+using OpenQA.Selenium;
+using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver;
 
 namespace Aquality.WinAppDriver.Applications
 {
@@ -37,7 +40,7 @@ namespace Aquality.WinAppDriver.Applications
 
         private ILocalizedLogger Logger { get; }
 
-        RemoteWebDriver IApplication.Driver => Driver;
+        WebDriver IApplication.Driver => Driver;
 
         public virtual WindowsDriver Driver
         {
@@ -110,6 +113,18 @@ namespace Aquality.WinAppDriver.Applications
             var launchedAppTitle = Driver.Title;
             AqualityServices.Logger.Debug(launchedAppTitle);
             return this;
+        }
+
+        public virtual object ExecuteScript(string script, IDictionary<string, object> parameters, bool inRootSession = false)
+        {
+            var parametersString = string.Join(",", parameters.Select(param => $"{Environment.NewLine}{param.Key}: {JsonConvert.SerializeObject(param.Value)}"));
+            Logger.Info("loc.application.execute.script", script, parametersString);
+            var result = (inRootSession ? RootSession : Driver).ExecuteScript(script, parameters);
+            if (result != null)
+            {
+                Logger.Debug(JsonConvert.SerializeObject(result));
+            }
+            return result;
         }
     }
 }

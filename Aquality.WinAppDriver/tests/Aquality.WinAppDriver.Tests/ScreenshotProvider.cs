@@ -6,6 +6,7 @@ using System.IO;
 
 namespace Aquality.WinAppDriver.Tests
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
     internal class ScreenshotProvider
     {
         private readonly IWindowsApplication application;
@@ -20,7 +21,7 @@ namespace Aquality.WinAppDriver.Tests
             var image = GetImage();
             var directory = Path.Combine(Environment.CurrentDirectory, "screenshots");
             EnsureDirectoryExists(directory);
-            var screenshotName = $"{GetType().Name}_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid().ToString("n").Substring(0, 5)}.png";
+            var screenshotName = $"{GetType().Name}_{DateTime.Now:yyyyMMdd_HHmmss}_{Guid.NewGuid().ToString("n")[..5]}.png";
             var path = Path.Combine(directory, screenshotName);
             image.Save(path, ImageFormat.Png);
             return path;
@@ -28,10 +29,8 @@ namespace Aquality.WinAppDriver.Tests
 
         private Image GetImage()
         {
-            using (var stream = new MemoryStream(application.RootSession.GetScreenshot().AsByteArray))
-            {
-                return Image.FromStream(stream);
-            }
+            using var stream = new MemoryStream(application.RootSession.GetScreenshot().AsByteArray);
+            return Image.FromStream(stream);
         }
 
         private static void EnsureDirectoryExists(string directory)

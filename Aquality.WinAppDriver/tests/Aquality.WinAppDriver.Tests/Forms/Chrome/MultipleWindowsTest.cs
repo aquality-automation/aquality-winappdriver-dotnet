@@ -15,8 +15,8 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             ? Path.Combine(ProgramFilesX86, AppPathRelativeFromProgramFiles)
             : Path.Combine(ProgramFiles, AppPathRelativeFromProgramFiles);
 
-        private string NewTabName => $"New Tab{TabNamePostfix}";
-        private string DownloadsTabName => $"Downloads{TabNamePostfix}";
+        private static string NewTabName => $"New Tab{TabNamePostfix}";
+        private static string DownloadsTabName => $"Downloads{TabNamePostfix}";
 
         private const string TabNamePostfix = " - Google Chrome";
 
@@ -52,9 +52,20 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             var appProcess = ProcessManager.Start(ApplicationPath);
 
             AqualityServices.SetWindowHandleApplicationFactory(rootSession => new CoreChromeWindow(rootSession).NativeWindowHandle);
-            var navigationPanel = new ChromeNavigationPanel();
-            Assert.IsTrue(navigationPanel.State.WaitForDisplayed());
+            AqualityServices.Application.Launch();
             var firstWindowName = AqualityServices.Application.Driver.Title;
+            firstWindow = new ChromeWindow(firstWindowName);
+            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
+
+            var navigationPanel = new ChromeNavigationPanel();
+            if (firstWindowName.Contains("Sign in"))
+            {
+                navigationPanel.DontSignIn();
+                AqualityServices.Application = AqualityServices.ApplicationFactory.Application;
+            }
+            navigationPanel.ClosePopUps();
+            Assert.IsTrue(navigationPanel.State.WaitForDisplayed(), $"{navigationPanel.Name} is not displayed");
+            firstWindowName = AqualityServices.Application.Driver.Title;
             firstWindow = new ChromeWindow(firstWindowName);
             Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
 

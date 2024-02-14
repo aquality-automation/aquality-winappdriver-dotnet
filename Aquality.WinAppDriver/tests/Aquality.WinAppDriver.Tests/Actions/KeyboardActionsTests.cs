@@ -12,20 +12,21 @@ namespace Aquality.WinAppDriver.Tests.Actions
     public class KeyboardActionsTests : TestWithApplication
     {
         private const string ValueToSend = "abc";
+        private const string Semicolon = ";";
 
         protected virtual IKeyboardActions KeyboardActions => AqualityServices.KeyboardActions;
 
-        protected ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
+        protected static ITextBox RightArgumentTextBox => new CalculatorForm().RightArgumentTextBox;
 
         protected static readonly ModifierKey[] modifierKeys = Enum.GetValues(typeof(ModifierKey)) as ModifierKey[];
 
         protected static readonly ActionKey[] actionKeys = Enum.GetValues(typeof(ActionKey)) as ActionKey[];
 
-        protected static readonly Action<IKeyboardActions>[] actionToMinimizeWindow = new Action<IKeyboardActions>[] 
-        { 
+        protected static readonly Action<IKeyboardActions>[] actionToMinimizeWindow =
+        [
             keyboardActions => keyboardActions.SendKeyWithWindowsKeyHold('d'),
             keyboardActions => keyboardActions.SendKeyWithWindowsKeyHold(ActionKey.Down)
-        };
+        ];
 
         [Test]
         public void Should_SendKeys_ViaKeyboardActions()
@@ -38,24 +39,24 @@ namespace Aquality.WinAppDriver.Tests.Actions
         [Test]
         public void Should_SendClosingKeys_ViaKeyboardActions()
         {
-            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: true));
+            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false));
         }
 
         [Test]
         public void Should_SendKey_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeys(ActionKey.Equal);
+            KeyboardActions.SendKeys(ActionKey.Semicolon);
             KeyboardActions.SendKeys(ValueToSend);
-            Assert.AreEqual("=" + ValueToSend, RightArgumentTextBox.Value);
+            Assert.AreEqual(Semicolon + ValueToSend, RightArgumentTextBox.Value);
         }
 
         [Test]
         public void Should_SendKey_AfterSequence_ViaKeyboardActions()
         {
             RightArgumentTextBox.Click();
-            KeyboardActions.SendKeys(ValueToSend, ActionKey.Equal);
-            Assert.AreEqual(ValueToSend + "=", RightArgumentTextBox.Value);
+            KeyboardActions.SendKeys(ValueToSend, ActionKey.Semicolon);
+            Assert.AreEqual(ValueToSend + Semicolon, RightArgumentTextBox.Value);
         }
 
         [Test]
@@ -65,7 +66,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend);
             KeyboardActions.SendKeys(ActionKey.Backspace, times: numberOfCharsToDelete);
-            Assert.AreEqual(ValueToSend.Substring(0, ValueToSend.Length - numberOfCharsToDelete), RightArgumentTextBox.Value);
+            Assert.AreEqual(ValueToSend[..^numberOfCharsToDelete], RightArgumentTextBox.Value);
         }
 
         [Test]

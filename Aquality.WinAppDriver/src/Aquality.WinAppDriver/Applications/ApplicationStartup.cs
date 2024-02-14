@@ -33,7 +33,6 @@ namespace Aquality.WinAppDriver.Applications
             services.AddSingleton<IMouseActions>(serviceProvider => new MouseActions(serviceProvider.GetRequiredService<ILocalizedLogger>(), () => AqualityServices.Application.Driver));
             services.AddTransient(serviceProvider => AqualityServices.ApplicationFactory);
             services.AddTransient<IProcessManager, ProcessManager>();
-            services.AddTransient<IWinAppDriverLauncher, WinAppDriverLauncher>();
             services.AddScoped(serviceProvider => applicationProvider(serviceProvider) as IWindowsApplication);
             return services;
         }

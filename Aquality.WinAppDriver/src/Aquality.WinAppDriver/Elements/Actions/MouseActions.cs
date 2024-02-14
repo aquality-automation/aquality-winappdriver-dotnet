@@ -1,21 +1,27 @@
 ﻿using Aquality.Selenium.Core.Localization;
 using Aquality.Selenium.Core.Utilities;
+using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Remote;
 using System;
+using System.Collections.Generic;
 
 namespace Aquality.WinAppDriver.Elements.Actions
 {
     /// <summary>
     /// Implements Mouse actions for a specific element.
+    /// There is an issue with absolute coordinates calculation for elements found on Application session, so better to use the root session here if possible.
+    /// Alternatively, you can move application to top left corner before doing mouse action.
+    /// This might be addressed in future when fixed in appium-windows-driver 
     /// </summary>
-    public class MouseActions : ElementActions, IMouseActions
+    public class MouseActions : WinAppDriver.Actions.MouseActions, IMouseActions
     {
         private readonly IElement element;
-        private readonly Func<RemoteTouchScreen> remoteTouchScreenSupplier;
+        private readonly string elementType;
+        private readonly ILocalizedLogger localizedLogger;
+        private readonly IElementActionRetrier elementActionsRetrier;
 
         /// <summary>
         /// Instantiates Mouse actions for a specific element.
@@ -23,92 +29,162 @@ namespace Aquality.WinAppDriver.Elements.Actions
         /// <param name="element">Target element.</param>
         /// <param name="elementType">Target element's type.</param>
         /// <param name="windowsDriverSupplier">Method to get current application session.</param>
-        /// <param name="localizationLogger">Logger for localized values.</param>
+        /// <param name="localizedLogger">Logger for localized values.</param>
         /// <param name="elementActionsRetrier">Retrier for element actions.</param>
-        public MouseActions(IElement element, string elementType, Func<WindowsDriver<WindowsElement>> windowsDriverSupplier, ILocalizedLogger localizationLogger, IElementActionRetrier elementActionsRetrier)
-            : base(element, elementType, windowsDriverSupplier, localizationLogger, elementActionsRetrier)
+        public MouseActions(IElement element, string elementType, Func<WindowsDriver> windowsDriverSupplier, ILocalizedLogger localizedLogger, IElementActionRetrier elementActionsRetrier)
+            : base(localizedLogger, windowsDriverSupplier)
         {
             this.element = element;
-            remoteTouchScreenSupplier = () => new RemoteTouchScreen(windowsDriverSupplier());
+            this.elementType = elementType;
+            this.localizedLogger = localizedLogger;
+            this.elementActionsRetrier = elementActionsRetrier;
         }
 
-        public void Click()
+        /// <summary>
+        /// Executes script action on current element.
+        /// </summary>
+        /// <param name="script">Script to be executed.</param>
+        /// <param name="parameters">Script parameters.</param>
+        /// <param name="elementIdParameterName"/>
+        /// <returns>Result of the script execution.</returns>
+        protected virtual object PerformMouseAction(string script, Dictionary<string, object> parameters, string elementIdParameterName = "elementId")
         {
-            LogAction("loc.mouse.click");
-            PerformAction((actions, element) => actions.Click(element));
+            return elementActionsRetrier.DoWithRetry(() =>
+            {
+                parameters.Add(elementIdParameterName, element.GetElement().Id);
+                return base.PerformAction(script, parameters, rootSession: false);
+            });
         }
 
-        public void ClickAndHold()
+        /// <summary>
+        /// Logs element action in specific format.
+        /// </summary>
+        /// <param name="messageKey">Key of the localized message.</param>
+        /// <param name="args">Arguments for the localized message.</param>
+        protected override void LogAction(string messageKey, params object[] args)
         {
-            LogAction("loc.mouse.clickandhold");
-            PerformAction((actions, element) => actions.ClickAndHold(element));
+            localizedLogger.InfoElementAction(elementType, element.Name, messageKey, args);
         }
 
-        public void Release()
+        public void Click(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
         {
-            LogAction("loc.mouse.release");
-            PerformAction((actions, element) => actions.Release(element));
+            var parameters = ResolveParameters(modifierKeys);
+            if (button != null)
+            {
+                parameters.Add("button", button.ToString().ToLowerInvariant());
+            }
+            if (times != null)
+            {
+                parameters.Add("times", times);
+            }
+            if (interClickDelay != null)
+            {
+                parameters.Add("interClickDelayMs", interClickDelay?.TotalMilliseconds);
+            }
+            if (parameters.Count > 1)
+            {
+                LogMouseAction("loc.mouse.click.withparameters", parameters);
+            }
+            else
+            {
+                LogAction("loc.mouse.click");
+            }
+            PerformMouseAction("windows: click", parameters);
         }
 
-        public void ContextClick()
+        public void ContextClick(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, int? times = null, TimeSpan? interClickDelay = null)
         {
             LogAction("loc.mouse.contextclick");
-            PerformAction((actions, element) => actions.ContextClick(element));
+            Click(MouseButton.Right, modifierKeys, duration, times, interClickDelay);
         }
 
-        public void DoubleClick()
+        public void DoubleClick(MouseButton? button = null, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null, TimeSpan? interClickDelay = null)
         {
             LogAction("loc.mouse.doubleclick");
-            PerformAction((actions, element) => actions.DoubleClick(element));
+            Click(button, modifierKeys, duration, times: 2, interClickDelay);
         }
 
-        public void MoveByOffset(int offsetX, int offsetY)
+        public void DragAndDrop(IElement target, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.draganddrop", target.GetElementType(), target.Name);
+            parameters.Add("endElementId", target.GetElement().Id);
+            PerformMouseAction("windows: clickAndDrag", parameters, "startElementId");
+        }
+
+        public void DragAndDrop(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.draganddrop.tocoordinates", endX, endY);
+            parameters.Add("endX", endX);
+            parameters.Add("endY", endY);
+            PerformMouseAction("windows: clickAndDrag", parameters, "startElementId");
+        }
+
+        public void DragAndDropToOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
+        {
+            LogAction("loc.mouse.draganddrop.tooffset", offsetX, offsetY);
+            var location = element.Visual.Location;
+            DragAndDrop(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
+        }
+
+        public new void MoveByOffset(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             DragAndDropToOffset(offsetX, offsetY);
         }
 
-        public void DragAndDrop(IElement target)
+        public void Hover(IElement endElement, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            LogAction("loc.mouse.draganddrop", target.GetElementType(), target.Name);
-            PerformAction((actions, element) => actions.DragAndDrop(element, target.GetElement()));
+            var parameters = ResolveParameters(modifierKeys, duration);
+            LogAction("loc.mouse.hover", endElement.GetElementType(), endElement.Name);
+            parameters.Add("endElementId", endElement.GetElement().Id);
+            PerformMouseAction("windows: hover", parameters, "startElementId");
         }
 
-        public void DragAndDropToOffset(int offsetX, int offsetY)
+        public void Hover(int endX, int endY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            LogAction("loc.mouse.draganddrop.tooffset", offsetX, offsetY);
-            PerformAction((actions, element) => actions.DragAndDropToOffset(element, offsetX, offsetY));
+            var parameters = ResolveParameters(modifierKeys, duration);
+            parameters.Add("endX", endX);
+            parameters.Add("endY", endY);
+            LogMouseAction("loc.mouse.hover.withparameters", parameters);
+            PerformMouseAction("windows: hover", parameters, "startElementId");
         }
 
-        public void MoveFromElement()
+        public void MoveFromElement(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
-            var offsetX = - element.GetElement().Size.Width / 2;
-            var offsetY = - element.GetElement().Size.Height / 2;
+            var offsetX = - element.Visual.Size.Width / 2;
+            var offsetY = - element.Visual.Size.Height / 2;
             LogAction("loc.mouse.movefromelement", offsetX, offsetY);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY));
+            var location = element.Visual.Location;
+            Hover(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
         }
 
-        public void MoveToElement()
+        public void MoveToElement(IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             LogAction("loc.mouse.movetoelement");
-            PerformAction((actions, element) => actions.MoveToElement(element));
+            Hover(element, modifierKeys, duration);
         }
 
-        public void MoveToElement(int offsetX, int offsetY)
+        public void MoveToElement(int offsetX, int offsetY, IList<ModifierKey> modifierKeys = null, TimeSpan? duration = null)
         {
             LogAction("loc.mouse.movetoelement.byoffset", offsetX, offsetY);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY));
+            var location = element.Visual.Location;
+            Hover(location.X + offsetX, location.Y + offsetY, modifierKeys, duration);
         }
 
-        public void MoveToElement(int offsetX, int offsetY, MoveToElementOffsetOrigin offsetOrigin)
+        public void Scroll(int delta, ScrollDirection direction = ScrollDirection.Vertical, IList<ModifierKey> modifierKeys = null)
         {
-            LogAction("loc.mouse.movetoelement.byoffset.withorigin", offsetX, offsetY, offsetOrigin);
-            PerformAction((actions, element) => actions.MoveToElement(element, offsetX, offsetY, offsetOrigin));
-        }
-
-        public void Scroll(int offsetX, int offsetY)
-        {
-            LogAction("loc.mouse.scrollbyoffset", offsetX, offsetY);
-            remoteTouchScreenSupplier().Scroll(element.GetElement().Coordinates, offsetX, offsetY);
+            var parameters = ResolveParameters(modifierKeys);
+            if (direction == ScrollDirection.Vertical)
+            {
+                parameters.Add("deltaY", delta);
+            }
+            else
+            {
+                parameters.Add("deltaX", delta);
+            }
+            LogMouseAction("loc.mouse.scroll", parameters);
+            PerformMouseAction("windows: scroll", parameters);
         }
     }
 }
