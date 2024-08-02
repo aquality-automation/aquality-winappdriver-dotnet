@@ -1,4 +1,6 @@
-﻿using Aquality.WinAppDriver.Actions;
+﻿using Aquality.Selenium.Core.Configurations;
+using Aquality.WinAppDriver.Actions;
+using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
@@ -32,7 +34,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         public void ClosePopUps()
         {
             State.WaitForExist();
-            if (NoThanksButton.State.IsExist)
+            if (!NoThanksButton.State.WaitForNotDisplayed())
             {
                 NoThanksButton.Click();
                 NoThanksButton.State.WaitForNotDisplayed();

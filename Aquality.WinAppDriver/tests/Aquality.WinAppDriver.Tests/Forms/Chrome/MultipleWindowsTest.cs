@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             : Path.Combine(ProgramFiles, AppPathRelativeFromProgramFiles);
 
         private static string NewTabName => $"New Tab{TabNamePostfix}";
-        private static string DownloadsTabName => $"Downloads{TabNamePostfix}";
+        private static string DownloadsTabName => $"Download history{TabNamePostfix}";
 
         private const string TabNamePostfix = " - Google Chrome";
 

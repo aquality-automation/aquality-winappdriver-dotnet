@@ -90,7 +90,7 @@ namespace Aquality.WinAppDriver.Actions
             {
                 parameters.Add("interClickDelayMs", interClickDelay?.TotalMilliseconds);
             }
-            Point cursor;
+            Point cursor = default;
             if (x == null || y == null)
             {
                 cursor = Coordinates;
@@ -142,7 +142,7 @@ namespace Aquality.WinAppDriver.Actions
         public void Scroll(int delta, int? x = null, int? y = null, ScrollDirection direction = ScrollDirection.Vertical, IList<ModifierKey> modifierKeys = null)
         {
             var parameters = ResolveParameters(modifierKeys);
-            Point cursor;
+            Point cursor = default;
             if (x == null || y == null)
             {
                 cursor = Coordinates;

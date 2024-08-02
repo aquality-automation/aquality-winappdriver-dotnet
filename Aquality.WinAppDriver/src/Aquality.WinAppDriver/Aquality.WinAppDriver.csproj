@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net48;net8.0</TargetFrameworks>
     
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Appium.WebDriver" Version="5.0.0-rc.2" />
-    <PackageReference Include="Aquality.Selenium.Core" Version="3.0.6" />
+    <PackageReference Include="Appium.WebDriver" Version="5.1.0" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="3.0.12" />
   </ItemGroup>
   
 </Project>
