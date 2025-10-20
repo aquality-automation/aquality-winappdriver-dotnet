@@ -16,7 +16,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         private IButton DontSignInButton { get; }
         public ChromeNavigationPanel() : base(By.TagName("Pane"), "Chrome Navigation panel")
         {
-            NoThanksButton = ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
+            NoThanksButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineButton"), "No thanks");
             GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
             LastTextLabel = ElementFactory.GetLabel(MobileBy.AccessibilityId("lastTextElement"), "Last element text");
             RestorePagesLabel = ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
@@ -38,14 +38,10 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             {
                 NoThanksButton.Click();
                 NoThanksButton.State.WaitForNotDisplayed();
-                if (GotItButton.State.WaitForExist())
-                {
-                    LastTextLabel.Click();
-                    KeyboardActions.SendKeys(ActionKey.Tab, times: 2);
-                    KeyboardActions.SendKeys(ActionKey.Enter);
-                }
-            } else if (GotItButton.State.IsDisplayed)
+            }
+            if (GotItButton.State.WaitForExist())
             {
+                GotItButton.MouseActions.MoveToElement();
                 GotItButton.Click();
             }
             ConditionalWait.WaitForTrue(() =>
