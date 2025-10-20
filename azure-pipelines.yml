@@ -77,18 +77,18 @@ stages:
       inputs:
         script: |
           echo "Installing Appium Windows Driver"
-          npm i appium-windows-driver --force
+          appium driver install windows
           appium driver list
           echo "Appium Windows Driver installed"
             
     - task: CmdLine@2
-      displayName: 'Install and Run Appium doctor'
+      displayName: 'Run Appium doctor'
       inputs:
         script: |
-          echo "Installing and Running Appium doctor"
-          npm install -g appium-doctor@latest
-          appium-doctor
-          echo "Appium doctor installed and executed"
+          echo " Running Appium doctor"
+          npm install -g request@2.34.0
+          appium driver doctor windows
+          echo "Appium doctor executed"
 
     - task: CmdLine@2
       displayName: 'Start Appium server'
