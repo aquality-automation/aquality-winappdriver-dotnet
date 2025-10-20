@@ -58,7 +58,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
 
             var navigationPanel = new ChromeNavigationPanel();
-            if (firstWindowName.Contains("Sign in"))
+            if (navigationPanel.IsSignInPresent)
             {
                 navigationPanel.DontSignIn();
                 AqualityServices.Application = AqualityServices.ApplicationFactory.Application;

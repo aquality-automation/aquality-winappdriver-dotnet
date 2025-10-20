@@ -24,6 +24,8 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             DontSignInButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
         }
 
+        public bool IsSignInPresent => DontSignInButton.State.WaitForDisplayed();
+
         public void DontSignIn()
         {
             DontSignInButton.Click();
@@ -46,10 +48,17 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             {
                 GotItButton.Click();
             }
-            if (RestorePagesLabel.State.IsExist)
+            ConditionalWait.WaitForTrue(() =>
             {
-                CloseButton.Click();
-            }
+                if (RestorePagesLabel.State.IsExist)
+                {
+                    RestorePagesLabel.Click();
+                    CloseButton.Click();
+                }
+
+                return !RestorePagesLabel.State.IsExist;
+            }, message: "Restore pages? popup must be closed to proceed");
+            
         }
 
         public void OpenDownloads()

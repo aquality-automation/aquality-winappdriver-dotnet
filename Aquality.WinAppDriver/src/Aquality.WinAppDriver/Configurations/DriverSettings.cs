@@ -79,17 +79,22 @@ namespace Aquality.WinAppDriver.Configurations
         {
             get
             {
+                Capabilities.TryGetValue(AppCapabilityKey, out var defaultValue);
                 var appValue = settingsFile.GetValueOrDefault(ApplicationPathJPath,
-                    defaultValue: (Capabilities.ContainsKey(AppCapabilityKey) ? Capabilities[AppCapabilityKey] : null)?.ToString());
-                return appValue?.StartsWith(".") == true ? Path.GetFullPath(appValue) : appValue;
+                    defaultValue: defaultValue?.ToString());
+                if (appValue?.FirstOrDefault() == '.')
+                {
+                    appValue = Path.GetFullPath(appValue);
+                }
+                return appValue;
             }
         }
 
         private void SetKnownProperty(DriverOptions options, KeyValuePair<string, object> capability, ArgumentException exception)
         {
-            if (KnownCapabilitySetters.ContainsKey(capability.Key))
+            if (KnownCapabilitySetters.TryGetValue(capability.Key, out var setter))
             {
-                KnownCapabilitySetters[capability.Key](options, capability.Value);
+                setter(options, capability.Value);
             }
             else
             {
@@ -97,7 +102,7 @@ namespace Aquality.WinAppDriver.Configurations
             }
         }
 
-        private void SetOptionByPropertyName(DriverOptions options, KeyValuePair<string, object> option, Exception exception)
+        private static void SetOptionByPropertyName(DriverOptions options, KeyValuePair<string, object> option, Exception exception)
         {
             var optionProperty = options
                             .GetType()
@@ -111,14 +116,14 @@ namespace Aquality.WinAppDriver.Configurations
             optionProperty.SetValue(options, valueToSet);
         }
 
-        private object ParseEnumValue(Type propertyType, object optionValue)
+        private static object ParseEnumValue(Type propertyType, object optionValue)
         {
             return optionValue is string
                 ? Enum.Parse(propertyType, optionValue.ToString(), ignoreCase: true)
                 : Enum.ToObject(propertyType, Convert.ChangeType(optionValue, Enum.GetUnderlyingType(propertyType)));
         }
 
-        private bool IsEnumValue(Type propertyType, object optionValue)
+        private static bool IsEnumValue(Type propertyType, object optionValue)
         {
             var valueAsString = optionValue.ToString();
             if (!propertyType.IsEnum || string.IsNullOrEmpty(valueAsString))
@@ -133,7 +138,7 @@ namespace Aquality.WinAppDriver.Configurations
                     && propertyType.IsEnumDefined(Convert.ChangeType(optionValue, Enum.GetUnderlyingType(propertyType))));
         }
 
-        private bool IsValueOfIntegralNumericType(object value)
+        private static bool IsValueOfIntegralNumericType(object value)
         {
             return value is byte || value is sbyte
                 || value is ushort || value is short
@@ -141,10 +146,10 @@ namespace Aquality.WinAppDriver.Configurations
                 || value is ulong || value is long;
         }
 
-        private bool IsPropertyNameMatchOption(string propertyName, string optionKey)
+        private static bool IsPropertyNameMatchOption(string propertyName, string optionKey)
         {
             return propertyName.Equals(optionKey, StringComparison.InvariantCultureIgnoreCase)
-                || optionKey.ToLowerInvariant().Contains(propertyName.ToLowerInvariant());
+                || optionKey.IndexOf(propertyName, StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
     }
 }
