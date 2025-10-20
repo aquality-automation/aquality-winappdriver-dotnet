@@ -20,7 +20,7 @@ stages:
       inputs:
         SonarCloud: 'SonarCloud'
         organization: 'aqualityautomation'
-        scannerMode: 'MSBuild'
+        scannerMode: 'dotnet'
         projectKey: 'aquality-automation_aquality-winappdriver-dotnet'
         projectName: 'aquality-winappdriver-dotnet'
         projectVersion: '$(Build.BuildNumber)'
