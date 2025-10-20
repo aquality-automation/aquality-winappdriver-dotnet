@@ -63,14 +63,7 @@ namespace Aquality.WinAppDriver.Configurations
                             }
                             else
                             {
-                                if (exception.Message.StartsWith("There is already an option"))
-                                {
-                                    SetKnownProperty(options, capability, exception);
-                                }
-                                else
-                                {
-                                    throw;
-                                }
+                                throw;
                             }
                         }
                     });
