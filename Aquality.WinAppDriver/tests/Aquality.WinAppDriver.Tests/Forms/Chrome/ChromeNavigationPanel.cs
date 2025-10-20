@@ -1,6 +1,4 @@
-﻿using Aquality.Selenium.Core.Configurations;
-using Aquality.WinAppDriver.Actions;
-using Aquality.WinAppDriver.Applications;
+﻿using Aquality.WinAppDriver.Actions;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
@@ -34,7 +32,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         public void ClosePopUps()
         {
             State.WaitForExist();
-            if (!NoThanksButton.State.WaitForNotDisplayed())
+            if (NoThanksButton.State.WaitForDisplayed())
             {
                 NoThanksButton.Click();
                 NoThanksButton.State.WaitForNotDisplayed();
@@ -44,6 +42,9 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
                     KeyboardActions.SendKeys(ActionKey.Tab, times: 2);
                     KeyboardActions.SendKeys(ActionKey.Enter);
                 }
+            } else if (GotItButton.State.IsDisplayed)
+            {
+                GotItButton.Click();
             }
             if (RestorePagesLabel.State.IsExist)
             {
