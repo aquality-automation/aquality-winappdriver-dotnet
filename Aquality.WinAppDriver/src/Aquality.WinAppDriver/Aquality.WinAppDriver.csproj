@@ -14,7 +14,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>windows application winappdriver automation</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Copyright>Copyright 2024 Aquality Automation</Copyright>
+    <Copyright>Copyright 2025 Aquality Automation</Copyright>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 

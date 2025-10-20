@@ -69,28 +69,27 @@ stages:
       inputs:
         script: |
             echo "Installing Appium"
-            npm install -g appium@next
+            npm install -g appium@latest
             appium --version
             echo "Appium installed"
-            
-    - task: CmdLine@2
-      displayName: 'Install and Run Appium doctor'
-      inputs:
-        script: |
-          echo "Installing and Running Appium doctor"
-          npm install -g request@2.34.0
-          npm install -g appium-doctor@1.15.1
-          appium-doctor
-          echo "Appium doctor installed and executed"
 
     - task: CmdLine@2
       displayName: 'Install Appium Windows Driver'
       inputs:
         script: |
           echo "Installing Appium Windows Driver"
-          appium driver install --source=npm appium-windows-driver
+          npm i appium-windows-driver --force
           appium driver list
           echo "Appium Windows Driver installed"
+            
+    - task: CmdLine@2
+      displayName: 'Install and Run Appium doctor'
+      inputs:
+        script: |
+          echo "Installing and Running Appium doctor"
+          npm install -g appium-doctor@latest
+          appium-doctor
+          echo "Appium doctor installed and executed"
 
     - task: CmdLine@2
       displayName: 'Start Appium server'
@@ -118,6 +117,7 @@ stages:
 
     steps:
     - task: gitversion/setup@0
+      displayName: 'Install GitTools'
       inputs:
         versionSpec: '5.x'
     - task: gitversion/execute@0
@@ -128,16 +128,18 @@ stages:
     - script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
       displayName: 'Pack to NuGet package'
 
-    - task: GitHubRelease@0
+    - task: GitHubRelease@1
       displayName: 'Create tag on GitHub'
       inputs:
         gitHubConnection: 'github.com_aqualityautomation'
         repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
         action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'userSpecifiedTag'
         tag: 'v$(GitVersion.NuGetVersion)'
-        title: 'v$(GitVersion.NuGetVersion)'
-        tagSource: 'manual'
-        isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
+        isDraft: contains(variables['GitVersion.NuGetVersion'], '-')
+        changeLogCompareToRelease: 'lastFullRelease'
+        changeLogType: 'commitBased'
 
     - task: NuGetCommand@2
       displayName: 'Push NuGet package'
