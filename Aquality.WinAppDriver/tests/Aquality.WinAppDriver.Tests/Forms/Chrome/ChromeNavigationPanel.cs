@@ -45,10 +45,17 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
                 MoreButton.Click();
                 MoreButton.MouseActions.Scroll(1000, ScrollDirection.Vertical);
             }
-            if (GotItButton.State.WaitForExist())
+            if (GotItButton.State.IsExist)
             {
                 GotItButton.MouseActions.MoveToElement();
-                GotItButton.Click();
+                if (GotItButton.State.IsDisplayed)
+                {
+                    GotItButton.Click();
+                }
+                else
+                {
+                    GotItButton.KeyboardActions.SendKeys(ActionKey.Enter);
+                }
             }
             ConditionalWait.WaitForTrue(() =>
             {
