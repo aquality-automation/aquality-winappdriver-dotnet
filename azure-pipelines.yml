@@ -2,7 +2,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2022'
 
 variables:
   buildConfiguration: 'Release'
@@ -15,17 +15,16 @@ stages:
     displayName: Analyse code with SonarQube
 
     steps:
-    - task: SonarCloudPrepare@2
+    - task: SonarCloudPrepare@3
       displayName: 'Prepare SonarCloud analysis'
       inputs:
         SonarCloud: 'SonarCloud'
         organization: 'aqualityautomation'
-        scannerMode: 'MSBuild'
+        scannerMode: 'dotnet'
         projectKey: 'aquality-automation_aquality-winappdriver-dotnet'
         projectName: 'aquality-winappdriver-dotnet'
         projectVersion: '$(Build.BuildNumber)'
-        extraProperties: |
-          sonar.coverage.exclusions=**/**
+        extraProperties: 'sonar.coverage.exclusions=**/**'
 
     - task: DotNetCoreCLI@2
       displayName: 'Build solution'
@@ -33,14 +32,14 @@ stages:
         command: 'build'
         projects: Aquality.WinAppDriver/Aquality.WinAppDriver.sln
         arguments: -c $(buildConfiguration)
-
-    - task: SonarCloudAnalyze@2
-      displayName: 'Run SonarCloud code analysis'
-      continueOnError: true
+        
+    - task: SonarCloudAnalyze@3
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
+      displayName: 'Run SonarCloud code analysis'
+      continueOnError: true
 
-    - task: SonarCloudPublish@2
+    - task: SonarCloudPublish@3
       displayName: 'Publish SonarCloud quality gate results'
       inputs:
         pollingTimeoutSec: '300'
@@ -62,35 +61,34 @@ stages:
     - task: NodeTool@0
       displayName: 'Install Node.js'
       inputs:
-        versionSpec: '16.x'
+        versionSpec: '22.x'
 
     - task: CmdLine@2
       displayName: 'Install Appium'
       inputs:
         script: |
             echo "Installing Appium"
-            npm install -g appium@next
+            npm install -g appium@latest
             appium --version
             echo "Appium installed"
-            
-    - task: CmdLine@2
-      displayName: 'Install and Run Appium doctor'
-      inputs:
-        script: |
-          echo "Installing and Running Appium doctor"
-          npm install -g request@2.34.0
-          npm install -g appium-doctor@1.15.1
-          appium-doctor
-          echo "Appium doctor installed and executed"
 
     - task: CmdLine@2
       displayName: 'Install Appium Windows Driver'
       inputs:
         script: |
           echo "Installing Appium Windows Driver"
-          appium driver install --source=npm appium-windows-driver
+          appium driver install windows
           appium driver list
           echo "Appium Windows Driver installed"
+            
+    - task: CmdLine@2
+      displayName: 'Run Appium doctor'
+      inputs:
+        script: |
+          echo " Running Appium doctor"
+          npm install -g request@2.34.0
+          appium driver doctor windows
+          echo "Appium doctor executed"
 
     - task: CmdLine@2
       displayName: 'Start Appium server'
@@ -118,6 +116,7 @@ stages:
 
     steps:
     - task: gitversion/setup@0
+      displayName: 'Install GitTools'
       inputs:
         versionSpec: '5.x'
     - task: gitversion/execute@0
@@ -128,16 +127,18 @@ stages:
     - script: dotnet pack Aquality.WinAppDriver\src\Aquality.WinAppDriver\Aquality.WinAppDriver.csproj -c $(buildConfiguration) -p:Version=$(GitVersion.NuGetVersion) -o $(Build.ArtifactStagingDirectory)
       displayName: 'Pack to NuGet package'
 
-    - task: GitHubRelease@0
+    - task: GitHubRelease@1
       displayName: 'Create tag on GitHub'
       inputs:
         gitHubConnection: 'github.com_aqualityautomation'
         repositoryName: 'aquality-automation/aquality-winappdriver-dotnet'
         action: 'create'
+        target: '$(Build.SourceVersion)'
+        tagSource: 'userSpecifiedTag'
         tag: 'v$(GitVersion.NuGetVersion)'
-        title: 'v$(GitVersion.NuGetVersion)'
-        tagSource: 'manual'
-        isPreRelease: contains(variables['GitVersion.NuGetVersion'], '-')
+        isDraft: contains(variables['GitVersion.NuGetVersion'], '-')
+        changeLogCompareToRelease: 'lastFullRelease'
+        changeLogType: 'commitBased'
 
     - task: NuGetCommand@2
       displayName: 'Push NuGet package'

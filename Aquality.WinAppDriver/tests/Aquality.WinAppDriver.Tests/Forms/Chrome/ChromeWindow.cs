@@ -9,6 +9,8 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
     {
         private ILabel DocumentLabel => FindChildElement<ILabel>(By.TagName("Document"), "Document");
 
+        public bool HasKeyboardFocus => bool.Parse(GetAttribute("HasKeyboardFocus"));
+
         public void ClickOnDocument()
         {
             DocumentLabel.Click();

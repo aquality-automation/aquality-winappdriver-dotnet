@@ -39,12 +39,11 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
             var secondWindowProcess = secondWindow.Process;
             secondWindowProcess.ShowWindow(ShowCommand.Minimize);
-            secondWindow.State.WaitForNotDisplayed();
-            Assert.IsFalse(secondWindow.State.IsDisplayed, "Second window is not minimized");
+            Assert.IsFalse(secondWindow.HasKeyboardFocus, "Second window is not minimized");
             Assert.IsTrue(firstWindow.State.IsDisplayed, "First window is not displayed");
             secondWindowProcess.ShowWindow(ShowCommand.ShowNormal);
             secondWindow.State.WaitForDisplayed();
-            Assert.IsTrue(secondWindow.State.IsDisplayed, "Second window is not shown");
+            Assert.IsTrue(secondWindow.HasKeyboardFocus, "Second window is not shown");
         }
 
         private void OpenTwoWindows(out ChromeWindow firstWindow, out ChromeWindow secondWindow)
@@ -58,7 +57,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
 
             var navigationPanel = new ChromeNavigationPanel();
-            if (firstWindowName.Contains("Sign in"))
+            if (navigationPanel.IsSignInPresent)
             {
                 navigationPanel.DontSignIn();
                 AqualityServices.Application = AqualityServices.ApplicationFactory.Application;

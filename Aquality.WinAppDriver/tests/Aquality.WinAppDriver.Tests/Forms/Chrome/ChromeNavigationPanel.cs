@@ -1,6 +1,5 @@
-﻿using Aquality.Selenium.Core.Configurations;
+﻿using Aquality.Selenium.Core.Elements;
 using Aquality.WinAppDriver.Actions;
-using Aquality.WinAppDriver.Applications;
 using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Forms;
 using OpenQA.Selenium;
@@ -12,19 +11,21 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
     {
         private IButton NoThanksButton { get; }
         private IButton GotItButton { get; }
-        private ILabel LastTextLabel { get; }
+        private IButton MoreButton { get; }
         private ILabel RestorePagesLabel { get; }
         private IButton CloseButton { get; }
         private IButton DontSignInButton { get; }
         public ChromeNavigationPanel() : base(By.TagName("Pane"), "Chrome Navigation panel")
         {
-            NoThanksButton = ElementFactory.GetButton(By.Name("No thanks"), "No thanks");
-            GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it");
-            LastTextLabel = ElementFactory.GetLabel(MobileBy.AccessibilityId("lastTextElement"), "Last element text");
+            NoThanksButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineButton"), "No thanks", ElementState.ExistsInAnyState);
+            GotItButton = ElementFactory.GetButton(MobileBy.AccessibilityId("ackButton"), "Got it", ElementState.ExistsInAnyState);
+            MoreButton = ElementFactory.GetButton(MobileBy.AccessibilityId("moreButton"), "More");
             RestorePagesLabel = ElementFactory.GetLabel(By.Name("Restore pages?"), "Restore pages?");
             CloseButton = RestorePagesLabel.FindChildElement<IButton>(By.Name("Close"), "Close");
             DontSignInButton = ElementFactory.GetButton(MobileBy.AccessibilityId("declineSignInButton"), "Don't sign in");
         }
+
+        public bool IsSignInPresent => DontSignInButton.State.WaitForDisplayed();
 
         public void DontSignIn()
         {
@@ -34,21 +35,39 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
         public void ClosePopUps()
         {
             State.WaitForExist();
-            if (!NoThanksButton.State.WaitForNotDisplayed())
+            if (NoThanksButton.State.WaitForExist())
             {
                 NoThanksButton.Click();
-                NoThanksButton.State.WaitForNotDisplayed();
-                if (GotItButton.State.WaitForExist())
+                NoThanksButton.State.WaitForNotExist();
+            }
+            if (MoreButton.State.IsDisplayed)
+            {
+                MoreButton.Click();
+                MoreButton.MouseActions.Scroll(1000, ScrollDirection.Vertical);
+            }
+            if (GotItButton.State.IsExist)
+            {
+                GotItButton.MouseActions.MoveToElement();
+                if (GotItButton.State.IsDisplayed)
                 {
-                    LastTextLabel.Click();
-                    KeyboardActions.SendKeys(ActionKey.Tab, times: 2);
-                    KeyboardActions.SendKeys(ActionKey.Enter);
+                    GotItButton.Click();
+                }
+                else
+                {
+                    GotItButton.KeyboardActions.SendKeys(ActionKey.Enter);
                 }
             }
-            if (RestorePagesLabel.State.IsExist)
+            ConditionalWait.WaitForTrue(() =>
             {
-                CloseButton.Click();
-            }
+                if (RestorePagesLabel.State.IsExist)
+                {
+                    RestorePagesLabel.Click();
+                    CloseButton.Click();
+                }
+
+                return !RestorePagesLabel.State.IsExist;
+            }, message: "Restore pages? popup must be closed to proceed");
+            
         }
 
         public void OpenDownloads()
