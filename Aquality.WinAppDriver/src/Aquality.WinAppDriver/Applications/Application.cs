@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Aquality.Selenium.Core.Applications;
 using Aquality.Selenium.Core.Configurations;
 using Aquality.Selenium.Core.Localization;
 using Aquality.WinAppDriver.Actions;
-using Newtonsoft.Json;
 using OpenQA.Selenium;
 using WindowsDriver = OpenQA.Selenium.Appium.Windows.WindowsDriver;
 
@@ -64,7 +64,7 @@ namespace Aquality.WinAppDriver.Applications
         {
             get
             {
-                if (!IsSessionStarted(rootSession))
+                if (!Application.IsSessionStarted(rootSession))
                 {
                     rootSession = createDesktopSession();
                     rootSession.Manage().Timeouts().ImplicitWait = implicitWait;
@@ -75,7 +75,7 @@ namespace Aquality.WinAppDriver.Applications
 
         public virtual bool IsStarted => IsSessionStarted(applicationSession) || IsSessionStarted(rootSession);
 
-        private bool IsSessionStarted(WindowsDriver session) => session?.SessionId != null;
+        private static bool IsSessionStarted(WindowsDriver session) => session?.SessionId != null;
 
         /// <summary>
         /// Sets WinAppDriver ImplicitWait timeout. 
@@ -117,12 +117,12 @@ namespace Aquality.WinAppDriver.Applications
 
         public virtual object ExecuteScript(string script, IDictionary<string, object> parameters, bool inRootSession = false)
         {
-            var parametersString = string.Join(",", parameters.Select(param => $"{Environment.NewLine}{param.Key}: {JsonConvert.SerializeObject(param.Value)}"));
+            var parametersString = string.Join(",", parameters.Select(param => $"{Environment.NewLine}{param.Key}: {JsonSerializer.SerializeToNode(param.Value)}"));
             Logger.Info("loc.application.execute.script", script, parametersString);
             var result = (inRootSession ? RootSession : Driver).ExecuteScript(script, parameters);
             if (result != null)
             {
-                Logger.Debug(JsonConvert.SerializeObject(result));
+                Logger.Debug(JsonSerializer.SerializeToNode(result)?.ToString());
             }
             return result;
         }

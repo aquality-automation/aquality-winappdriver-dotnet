@@ -14,7 +14,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>windows application winappdriver automation</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Copyright>Copyright 2025 Aquality Automation</Copyright>
+    <Copyright>Copyright 2026 Aquality Automation</Copyright>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
@@ -45,8 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Appium.WebDriver" Version="5.1.0" />
-    <PackageReference Include="Aquality.Selenium.Core" Version="3.0.12" />
+    <PackageReference Include="Appium.WebDriver" Version="8.2.0" />
+    <PackageReference Include="Aquality.Selenium.Core" Version="4.5.0" />
   </ItemGroup>
   
 </Project>

@@ -32,7 +32,7 @@ namespace Aquality.WinAppDriver.Configurations
 
         protected virtual IDictionary<string, Action<DriverOptions, object>> KnownCapabilitySetters => new Dictionary<string, Action<DriverOptions, object>>();
 
-        protected virtual IDictionary<string, object> Capabilities => settingsFile.GetValueOrNew<Dictionary<string, object>>($"{DriverSettingsPath}.capabilities");
+        protected virtual IReadOnlyDictionary<string, object> Capabilities => settingsFile.GetValueDictionaryOrEmpty<object>($"{DriverSettingsPath}.capabilities");
         
         /// <summary>
         /// Defines does the current settings have the application path defined

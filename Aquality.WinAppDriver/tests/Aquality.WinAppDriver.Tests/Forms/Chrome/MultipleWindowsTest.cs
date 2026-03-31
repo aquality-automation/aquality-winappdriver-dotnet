@@ -28,8 +28,8 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             secondWindow.Click();
             secondWindow.Close();
             secondWindow.State.WaitForNotDisplayed();
-            Assert.IsFalse(secondWindow.State.IsDisplayed, "Second window is not closed");
-            Assert.IsTrue(firstWindow.State.IsDisplayed, "First window is closed but should not");
+            Assert.That(secondWindow.State.IsDisplayed, Is.False, "Second window is not closed");
+            Assert.That(firstWindow.State.IsDisplayed, Is.True, "First window is closed but should not");
         }
 
         [Test]
@@ -39,11 +39,11 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
 
             var secondWindowProcess = secondWindow.Process;
             secondWindowProcess.ShowWindow(ShowCommand.Minimize);
-            Assert.IsFalse(secondWindow.HasKeyboardFocus, "Second window is not minimized");
-            Assert.IsTrue(firstWindow.State.IsDisplayed, "First window is not displayed");
+            Assert.That(secondWindow.HasKeyboardFocus, Is.False, "Second window is not minimized");
+            Assert.That(firstWindow.State.IsDisplayed, Is.True, "First window is not displayed");
             secondWindowProcess.ShowWindow(ShowCommand.ShowNormal);
             secondWindow.State.WaitForDisplayed();
-            Assert.IsTrue(secondWindow.HasKeyboardFocus, "Second window is not shown");
+            Assert.That(secondWindow.HasKeyboardFocus, Is.True, "Second window is not shown");
         }
 
         private void OpenTwoWindows(out ChromeWindow firstWindow, out ChromeWindow secondWindow)
@@ -54,7 +54,7 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
             AqualityServices.Application.Launch();
             var firstWindowName = AqualityServices.Application.Driver.Title;
             firstWindow = new ChromeWindow(firstWindowName);
-            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
+            Assert.That(firstWindow.State.WaitForDisplayed(), Is.True, $"{firstWindow.Name} window is not displayed");
 
             var navigationPanel = new ChromeNavigationPanel();
             if (navigationPanel.IsSignInPresent)
@@ -63,19 +63,19 @@ namespace Aquality.WinAppDriver.Tests.Forms.Chrome
                 AqualityServices.Application = AqualityServices.ApplicationFactory.Application;
             }
             navigationPanel.ClosePopUps();
-            Assert.IsTrue(navigationPanel.State.WaitForDisplayed(), $"{navigationPanel.Name} is not displayed");
+            Assert.That(navigationPanel.State.WaitForDisplayed(), Is.True, $"{navigationPanel.Name} is not displayed");
             firstWindowName = AqualityServices.Application.Driver.Title;
             firstWindow = new ChromeWindow(firstWindowName);
-            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"{firstWindow.Name} window is not displayed");
+            Assert.That(firstWindow.State.WaitForDisplayed(), Is.True, $"{firstWindow.Name} window is not displayed");
 
             firstWindow.Click();
             navigationPanel.OpenDownloads();
             firstWindow = new ChromeWindow(DownloadsTabName);
-            Assert.IsTrue(firstWindow.State.WaitForDisplayed(), $"First window is not displayed with the new name {firstWindow.Name}");
+            Assert.That(firstWindow.State.WaitForDisplayed(), Is.True, $"First window is not displayed with the new name {firstWindow.Name}");
 
             navigationPanel.OpenNewWindow();
             secondWindow = new ChromeWindow(NewTabName);
-            Assert.IsTrue(secondWindow.State.WaitForDisplayed(), $"Second window with the name {secondWindow.Name} is not displayed");
+            Assert.That(secondWindow.State.WaitForDisplayed(), Is.True, $"Second window with the name {secondWindow.Name} is not displayed");
         }
 
         [TearDown]

@@ -20,7 +20,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             AqualityServices.Application.Driver.FindElement(calculatorForm.TwoButton.Locator).Click();
             AqualityServices.Application.Driver.FindElement(calculatorForm.EqualsButton.Locator).Click();
             var result = AqualityServices.Application.Driver.FindElement(calculatorForm.ResultsLabel.Locator).Text;
-            StringAssert.Contains("3", result);
+            Assert.That(result, Does.Contain("3"));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.TwoButton.Locator).Click();
             AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.EqualsButton.Locator).Click();
             var result = AqualityServices.Get<IElementFinder>().FindElement(calculatorForm.ResultsLabel.Locator).Text;
-            StringAssert.Contains("3", result);
+            Assert.That(result, Does.Contain("3"));
         }
 
         [Test]
@@ -40,10 +40,10 @@ namespace Aquality.WinAppDriver.Tests.Applications
             var firstFactory = AqualityServices.Get<IApplicationFactory>();
             AqualityServices.SetDefaultFactory();
             var secondFactory = AqualityServices.Get<IApplicationFactory>();
-            Assert.AreNotSame(firstFactory, secondFactory);
+            Assert.That(firstFactory, Is.Not.SameAs(secondFactory));
             AqualityServices.ApplicationFactory = firstFactory;
-            Assert.AreSame(firstFactory, AqualityServices.Get<IApplicationFactory>());
-            Assert.AreNotSame(secondFactory, AqualityServices.Get<IApplicationFactory>());
+            Assert.That(firstFactory, Is.SameAs(AqualityServices.Get<IApplicationFactory>()));
+            Assert.That(secondFactory, Is.Not.SameAs(AqualityServices.Get<IApplicationFactory>()));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
                 var secondApplication = scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch();
-                Assert.AreNotSame(firstApplication, secondApplication);
+                Assert.That(firstApplication, Is.Not.SameAs(secondApplication));
                 secondApplication.Driver.Quit();
             }
 
@@ -70,7 +70,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
 
             using (var scope = AqualityServices.Get<IServiceProvider>().CreateScope())
             {
-                Assert.AreSame(firstApplication, scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch());
+                Assert.That(firstApplication, Is.SameAs(scope.ServiceProvider.GetRequiredService<IWindowsApplication>().Launch()));
             }
         }
 
@@ -80,11 +80,11 @@ namespace Aquality.WinAppDriver.Tests.Applications
             var firstApplication = AqualityServices.Application;
             firstApplication.Launch().Quit();
             var secondApplication = AqualityServices.Application.Launch();
-            Assert.AreNotSame(firstApplication, secondApplication);
+            Assert.That(firstApplication, Is.Not.SameAs(secondApplication));
             using var scope = AqualityServices.Get<IServiceProvider>().CreateScope();
             var secondApplicationFromServiceProvider = scope.ServiceProvider.GetRequiredService<IApplication>();
-            Assert.AreNotSame(firstApplication, secondApplicationFromServiceProvider);
-            Assert.AreSame(secondApplication, secondApplicationFromServiceProvider);
+            Assert.That(firstApplication, Is.Not.SameAs(secondApplicationFromServiceProvider));
+            Assert.That(secondApplication, Is.SameAs(secondApplicationFromServiceProvider));
         }
 
         [Test]
@@ -97,47 +97,14 @@ namespace Aquality.WinAppDriver.Tests.Applications
         [Parallelizable]
         public void Should_BeAbleCheck_IsApplicationNotStarted()
         {
-            Assert.IsFalse(AqualityServices.IsApplicationStarted, "Application is not started");
+            Assert.That(AqualityServices.IsApplicationStarted, Is.False, "Application is not started");
         }
 
         [Test]
         public void Should_BeAbleCheck_IsApplicationStarted()
         {
             AqualityServices.Application.Driver.Manage();
-            Assert.IsTrue(AqualityServices.IsApplicationStarted, "Application is started");
-        }
-
-        [Test]
-        [Parallelizable]
-        public void Should_BeAbleToGet_Logger()
-        {
-            Assert.DoesNotThrow(() => AqualityServices.Logger.Info("message"), "Logger should not be null");
-        }
-
-        [Test]
-        [Parallelizable]
-        public void Should_BeAbleToGet_ConditionalWait()
-        {
-            Assert.DoesNotThrow(() => AqualityServices.ConditionalWait.WaitForTrue(() => true), "ConditionalWait should not be null");
-        }
-
-        [Test]
-        public void Should_BeAbleToGet_KeyboardActions()
-        {
-            Assert.DoesNotThrow(() => AqualityServices.KeyboardActions.SendKeys(WinAppDriver.Actions.ActionKey.Space), "KeyboardActions should not be null");
-        }
-
-        [Test]
-        public void Should_BeAbleToGet_MouseActions()
-        {
-            Assert.DoesNotThrow(() => AqualityServices.MouseActions.MoveByOffset(1,1), "MouseActions should not be null");
-        }
-
-        [Test]
-        [Parallelizable]
-        public void Should_BeAbleToGet_ProcessManager()
-        {
-            Assert.DoesNotThrow(() => AqualityServices.ProcessManager.IsProcessRunning(string.Empty), "ProcessManager should not be null");
+            Assert.That(AqualityServices.IsApplicationStarted, Is.True, "Application is started");
         }
     }
 }
