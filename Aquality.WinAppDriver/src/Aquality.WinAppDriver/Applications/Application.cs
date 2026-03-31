@@ -122,7 +122,7 @@ namespace Aquality.WinAppDriver.Applications
             var result = (inRootSession ? RootSession : Driver).ExecuteScript(script, parameters);
             if (result != null)
             {
-                Logger.Debug(JsonSerializer.SerializeToNode(result).ToString());
+                Logger.Debug(JsonSerializer.SerializeToNode(result)?.ToString());
             }
             return result;
         }

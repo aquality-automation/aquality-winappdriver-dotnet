@@ -149,7 +149,7 @@ namespace Aquality.WinAppDriver.Configurations
         private static bool IsPropertyNameMatchOption(string propertyName, string optionKey)
         {
             return propertyName.Equals(optionKey, StringComparison.InvariantCultureIgnoreCase)
-                || optionKey.Contains(propertyName);
+                || optionKey.IndexOf(propertyName, StringComparison.InvariantCultureIgnoreCase) >= 0;
         }
     }
 }
