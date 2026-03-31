@@ -1,5 +1,4 @@
 ﻿using Aquality.Selenium.Core.Localization;
-using Newtonsoft.Json;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Interactions;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace Aquality.WinAppDriver.Actions
 {
@@ -62,7 +62,7 @@ namespace Aquality.WinAppDriver.Actions
         /// <returns>Parameters formatted as string.</returns>
         protected virtual string PrepareParametersForLogging(Dictionary<string, object> parameters)
         {
-            return string.Join(",", parameters.Where(param => "elementId" != param.Key).Select(param => $"{Environment.NewLine}{param.Key}: {JsonConvert.SerializeObject(param.Value)}"));
+            return string.Join(",", parameters.Where(param => "elementId" != param.Key).Select(param => $"{Environment.NewLine}{param.Key}: {(param.Value == null ? "null" : JsonSerializer.SerializeToNode(param.Value))}"));
         }
 
         /// <summary>

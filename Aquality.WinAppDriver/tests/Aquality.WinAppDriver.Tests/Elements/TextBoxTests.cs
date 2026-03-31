@@ -13,7 +13,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         public void Should_EnterValues()
         {
             rightArgumentTextBox.Type(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.EqualTo(ExpectedValue));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
             rightArgumentTextBox.Type(ExpectedValue);
             const string additionalExpectedValue = "23";
             rightArgumentTextBox.Type(additionalExpectedValue);
-            Assert.AreEqual(ExpectedValue + additionalExpectedValue, rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.EqualTo(ExpectedValue + additionalExpectedValue));
         }
 
         [Test]
@@ -30,14 +30,14 @@ namespace Aquality.WinAppDriver.Tests.Elements
         {
             rightArgumentTextBox.Type("123");
             rightArgumentTextBox.ClearAndType(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.EqualTo(ExpectedValue));
         }
 
         [Test]
         public void Should_ClearTextBeforeEnteringValues_EmptyTextbox()
         {
             rightArgumentTextBox.ClearAndType(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.EqualTo(ExpectedValue));
         }
     }
 }

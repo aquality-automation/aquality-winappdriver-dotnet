@@ -2,7 +2,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
@@ -86,7 +86,6 @@ stages:
       inputs:
         script: |
           echo " Running Appium doctor"
-          npm install -g request@2.34.0
           appium driver doctor windows
           echo "Appium doctor executed"
 

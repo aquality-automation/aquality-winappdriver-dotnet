@@ -14,14 +14,14 @@ namespace Aquality.WinAppDriver.Tests.Elements
         private static readonly By ElementLocator = By.XPath("//*[@id='111111']");
         private const string ElementDescription = "Not present element";
 
-        private IElementFactory Factory => AqualityServices.Get<IElementFactory>();
-        private IElement Label => Factory.GetLabel(ElementLocator, ElementDescription);
+        private static IElementFactory Factory => AqualityServices.Get<IElementFactory>();
+        private static IElement Label => Factory.GetLabel(ElementLocator, ElementDescription);
 
         [Test]
         public void Should_SendKeys()
         {
             rightArgumentTextBox.SendKeys(ExpectedValue);
-            Assert.AreEqual(ExpectedValue, rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.EqualTo(ExpectedValue));
         }
 
         [Test]
@@ -34,31 +34,31 @@ namespace Aquality.WinAppDriver.Tests.Elements
         public void Should_GetNullValue_InSendKeys_WhenEmptyStringIsEntered()
         {
             rightArgumentTextBox.SendKeys(string.Empty);
-            Assert.IsNull(rightArgumentTextBox.Value);
+            Assert.That(rightArgumentTextBox.Value, Is.Null);
         }
 
         [Test]
         public void Should_SetCorrectLocatorInConstructor()
         {
-            Assert.AreEqual(ElementLocator, Label.Locator);
+            Assert.That(Label.Locator, Is.EqualTo(ElementLocator));
         }
 
         [Test]
         public void Should_SetCorrectNameInConstructor()
         {
-            Assert.AreEqual(ElementDescription, Label.Name);
+            Assert.That(Label.Name, Is.EqualTo(ElementDescription));
         }
 
         [Test]
         public void Should_GetCorrectText_FromEmptyField()
         {
-            Assert.AreEqual(new CalculatorForm().ResultsLabel.Text, string.Empty);
+            Assert.That(new CalculatorForm().ResultsLabel.Text, Is.EqualTo(string.Empty));
         }
 
         [Test]
         public void Should_GetElement_WhenElementIsPresent()
         {
-            Assert.NotNull(rightArgumentTextBox.GetElement());
+            Assert.That(rightArgumentTextBox.GetElement(), Is.Not.Null);
         }
 
         [Test]

@@ -10,8 +10,8 @@ namespace Aquality.WinAppDriver.Tests.Elements
 {
     public class ElementFactoryTests : TestWithApplication
     {
-        private static readonly CalculatorForm calculatorForm = new CalculatorForm();
-        private IElementFactory Factory => AqualityServices.Get<IElementFactory>();
+        private static readonly CalculatorForm calculatorForm = new();
+        private static IElementFactory Factory => AqualityServices.Get<IElementFactory>();
 
         [Test]
         public void Should_WorkWithCalculator_ViaElementFactory()
@@ -20,19 +20,19 @@ namespace Aquality.WinAppDriver.Tests.Elements
             calculatorForm.PlusButton.Click();
             calculatorForm.TwoButton.Click();
             calculatorForm.EqualsButton.Click();
-            StringAssert.Contains("3", calculatorForm.ResultsLabel.Text);
+            Assert.That(calculatorForm.ResultsLabel.Text, Does.Contain("3"));
         }
         
         [Test]
         public void Should_FindChildElements_ViaElementFactory()
         {
-            Assert.IsNotNull(Factory.FindChildElement<Button>(calculatorForm.NumberPad, calculatorForm.OneButton.Locator).GetElement(TimeSpan.Zero));
+            Assert.That(Factory.FindChildElement<Button>(calculatorForm.NumberPad, calculatorForm.OneButton.Locator).GetElement(TimeSpan.Zero), Is.Not.Null);
         }
 
         [Test]
         public void Should_FindElements_ViaElementFactory()
         {
-            Assert.IsTrue(Factory.FindElements<Button>(By.XPath("//*")).Count > 1);
+            Assert.That(Factory.FindElements<Button>(By.XPath("//*")).Count, Is.GreaterThan(1));
         }
     }
 }

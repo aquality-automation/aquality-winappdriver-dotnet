@@ -33,13 +33,13 @@ namespace Aquality.WinAppDriver.Tests.Actions
         {
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend);
-            Assert.AreEqual(ValueToSend, RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(ValueToSend));
         }
 
         [Test]
         public void Should_SendClosingKeys_ViaKeyboardActions()
         {
-            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false));
+            Assert.That(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false), Throws.Nothing);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ActionKey.Semicolon);
             KeyboardActions.SendKeys(ValueToSend);
-            Assert.AreEqual(Semicolon + ValueToSend, RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(Semicolon + ValueToSend));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
         {
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend, ActionKey.Semicolon);
-            Assert.AreEqual(ValueToSend + Semicolon, RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(ValueToSend + Semicolon));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeys(ValueToSend);
             KeyboardActions.SendKeys(ActionKey.Backspace, times: numberOfCharsToDelete);
-            Assert.AreEqual(ValueToSend[..^numberOfCharsToDelete], RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(ValueToSend[..^numberOfCharsToDelete]));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
             KeyboardActions.PressKey(ModifierKey.Shift);
             KeyboardActions.SendKeys(ValueToSend);
             KeyboardActions.ReleaseKey(ModifierKey.Shift);
-            Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(ValueToSend.ToUpper()));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
         {
             RightArgumentTextBox.Click();
             KeyboardActions.SendKeysWithKeyHold(ValueToSend, ModifierKey.Shift);
-            Assert.AreEqual(ValueToSend.ToUpper(), RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo(ValueToSend.ToUpper()));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
             var window = new CalculatorForm();
             Assume.That(window.State.WaitForDisplayed(), "App window must be opened before interactions");
             minimizeAction(KeyboardActions);
-            Assert.IsTrue(window.State.WaitForNotDisplayed(), "Window should be minimized after the minimize action");
+            Assert.That(window.State.WaitForNotDisplayed(), Is.True, "Window should be minimized after the minimize action");
         }
 
         [Test]
@@ -104,21 +104,21 @@ namespace Aquality.WinAppDriver.Tests.Actions
             KeyboardActions.SendKeys(ValueToSend);
             KeyboardActions.ReleaseKey(ModifierKey.Shift);
             KeyboardActions.SendKeys(ValueToSend);
-            Assert.AreEqual($"{ValueToSend.ToUpper()}{ValueToSend}", RightArgumentTextBox.Value);
+            Assert.That(RightArgumentTextBox.Value, Is.EqualTo($"{ValueToSend.ToUpper()}{ValueToSend}"));
         }
 
         [Test]
         public void Should_NotThrow_WhenHoldModifierKeys_ViaKeyboardActions([ValueSource(nameof(modifierKeys))] ModifierKey modifierKey)
         {
             RightArgumentTextBox.Click();
-            Assert.DoesNotThrow(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey));
+            Assert.That(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey), Throws.Nothing);
         }
 
         [Test]
         public void Should_NotThrow_WhenSendKeyTwice_ViaKeyboardActions([ValueSource(nameof(actionKeys))] ActionKey actionKey)
         {
             RightArgumentTextBox.Click();
-            Assert.DoesNotThrow(() => KeyboardActions.SendKeys(actionKey, times: 2));
+            Assert.That(() => KeyboardActions.SendKeys(actionKey, times: 2), Throws.Nothing);
         }
     }
 }
