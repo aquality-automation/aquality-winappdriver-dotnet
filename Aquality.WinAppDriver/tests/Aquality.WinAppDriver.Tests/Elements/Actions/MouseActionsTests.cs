@@ -4,6 +4,7 @@ using Aquality.WinAppDriver.Elements.Interfaces;
 using Aquality.WinAppDriver.Extensions;
 using Aquality.WinAppDriver.Tests.Forms;
 using NUnit.Framework;
+using System;
 using IMouseActions = Aquality.WinAppDriver.Elements.Actions.IMouseActions;
 
 namespace Aquality.WinAppDriver.Tests.Elements.Actions
@@ -23,7 +24,7 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
         public void Should_PerformElementSpecificMouseActions()
         {
             LeftArgumentTextBox.Click();
-            Assert.DoesNotThrow(() =>
+            Assert.That((Action)(() =>
             {
                 LeftArgumentTextBox.MouseActions.DragAndDrop(LeftArgumentTextBox);
                 LeftArgumentTextBox.MouseActions.DragAndDropToOffset(10, 10);
@@ -32,21 +33,21 @@ namespace Aquality.WinAppDriver.Tests.Elements.Actions
                 LeftArgumentTextBox.MouseActions.MoveToElement();
                 LeftArgumentTextBox.MouseActions.MoveToElement(10, 10);
                 LeftArgumentTextBox.MouseActions.Scroll(5, ScrollDirection.Horizontal);
-            });
+            }), Throws.Nothing);
         }
 
         [Test]
         public void Should_PerformMouseActions()
         {
             LeftArgumentTextBox.Click();
-            Assert.DoesNotThrow(() =>
+            Assert.That((Action)(() =>
             {
                 MouseActions.Click();
                 MouseActions.DoubleClick();
                 MouseActions.MoveByOffset(10, 10);
                 MouseActions.Scroll(10, modifierKeys: [ModifierKey.Ctrl]);
                 MouseActions.ContextClick();
-            });
+            }), Throws.Nothing);
         }
     }
 }

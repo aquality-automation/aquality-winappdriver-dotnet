@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
@@ -21,12 +22,12 @@ namespace Aquality.WinAppDriver.Tests.Forms
         {
             CalculatorForm.OneButton.Click();
             CalculatorForm.PlusButton.Click();
-            Assert.DoesNotThrow(() => CalculatorForm.Dump.Save(), "Dump should be saved without errors");
-            Assert.That(() => CalculatorForm.Dump.Compare(), Is.EqualTo(0), "Dump should have no difference right after the saving");
+            Assert.That((Action)(() => CalculatorForm.Dump.Save()), Throws.Nothing, "Dump should be saved without errors");
+            Assert.That((Func<float>)(() => CalculatorForm.Dump.Compare()), Is.EqualTo(0), "Dump should have no difference right after the saving");
             CalculatorForm.TwoButton.Click();
             CalculatorForm.EqualsButton.Click();
             Assert.That(CalculatorForm.ResultsLabel.Text, Does.Contain("3"));
-            Assert.That(() => CalculatorForm.Dump.Compare(), Is.GreaterThan(0), "Dump should have differences after some calculations");
+            Assert.That((Func<float>)(() => CalculatorForm.Dump.Compare()), Is.GreaterThan(0), "Dump should have differences after some calculations");
         }
     }
 }

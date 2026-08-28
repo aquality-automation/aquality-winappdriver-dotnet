@@ -90,7 +90,7 @@ namespace Aquality.WinAppDriver.Tests.Applications
         [Test]
         public void Should_BeAbleGetApplication()
         {
-            Assert.DoesNotThrow(() => AqualityServices.Application.Driver.Manage());
+            Assert.That((Action)(() => AqualityServices.Application.Driver.Manage()), Throws.Nothing);
         }
 
         [Test]

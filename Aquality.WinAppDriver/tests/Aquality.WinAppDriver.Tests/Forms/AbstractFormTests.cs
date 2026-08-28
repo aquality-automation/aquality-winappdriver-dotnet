@@ -2,6 +2,8 @@
 using Aquality.WinAppDriver.Forms;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System;
+using System.Drawing;
 
 namespace Aquality.WinAppDriver.Tests.Forms
 {
@@ -45,21 +47,18 @@ namespace Aquality.WinAppDriver.Tests.Forms
         public void Should_GetSizeCorrectly_WhenFormIsPresent()
         {
             var formSize = CalculatorForm.Size;
-            Assert.Multiple(() =>
+            Assert.Multiple((Action)(() =>
             {
                 Assert.That(formSize.IsEmpty, Is.False, "Form is not empty");
                 Assert.That(formSize.Height, Is.EqualTo(ExpectedHeight), "Height");
                 Assert.That(formSize.Width, Is.EqualTo(ExpectedWidth), "Width");
-            });
+            }));
         }
 
         [Test]
         public void Should_ThrowException_InGetSize_WhenFormIsNotPresent()
         {
-            Assert.Throws<NoSuchElementException>(() =>
-            {
-                var testFormSize = TestForm.Size;
-            });
+            Assert.That((Func<Size>)(() => TestForm.Size), Throws.TypeOf<NoSuchElementException>());
         }
 
         [Test]
