@@ -80,13 +80,13 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ThrowException_IfWaitForClickableEnded()
         {
-            Assert.Throws<WebDriverTimeoutException>(() => EmptyButton.State.WaitForClickable(TimeSpan.Zero));
+            Assert.That((Action)(() => EmptyButton.State.WaitForClickable(TimeSpan.Zero)), Throws.TypeOf<WebDriverTimeoutException>());
         }
 
         [Test]
         public void Should_FinishWaitForClickable_AfterClickaleElementIsFound()
         {
-            Assert.DoesNotThrow(() => RightArgumentTextBox.State.WaitForClickable(TimeSpan.Zero));
+            Assert.That((Action)(() => RightArgumentTextBox.State.WaitForClickable(TimeSpan.Zero)), Throws.Nothing);
         }
 
         [Test]

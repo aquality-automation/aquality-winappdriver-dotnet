@@ -38,10 +38,10 @@ namespace Aquality.WinAppDriver.Tests.Forms
             var parentElement = RootElementFactory.GetLabel(CalculatorLocators.WindowLocator, "Calc window");
             var childElement = parentElement.FindChildElement<IButton>(CalculatorLocators.LeftArgumentTextBox);
             Assert.That(childElement.State.WaitForDisplayed(), Is.True);
-            Assert.DoesNotThrow(() => childElement.MouseActions.Click());
-            Assert.DoesNotThrow(() => childElement.MouseActions.DoubleClick());
-            Assert.DoesNotThrow(() => childElement.MouseActions.ContextClick(modifierKeys: [ModifierKey.Ctrl, ModifierKey.Shift], interClickDelay: TimeSpan.FromSeconds(0.2)));
-            Assert.DoesNotThrow(() => childElement.MouseActions.Scroll(10));
+            Assert.That((Action)(() => childElement.MouseActions.Click()), Throws.Nothing);
+            Assert.That((Action)(() => childElement.MouseActions.DoubleClick()), Throws.Nothing);
+            Assert.That((Action)(() => childElement.MouseActions.ContextClick(modifierKeys: [ModifierKey.Ctrl, ModifierKey.Shift], interClickDelay: TimeSpan.FromSeconds(0.2))), Throws.Nothing);
+            Assert.That((Action)(() => childElement.MouseActions.Scroll(10)), Throws.Nothing);
         }
     }
 }

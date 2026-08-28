@@ -27,7 +27,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ThrowException_InSendKeys_WhenNullIsSend()
         {
-            Assert.Throws<ArgumentNullException>(() => rightArgumentTextBox.SendKeys(null));
+            Assert.That((Action)(() => rightArgumentTextBox.SendKeys(null)), Throws.TypeOf<ArgumentNullException>());
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace Aquality.WinAppDriver.Tests.Elements
         [Test]
         public void Should_ThrowNoSuchElementException_InGetElement_WhenElementIsNotPresent()
         {
-            Assert.Throws<NoSuchElementException>(() => Label.GetElement(TimeSpan.Zero));
+            Assert.That((Action)(() => Label.GetElement(TimeSpan.Zero)), Throws.TypeOf<NoSuchElementException>());
         }
     }
 }

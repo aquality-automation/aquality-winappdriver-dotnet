@@ -69,7 +69,7 @@ namespace Aquality.WinAppDriver.Tests.Localization
         [Test]
         public void Should_ThrowsFormatException_WhenKeysRequireParams([ValueSource(nameof(SupportedLanguages))] string language, [ValueSource(nameof(KeysWithParameters))] string key)
         {
-            Assert.Throws<FormatException>(() => GetLocalizationManager(language).GetLocalizedMessage(key));
+            Assert.That((Func<string>)(() => GetLocalizationManager(language).GetLocalizedMessage(key)), Throws.TypeOf<FormatException>());
         }
 
         [Test]

@@ -39,7 +39,7 @@ namespace Aquality.WinAppDriver.Tests.Actions
         [Test]
         public void Should_SendClosingKeys_ViaKeyboardActions()
         {
-            Assert.That(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false), Throws.Nothing);
+            Assert.That((Action)(() => KeyboardActions.SendKeysWithKeyHold(Keys.F4, ModifierKey.Alt, mayDisappear: false)), Throws.Nothing);
         }
 
         [Test]
@@ -111,14 +111,14 @@ namespace Aquality.WinAppDriver.Tests.Actions
         public void Should_NotThrow_WhenHoldModifierKeys_ViaKeyboardActions([ValueSource(nameof(modifierKeys))] ModifierKey modifierKey)
         {
             RightArgumentTextBox.Click();
-            Assert.That(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey), Throws.Nothing);
+            Assert.That((Action)(() => KeyboardActions.SendKeysWithKeyHold(ValueToSend, modifierKey)), Throws.Nothing);
         }
 
         [Test]
         public void Should_NotThrow_WhenSendKeyTwice_ViaKeyboardActions([ValueSource(nameof(actionKeys))] ActionKey actionKey)
         {
             RightArgumentTextBox.Click();
-            Assert.That(() => KeyboardActions.SendKeys(actionKey, times: 2), Throws.Nothing);
+            Assert.That((Action)(() => KeyboardActions.SendKeys(actionKey, times: 2)), Throws.Nothing);
         }
     }
 }
